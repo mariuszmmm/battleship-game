@@ -1,16 +1,24 @@
 import {BoardSection, BoardCell, PlayWrapper, ShipsBoard, ColName, RowName, Button, ShipItem} from "./styled.jsx";
 import {boardSchemat} from "./boardSchemat.jsx";
-import {randomShips} from './ships.jsx';
+import { useRandomShips} from './useRandomShips.jsx';
 import {useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {selectBoard, setBoard} from "../playSlice.jsx";
 
 export const Play = () => {
-	const [board, setBoard] = useState(boardSchemat);
+	// const [board, setBoard] = useState(boardSchemat);
+	const board = useSelector(selectBoard);
+	const dispatch = useDispatch();
+	const {buildShip} = useRandomShips();
 
-	// console.log(board);
 
 	useEffect(() => {
-		randomShips(board, setBoard)
-	}, [])
+		// randomShips()
+		// dispatch(setBoard(buildShip()));
+		buildShip();
+	}, []);
+
+	// console.log(board);
 
 	return (
 		<PlayWrapper>
@@ -24,7 +32,7 @@ export const Play = () => {
 								{cell.cell === "ship" && <ShipItem key={cell?.id}/>}
 							</BoardCell>))}
 				</ShipsBoard>
-				<Button onClick={() => randomShips(board, setBoard)}> Random ships </Button>
+				<Button onClick={() => buildShip()}> Random ships </Button>
 			</BoardSection>
 		</PlayWrapper>
 	)
