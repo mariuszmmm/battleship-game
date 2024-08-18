@@ -114,13 +114,12 @@ Error generating stack: `+i.message+`
     width: 100%;
     height: 100%;
     position: absolute;
-    outline: 1px solid blue;
+    outline: 1px solid black;
 `,j1=pe.div`
     background-color: #d6f4ff;
     width: 100%;
     height: 100%;
     position: absolute;
-    outline: 1px solid darkgrey;
 `,D1=pe.button`
     padding: 10px 20px;
     border-radius: 8px;
