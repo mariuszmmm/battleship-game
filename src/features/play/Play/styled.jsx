@@ -61,7 +61,7 @@ export const ShipItem = styled.div`
     width: 100%;
     height: 100%;
     position: absolute;
-    outline: 1px solid blue;
+    outline: 1px solid black;
 `
 
 export const Reserved = styled.div`
@@ -69,7 +69,6 @@ export const Reserved = styled.div`
     width: 100%;
     height: 100%;
     position: absolute;
-    outline: 1px solid darkgrey;
 `
 
 export const Button = styled.button`
