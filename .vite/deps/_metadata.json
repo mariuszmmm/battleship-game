@@ -1,0 +1,79 @@
+{
+  "hash": "a4f71258",
+  "configHash": "b37e2855",
+  "lockfileHash": "df63809d",
+  "browserHash": "88ba69d9",
+  "optimized": {
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "c20964a7",
+      "needsInterop": true
+    },
+    "react-redux": {
+      "src": "../../node_modules/react-redux/dist/react-redux.mjs",
+      "file": "react-redux.js",
+      "fileHash": "04b3cf16",
+      "needsInterop": false
+    },
+    "styled-components": {
+      "src": "../../node_modules/styled-components/dist/styled-components.browser.esm.js",
+      "file": "styled-components.js",
+      "fileHash": "ed8e4666",
+      "needsInterop": false
+    },
+    "styled-normalize": {
+      "src": "../../node_modules/styled-normalize/dist/index.js",
+      "file": "styled-normalize.js",
+      "fileHash": "c4324813",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "948c6406",
+      "needsInterop": false
+    },
+    "@reduxjs/toolkit": {
+      "src": "../../node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs",
+      "file": "@reduxjs_toolkit.js",
+      "fileHash": "f55d9a5e",
+      "needsInterop": false
+    },
+    "redux-saga": {
+      "src": "../../node_modules/redux-saga/dist/redux-saga-core-npm-proxy.esm.js",
+      "file": "redux-saga.js",
+      "fileHash": "4ffa5c26",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "41599000",
+      "needsInterop": true
+    },
+    "redux-saga/effects": {
+      "src": "../../node_modules/redux-saga/dist/redux-saga-effects-npm-proxy.esm.js",
+      "file": "redux-saga_effects.js",
+      "fileHash": "3b890d5b",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-6PEPTEY4": {
+      "file": "chunk-6PEPTEY4.js"
+    },
+    "chunk-UHINIFCJ": {
+      "file": "chunk-UHINIFCJ.js"
+    },
+    "chunk-KTWUVJ6G": {
+      "file": "chunk-KTWUVJ6G.js"
+    },
+    "chunk-W4EHDCLL": {
+      "file": "chunk-W4EHDCLL.js"
+    },
+    "chunk-EWTE5DHJ": {
+      "file": "chunk-EWTE5DHJ.js"
+    }
+  }
+}

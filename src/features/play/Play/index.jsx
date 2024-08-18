@@ -1,24 +1,30 @@
-import {BoardSection, BoardCell, PlayWrapper, ShipsBoard, ColName, RowName, Button, ShipItem} from "./styled.jsx";
-import {boardSchemat} from "./boardSchemat.jsx";
-import { useRandomShips} from './useRandomShips.jsx';
-import {useState, useEffect} from "react";
+import {
+	BoardSection,
+	BoardCell,
+	PlayWrapper,
+	ShipsBoard,
+	ColName, RowName,
+	Button,
+	ShipItem, Reserved
+} from "./styled.jsx";
+import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {selectBoard, setBoard} from "../playSlice.jsx";
+import {selectBoard, selectState, setStateNewGame} from "../playSlice.jsx";
 
 export const Play = () => {
-	// const [board, setBoard] = useState(boardSchemat);
 	const board = useSelector(selectBoard);
+	const state = useSelector(selectState);
 	const dispatch = useDispatch();
-	const {buildShip} = useRandomShips();
 
+	const onRandomShips = () => {
+		dispatch(setStateNewGame());
+	}
 
 	useEffect(() => {
-		// randomShips()
-		// dispatch(setBoard(buildShip()));
-		buildShip();
-	}, []);
+		if (state === "ready") dispatch(setStateNewGame());
 
-	// console.log(board);
+		// eslint-disable-next-line
+	}, []);
 
 	return (
 		<PlayWrapper>
@@ -27,12 +33,13 @@ export const Play = () => {
 					{board.map((col, colIndex) =>
 						col.map((cell, cellIndex) =>
 							<BoardCell key={cell.id}>
-								{cellIndex === 0 && <ColName>{cell?.col?.name}</ColName>}
-								{colIndex === 0 && <RowName>{cell?.row?.name}</RowName>}
+								{cellIndex === 0 && <ColName>{cell.col.name}</ColName>}
+								{colIndex === 0 && <RowName>{cell.row.name}</RowName>}
 								{cell.cell === "ship" && <ShipItem key={cell?.id}/>}
+								{cell.cell === "reserved" && <Reserved key={cell?.id}/>}
 							</BoardCell>))}
 				</ShipsBoard>
-				<Button onClick={() => buildShip()}> Random ships </Button>
+				<Button onClick={() => onRandomShips()}> Random ships </Button>
 			</BoardSection>
 		</PlayWrapper>
 	)

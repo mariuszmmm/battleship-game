@@ -15,15 +15,17 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 600px;
+    width: 100%;
 `
 export const Image = styled.img`
     width: 100%;
+    height: 100vh;
+    object-fit: cover
 `
 export const StyledLink = styled(Link)`
-		text-decoration: none;
+    text-decoration: none;
     position: absolute;
-    left: 50%;
+    left: 48%;
     top: 70%;
     transform: translateX(-50%);
     background-color: #9c6448;
@@ -31,4 +33,6 @@ export const StyledLink = styled(Link)`
     padding: 10px 15px;
     border: 2px solid black;
     border-radius: 10px;
+    min-width: max-content;
+    font-size: clamp(15px, 5vw, 30px);
 `

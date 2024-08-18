@@ -12,5 +12,3 @@ export const boardSchemat = () => {
 				})))
 	);
 };
-// export const typeOneShip = [{col: "A", row: "1"}]
-// export const typeTwoShip = [{col: "A", row: "1"}, {col: "A", row: "2"}]

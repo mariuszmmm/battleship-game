@@ -14,8 +14,6 @@ export const BoardSection = styled.div`
     gap: 20px;
     align-items: center;
     justify-content: center;
-    //width: 1200px;
-    //height: 600px;
     padding: clamp(15px, 5vw, 50px);
     background-color: #9b9898;
 `;
@@ -28,8 +26,6 @@ export const ShipsBoard = styled.div`
     min-width: 80%;
     width: 60vh;
     aspect-ratio: 1/1;
-    //min-width: 200px;
-    //min-height: 200px;
     border: 3px solid #2b2b2b;
 `;
 
@@ -40,12 +36,8 @@ export const BoardCell = styled.div`
     background-color: white;
     border: 1px solid lightgrey;
     border-collapse: collapse;
-    //width: 100%;
-    //height: 100%;
     aspect-ratio: 1/1;
     position: relative;
-    //font-size: clamp(1rem, 2vw, 5rem);
-
 `
 
 export const ColName = styled.div`
@@ -70,6 +62,14 @@ export const ShipItem = styled.div`
     height: 100%;
     position: absolute;
     outline: 1px solid blue;
+`
+
+export const Reserved = styled.div`
+    background-color: #d6f4ff;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    outline: 1px solid darkgrey;
 `
 
 export const Button = styled.button`
