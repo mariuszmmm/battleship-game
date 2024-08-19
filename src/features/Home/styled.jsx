@@ -20,7 +20,8 @@ export const Content = styled.div`
 export const Image = styled.img`
     width: 100%;
     height: 100vh;
-    object-fit: cover
+    min-height: 300px;
+    object-fit: cover;
 `
 export const StyledLink = styled(Link)`
     text-decoration: none;

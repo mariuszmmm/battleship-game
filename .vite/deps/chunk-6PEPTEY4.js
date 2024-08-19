@@ -62,7 +62,7 @@ var init_emotion_is_prop_valid_esm = __esm({
   }
 });
 
-// node_modules/shallowequal/index.js
+// node_modules/shallowequal/index.jsx
 var require_shallowequal = __commonJS({
   "node_modules/shallowequal/index.js"(exports, module) {
     module.exports = function shallowEqual(objA, objB, compare, compareContext) {
@@ -684,7 +684,7 @@ var init_Middleware = __esm({
   }
 });
 
-// node_modules/stylis/index.js
+// node_modules/stylis/index.jsx
 var init_stylis = __esm({
   "node_modules/stylis/index.js"() {
     init_Enum();

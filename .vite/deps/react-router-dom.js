@@ -8,11 +8,11 @@ import {
   __toESM
 } from "./chunk-EWTE5DHJ.js";
 
-// node_modules/react-router-dom/dist/index.js
+// node_modules/react-router-dom/dist/index.jsx
 var React2 = __toESM(require_react());
 var ReactDOM = __toESM(require_react_dom());
 
-// node_modules/react-router/dist/index.js
+// node_modules/react-router/dist/index.jsx
 var React = __toESM(require_react());
 
 // node_modules/@remix-run/router/dist/router.js
@@ -3682,7 +3682,7 @@ function persistAppliedTransitions(_window, transitions) {
   }
 }
 
-// node_modules/react-router/dist/index.js
+// node_modules/react-router/dist/index.jsx
 function _extends2() {
   _extends2 = Object.assign ? Object.assign.bind() : function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -4681,7 +4681,7 @@ function createMemoryRouter(routes, opts) {
   }).initialize();
 }
 
-// node_modules/react-router-dom/dist/index.js
+// node_modules/react-router-dom/dist/index.jsx
 function _extends3() {
   _extends3 = Object.assign ? Object.assign.bind() : function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -5915,7 +5915,7 @@ export {
    * @license MIT
    *)
 
-react-router/dist/index.js:
+react-router/dist/index.jsx:
   (**
    * React Router v6.26.0
    *
@@ -5927,7 +5927,7 @@ react-router/dist/index.js:
    * @license MIT
    *)
 
-react-router-dom/dist/index.js:
+react-router-dom/dist/index.jsx:
   (**
    * React Router DOM v6.26.0
    *

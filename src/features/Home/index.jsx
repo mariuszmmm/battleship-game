@@ -7,7 +7,7 @@ export const Home = () => {
 		<HomeWrapper>
 			<Content>
 				<Image src={shipsImage}/>
-				<StyledLink to="/play"> Rozpocznij grę </StyledLink>
+				<StyledLink to="/settings"> Rozpocznij grę </StyledLink>
 			</Content>
 		</HomeWrapper>
 	)

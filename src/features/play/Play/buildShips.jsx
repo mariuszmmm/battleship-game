@@ -1,21 +1,25 @@
 import {randomMinMax} from "./randomMinMax.jsx";
 import {getFleet} from "./getFleet.jsx";
+import {rotateShip} from "./rotateShip.jsx";
 
 export const buildShips = (board) => {
 	let newBoard = board.map(row => row.map(cell => ({...cell})));
 
 	const fleet = getFleet();
+
 	fleet.map((ship) => {
 		const shipSize = ship.length;
 		let placeForShip = 0;
 
 		while (placeForShip < shipSize) {
 			placeForShip = 0;
+			let newShip = [];
 
 			const colRandom = randomMinMax(1, 10);
 			const rowRandom = randomMinMax(1, 10);
-			let newShip = [];
-			ship.map((shipItem) => {
+			const shipRotated = rotateShip(ship);
+
+			shipRotated.map((shipItem) => {
 				const newItem = {col: colRandom + shipItem.y, row: rowRandom + shipItem.x}
 				newShip = [...newShip, newItem]
 			})
