@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 
 export const SettingsWrapper = styled.div`
-    width: 600px;
+    min-width: 600px;
     height: 100vh;
     background-color: darkgray;
 		display: flex;
