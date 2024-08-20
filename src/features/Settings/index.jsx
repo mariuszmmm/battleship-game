@@ -2,6 +2,7 @@ import {SettingsHeader, SettingsItem, SettingsWrapper, StyledLink} from "./style
 import {Players} from "./Parametr/index.jsx";
 import {NumberOfShips} from "./NumberOfShips/index.jsx";
 import {Shots} from "./Shots/index.jsx";
+import {CheckBox} from "./CheckBox/index.jsx";
 
 export const Settings = () => {
 	return (
@@ -10,13 +11,16 @@ export const Settings = () => {
 				Ustawienia
 			</SettingsHeader>
 			<SettingsItem>
-				<Players/>
+				<Players />
 			</SettingsItem>
 			<SettingsItem>
 				<NumberOfShips/>
 			</SettingsItem>
 			<SettingsItem>
 				<Shots/>
+			</SettingsItem>
+			<SettingsItem>
+				<CheckBox/>
 			</SettingsItem>
 			<StyledLink to="/play">PLAY</StyledLink>
 		</SettingsWrapper>

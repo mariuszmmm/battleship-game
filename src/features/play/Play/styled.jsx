@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from 'styled-components';
 
 export const PlayWrapper = styled.div`
     display: flex;
@@ -61,7 +61,29 @@ export const ShipItem = styled.div`
     width: 100%;
     height: 100%;
     position: absolute;
-    outline: 1px solid black;
+    outline: 1px solid blue;
+    border-radius: 42%;
+    margin: 20px;
+
+    ${({$hasNeighborTop}) => $hasNeighborTop && css`
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    `}
+    ${({$hasNeighborBottom}) => $hasNeighborBottom && css`
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+    `}
+    ${({$hasNeighborLeft}) => $hasNeighborLeft && css`
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+
+    `}
+    ${({$hasNeighborRight}) => $hasNeighborRight && css`
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    `}
+
 `
 
 export const Reserved = styled.div`

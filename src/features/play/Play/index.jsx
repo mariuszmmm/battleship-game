@@ -35,7 +35,15 @@ export const Play = () => {
 							<BoardCell key={cell.id}>
 								{cellIndex === 0 && <ColName>{cell.col.name}</ColName>}
 								{colIndex === 0 && <RowName>{cell.row.name}</RowName>}
-								{cell.cell === "ship" && <ShipItem key={cell?.id}/>}
+								{cell.cell === "ship" &&
+									<ShipItem key={cell?.id}
+
+									          $hasNeighborTop={cell.hasNeighborTop}
+									          $hasNeighborBottom={cell.hasNeighborBottom}
+									          $hasNeighborLeft={cell.hasNeighborLeft}
+									          $hasNeighborRight={cell.hasNeighborRight}
+									/>}
+								{/*{console.log(cell)}*/}
 								{cell.cell === "reserved" && <Reserved key={cell?.id}/>}
 							</BoardCell>))}
 				</ShipsBoard>

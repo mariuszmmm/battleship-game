@@ -1,19 +1,19 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import {Link} from 'react-router-dom';
 
 export const SettingsWrapper = styled.div`
     min-width: 600px;
     height: 100vh;
     background-color: darkgray;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-		gap: 20px
+    gap: 20px
 `;
 
 export const SettingsHeader = styled.div`
-    min-width: 300px;
+    min-width: 400px;
     min-height: 50px;
     background-color: #9c6448;
     color: white;
@@ -23,13 +23,13 @@ export const SettingsHeader = styled.div`
     align-items: center;
     margin: 50px 0 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
-		font-size: 1.3rem;
-		font-weight: bold;
+    font-size: 1.3rem;
+    font-weight: bold;
     letter-spacing: 2px;
 `;
 
 export const SettingsItem = styled.div`
-    min-width: 300px;
+    min-width: 350px;
     min-height: 50px;
     background-color: #9c6448;
     color: white;
@@ -38,16 +38,16 @@ export const SettingsItem = styled.div`
     justify-content: center;
     align-items: center;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
-		padding: 10px;
+    padding: 10px;
 `;
 
 export const Fieldset = styled.fieldset`
-	width: 100%;
+    width: 100%;
 `
 
 export const Legend = styled.legend`
-		padding-left: 10px;
-		padding-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     letter-spacing: 1px;
 `
 
@@ -61,6 +61,9 @@ export const Input = styled.input`
 
 export const Label = styled.label`
     padding: 10px;
+    ${({$disabled}) => $disabled && css`
+        color: lightgrey
+    `}
 `
 
 export const StyledLink = styled(Link)`
@@ -72,5 +75,5 @@ export const StyledLink = styled(Link)`
     border-radius: 10px;
     min-width: max-content;
     font-size: clamp(15px, 5vw, 30px);
-		margin-top: 10px;
+    margin-top: 10px;
 `

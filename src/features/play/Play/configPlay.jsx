@@ -36,6 +36,7 @@ export const ver_1 = {
 	secondTypeShip: 3,
 	firstTypeShip: 4
 };
+
 export const ver_2 = {
 	fifthTypeShip: 1,
 	fourthTypeShip: 1,
