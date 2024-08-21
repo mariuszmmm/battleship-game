@@ -1,10 +1,12 @@
 import {takeLatest, select, call, put} from "redux-saga/effects";
-import {selectBoard, setStateNewGame, setBoard} from "./playSlice.jsx";
+import {selectBoard, selectParameters, setStateNewGame, setBoard} from "./playSlice.jsx";
 import {buildShips} from "./Play/buildShips.jsx"
 
 function* actionHandler() {
+	const parameters = yield select(selectParameters);
 	const board = yield select(selectBoard);
-	const newBoard = yield call(buildShips, board);
+
+	const newBoard = yield call(buildShips, {board, parameters});
 	yield put(setBoard(newBoard));
 }
 

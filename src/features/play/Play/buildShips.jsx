@@ -2,10 +2,10 @@ import {randomMinMax} from "./randomMinMax.jsx";
 import {getFleet} from "./getFleet.jsx";
 import {rotateShip} from "./rotateShip.jsx";
 
-export const buildShips = (board) => {
+export const buildShips = ({board, parameters}) => {
 		let newBoard = board.map(row => row.map(cell => ({...cell})));
-
-		const fleet = getFleet();
+		const {players, numberOfShips, shots, mayTouch} = parameters;
+		const fleet = getFleet(numberOfShips);
 
 		fleet.map((ship) => {
 				const shipSize = ship.length;
@@ -27,44 +27,39 @@ export const buildShips = (board) => {
 						const newShipWithInfo = newShip.map((item) => {
 
 							let hasNeighborTop = false;
+							let hasNeighborRight = false;
 							let hasNeighborBottom = false;
 							let hasNeighborLeft = false;
-							let hasNeighborRight = false;
 
-							if (newShip.some((i) => item.col === i.col + 1 && item.row === i.row)) {
+							if (newShip.some((i) => item.col === i.col && item.row === i.row + 1)) {
 								hasNeighborTop = true;
 							}
 							if (newShip.some((i) => item.col === i.col - 1 && item.row === i.row)) {
-								hasNeighborBottom = true;
-							}
-							if (newShip.some((i) => item.col === i.col && item.row === i.row + 1)) {
-								hasNeighborLeft = true;
+								hasNeighborRight = true;
 							}
 							if (newShip.some((i) => item.col === i.col && item.row === i.row - 1)) {
-								hasNeighborRight = true;
+								hasNeighborBottom = true;
+							}
+							if (newShip.some((i) => item.col === i.col + 1 && item.row === i.row)) {
+								hasNeighborLeft = true;
 							}
 
 							return {
 								...item,
 								hasNeighborTop,
+								hasNeighborRight,
 								hasNeighborBottom,
-								hasNeighborLeft,
-								hasNeighborRight
+								hasNeighborLeft
 							};
 						})
 
 						newShip = [...newShipWithInfo]
 
 					})
-// console.log(newShip)
 
 					let tempBoard = newBoard
 					newShip.forEach((newShipItem) => {
-						console.log(newShipItem)
-
 						const boardWithItems = tempBoard.map((col) => col.map((cell) => {
-							console.log(cell)
-
 							if (cell.col.number === newShipItem.col && cell.row.number === newShipItem.row && cell.cell === "empty") {
 								placeForShip = ++placeForShip
 								return {

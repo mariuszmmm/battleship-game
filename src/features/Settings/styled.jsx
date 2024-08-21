@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 export const SettingsWrapper = styled.div`
     min-width: 600px;
-    height: 100vh;
+    height: 100%;
     background-color: darkgray;
     display: flex;
     flex-direction: column;
@@ -30,7 +30,7 @@ export const SettingsHeader = styled.div`
 
 export const SettingsItem = styled.div`
     min-width: 350px;
-    min-height: 50px;
+    //min-height: 50px;
     background-color: #9c6448;
     color: white;
     border: 2px solid black;
@@ -75,5 +75,5 @@ export const StyledLink = styled(Link)`
     border-radius: 10px;
     min-width: max-content;
     font-size: clamp(15px, 5vw, 30px);
-    margin-top: 10px;
+    margin: 10px 0 50px;
 `
