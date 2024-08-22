@@ -1,24 +1,28 @@
 import styled, {css} from 'styled-components';
 
 export const PlayWrapper = styled.div`
-    min-width: 350px;
-    min-height: 100vh;
-    background-color: darkgray;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
     gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    min-width: 380px;
+    background-color: bisque;
+    margin: 10px;
 `;
 
-export const BoardSection = styled.div`
+export const SetShips = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     align-items: start;
     justify-content: center;
     padding: 50px;
-    background-color: #9b9898;
+    
+    @media (max-width: 1200px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 export const ShipsBoard = styled.div`
@@ -26,10 +30,14 @@ export const ShipsBoard = styled.div`
     grid-template-rows: repeat(10, 10%);
     grid-template-columns: repeat(10, 10%);
     grid-auto-flow: column;
-    min-width: 200px;
-    width: 60vh;
+    //min-width: 200px;
+    width: 600px;
     aspect-ratio: 1/1;
     border: 3px solid #2b2b2b;
+
+    @media (max-width: 700px) {
+        width: 85vw;
+    }
 `;
 
 export const BoardCell = styled.div`
@@ -100,14 +108,8 @@ export const Reserved = styled.div`
     position: absolute;
 `
 
-export const Button = styled.button`
-    padding: 10px 20px;
-    border-radius: 8px;
-    //align-self: center;
-
-`
-
 export const Settings = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
 `;

@@ -1,20 +1,19 @@
 import styled, {css} from 'styled-components';
-import {ReactComponent as Play} from "../../assets/play.svg";
 
 export const SettingsWrapper = styled.div`
-    min-width: 350px;
-    min-height: 100vh;
-    background-color: darkgray;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
     gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    min-width: 380px;
+    background-color: bisque;
+    margin: 10px;
 `;
 
 export const SettingsHeader = styled.div`
-    min-width: 350px;
-    min-height: 50px;
+    min-width: 340px;
     background-color: #9c6448;
     color: white;
     border: 2px solid black;
@@ -26,10 +25,12 @@ export const SettingsHeader = styled.div`
     font-size: 1.3rem;
     font-weight: bold;
     letter-spacing: 2px;
+    padding: 10px;
 `;
 
 export const SettingsItem = styled.div`
-    min-width: 350px;
+    min-width: 340px;
+    //width: 500px;
     //min-height: 50px;
     background-color: #9c6448;
     color: white;
