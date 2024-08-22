@@ -1,34 +1,32 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import background from "../../assets/background.jpg"
 
 export const HomeWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: darkgray;
-    width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    background-image: url(${background});
+    background-size: cover;
 `
 
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
     position: relative;
     width: 100%;
+
 `
 export const Image = styled.img`
     width: 100%;
-    height: 100vh;
-    min-height: 300px;
-    object-fit: cover;
+    padding: 30px 20%;
 `
 export const StyledLink = styled(Link)`
     text-decoration: none;
-    position: absolute;
-    left: 48%;
-    top: 70%;
-    transform: translateX(-50%);
+    width: max-content;
     background-color: #9c6448;
     color: white;
     padding: 10px 15px;
@@ -36,4 +34,6 @@ export const StyledLink = styled(Link)`
     border-radius: 10px;
     min-width: max-content;
     font-size: clamp(15px, 5vw, 30px);
+    margin: 20px;
+
 `

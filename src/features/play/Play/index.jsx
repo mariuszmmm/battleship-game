@@ -5,11 +5,14 @@ import {
 	ShipsBoard,
 	ColName, RowName,
 	Button,
-	ShipItem, Reserved
+	ShipItem, Reserved,Settings
 } from "./styled.jsx";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectBoard, selectState, setStateNewGame} from "../playSlice.jsx";
+import {ArrowLeftIcon, Back} from "../../../components/Back/index.jsx";
+import {StyledLink} from "../../../components/StyledLink/index.jsx";
+import {PlayIcon} from "../../../components/Icons/index.jsx";
 
 export const Play = () => {
 	const board = useSelector(selectBoard);
@@ -28,6 +31,7 @@ export const Play = () => {
 
 	return (
 		<PlayWrapper>
+			<Back to="/"><ArrowLeftIcon/></Back>
 			<BoardSection>
 				<ShipsBoard>
 					{board.map((col, colIndex) =>
@@ -46,7 +50,11 @@ export const Play = () => {
 								{cell.cell === "reserved" && <Reserved key={cell?.id}/>}
 							</BoardCell>))}
 				</ShipsBoard>
-				<Button onClick={() => onRandomShips()}> Random ships </Button>
+				<Settings>
+					<Button onClick={() => onRandomShips()}> Random ships </Button>
+
+				</Settings>
+				<StyledLink to="">START<PlayIcon/></StyledLink>
 			</BoardSection>
 		</PlayWrapper>
 	)

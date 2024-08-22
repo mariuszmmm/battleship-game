@@ -1,20 +1,23 @@
 import styled, {css} from 'styled-components';
 
 export const PlayWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-width: 350px;
+    min-height: 100vh;
     background-color: darkgray;
-    width: 100vw;
-    height: 100vh;`;
-
-export const BoardSection = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    justify-content: flex-start;
     align-items: center;
+    gap: 20px;
+`;
+
+export const BoardSection = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
     justify-content: center;
-    padding: clamp(15px, 5vw, 50px);
+    padding: 50px;
     background-color: #9b9898;
 `;
 
@@ -23,7 +26,7 @@ export const ShipsBoard = styled.div`
     grid-template-rows: repeat(10, 10%);
     grid-template-columns: repeat(10, 10%);
     grid-auto-flow: column;
-    min-width: 80%;
+    min-width: 200px;
     width: 60vh;
     aspect-ratio: 1/1;
     border: 3px solid #2b2b2b;
@@ -42,7 +45,8 @@ export const BoardCell = styled.div`
 
 export const ColName = styled.div`
     position: absolute;
-    top: calc(-60% - 8px);
+    top: calc(-1.2rem - 8px);
+    font-size: 1.2rem;
     color: black;
     text-align: center;
     width: 100%;
@@ -51,6 +55,7 @@ export const ColName = styled.div`
 export const RowName = styled.div`
     position: absolute;
     left: calc(-100% - 8px);
+    font-size: 1.2rem;
     color: black;
     width: 100%;
     text-align: right;
@@ -98,4 +103,11 @@ export const Reserved = styled.div`
 export const Button = styled.button`
     padding: 10px 20px;
     border-radius: 8px;
+    //align-self: center;
+
 `
+
+export const Settings = styled.div`
+    display: flex;
+    flex-direction: column;
+`;

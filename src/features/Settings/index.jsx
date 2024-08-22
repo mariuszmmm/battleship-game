@@ -1,17 +1,21 @@
-import {SettingsHeader, SettingsItem, SettingsWrapper, StyledLink} from "./styled.jsx";
+import {SettingsHeader, SettingsItem, SettingsWrapper} from "./styled.jsx";
 import {Players} from "./Players/index.jsx";
 import {NumberOfShips} from "./NumberOfShips/index.jsx";
 import {Shots} from "./Shots/index.jsx";
 import {AdditionalOptions} from "./AdditionalOptions/index.jsx";
+import {ArrowLeftIcon, Back} from "../../components/Back/index.jsx";
+import {PlayIcon} from "../../components/Icons/index.jsx";
+import {StyledLink} from "../../components/StyledLink/index.jsx";
 
 export const Settings = () => {
 	return (
 		<SettingsWrapper>
+			<Back to="/"><ArrowLeftIcon/></Back>
 			<SettingsHeader>
 				Ustawienia
 			</SettingsHeader>
 			<SettingsItem>
-				<Players />
+				<Players/>
 			</SettingsItem>
 			<SettingsItem>
 				<NumberOfShips/>
@@ -22,7 +26,7 @@ export const Settings = () => {
 			<SettingsItem>
 				<AdditionalOptions/>
 			</SettingsItem>
-			<StyledLink to="/play">PLAY</StyledLink>
+			<StyledLink to="/play">DALEJ <PlayIcon/></StyledLink>
 		</SettingsWrapper>
 	)
 }
