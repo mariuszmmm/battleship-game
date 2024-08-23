@@ -6,8 +6,16 @@ import {AdditionalOptions} from "./AdditionalOptions/index.jsx";
 import {ArrowBackIcon, PlayIcon} from "../../components/Icons/index.jsx";
 import {Back, StyledLink} from "../../components/Buttons/index.jsx";
 import {Section} from "../../components/Section/index.jsx";
+import {setStateNewGame} from "../play/playSlice.jsx";
+import {useDispatch} from "react-redux";
 
 export const Settings = () => {
+	const dispatch = useDispatch();
+
+	const onClickHandler = () => {
+		dispatch(setStateNewGame());
+	}
+
 	return (
 		<Section>
 			<SettingsWrapper>
@@ -27,7 +35,7 @@ export const Settings = () => {
 				<SettingsItem>
 					<AdditionalOptions/>
 				</SettingsItem>
-				<StyledLink to="/play">Dalej<PlayIcon/></StyledLink>
+				<StyledLink to="/play" onClick={() => onClickHandler()}>Dalej<PlayIcon/></StyledLink>
 			</SettingsWrapper>
 		</Section>
 	)

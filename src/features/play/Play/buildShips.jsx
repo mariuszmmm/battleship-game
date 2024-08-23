@@ -2,10 +2,11 @@ import {randomMinMax} from "./randomMinMax.jsx";
 import {getFleet} from "./getFleet.jsx";
 import {rotateShip} from "./rotateShip.jsx";
 import {addInfoAboutNeighborToShip} from "./addInfoAboutNeighborToShip.jsx";
+import {addReservedPlaceToBoard} from "./addReservedPlaceToBoard.jsx";
 
 export const buildShips = ({board, parameters}) => {
 		let newBoard = board.map(row => row.map(cell => ({...cell})));
-		const { numberOfShips} = parameters;
+		const {numberOfShips, mayTouch} = parameters;
 		const fleet = getFleet(numberOfShips);
 
 		fleet.forEach((ship) => {
@@ -50,44 +51,19 @@ export const buildShips = ({board, parameters}) => {
 						tempBoard = [...boardWithItems]
 
 						if ((placeForShip === shipSize)) {
-							tempBoard.forEach((col) => col.forEach((cell) => {
-								if (cell.cell === "ship") {
-									const boardWithReserved = tempBoard.map((col_) => col_.map((row_) => {
-											if (
-												((row_.col.number === cell.col.number + 1 &&
-														(row_.row.number === cell.row.number)
-													) ||
-													(row_.col.number === cell.col.number &&
-														(row_.row.number === cell.row.number + 1)
-													) ||
-													(row_.col.number === cell.col.number - 1 &&
-														(row_.row.number === cell.row.number)
-													) ||
-													(row_.col.number === cell.col.number &&
-														(row_.row.number === cell.row.number - 1)
-													) ||
-													(row_.col.number === cell.col.number + 1 &&
-														(row_.row.number === cell.row.number + 1)
-													) ||
-													(row_.col.number === cell.col.number - 1 &&
-														(row_.row.number === cell.row.number - 1)
-													) ||
-													(row_.col.number === cell.col.number - 1 &&
-														(row_.row.number === cell.row.number + 1)
-													) ||
-													(row_.col.number === cell.col.number + 1) &&
-													(row_.row.number === cell.row.number - 1)) &&
-												row_.cell === "empty") {
-												return {...row_, cell: "reserved"}
-											} else {
-												return row_
-											}
-										}
-									))
-									tempBoard = [...boardWithReserved];
-									newBoard = [...boardWithReserved]
-								}
-							}));
+							if (mayTouch) {
+								newBoard = [...tempBoard]
+							} else {
+								tempBoard.forEach((col) => col.forEach((cell) => {
+									if (cell.cell === "ship") {
+										const boardWithReserved = addReservedPlaceToBoard(tempBoard, cell);
+										tempBoard = [...boardWithReserved]
+										newBoard = [...boardWithReserved]
+									}
+								}))
+							}
+
+
 						}
 					});
 				}
