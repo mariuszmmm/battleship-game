@@ -1,32 +1,29 @@
-export const addInfoAboutNeighborToShip = (newShip) => {
-	const newShipWithInfo = newShip.map((item) => {
+export const addInfoAboutNeighborToShip = (newShip) =>
+	(newShip.map((item) => {
+			let hasNeighborTop = false;
+			let hasNeighborRight = false;
+			let hasNeighborBottom = false;
+			let hasNeighborLeft = false;
 
-		let hasNeighborTop = false;
-		let hasNeighborRight = false;
-		let hasNeighborBottom = false;
-		let hasNeighborLeft = false;
+			if (newShip.some((i) => item.col === i.col && item.row === i.row + 1)) {
+				hasNeighborTop = true;
+			}
+			if (newShip.some((i) => item.col === i.col - 1 && item.row === i.row)) {
+				hasNeighborRight = true;
+			}
+			if (newShip.some((i) => item.col === i.col && item.row === i.row - 1)) {
+				hasNeighborBottom = true;
+			}
+			if (newShip.some((i) => item.col === i.col + 1 && item.row === i.row)) {
+				hasNeighborLeft = true;
+			}
 
-		if (newShip.some((i) => item.col === i.col && item.row === i.row + 1)) {
-			hasNeighborTop = true;
-		}
-		if (newShip.some((i) => item.col === i.col - 1 && item.row === i.row)) {
-			hasNeighborRight = true;
-		}
-		if (newShip.some((i) => item.col === i.col && item.row === i.row - 1)) {
-			hasNeighborBottom = true;
-		}
-		if (newShip.some((i) => item.col === i.col + 1 && item.row === i.row)) {
-			hasNeighborLeft = true;
-		}
-
-		return {
-			...item,
-			hasNeighborTop,
-			hasNeighborRight,
-			hasNeighborBottom,
-			hasNeighborLeft
-		};
-	})
-
-	return newShipWithInfo;
-}
+			return {
+				...item,
+				hasNeighborTop,
+				hasNeighborRight,
+				hasNeighborBottom,
+				hasNeighborLeft
+			};
+		})
+	);
