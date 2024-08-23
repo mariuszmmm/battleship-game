@@ -35,7 +35,7 @@ export const Players = () => {
 				       checked={players === "compVsComp"}
 				       onChange={onChangeHandler}
 				/>
-				<Label htmlFor="compVsComp">comp vs comp</Label>
+				<Label htmlFor="compVsComp">komputer / komputer</Label>
 			</Item>
 			<Item>
 				<Input type="radio"
@@ -45,7 +45,7 @@ export const Players = () => {
 				       checked={players === "compVsPlayer"}
 				       onChange={onChangeHandler}
 				/>
-				<Label htmlFor="compVsPlayer">comp vs player</Label>
+				<Label htmlFor="compVsPlayer">komputer / gracz</Label>
 			</Item>
 			<Item>
 				<Input type="radio"
@@ -55,7 +55,7 @@ export const Players = () => {
 				       checked={players === "playerVsPlayer"}
 				       onChange={onChangeHandler}
 				       disabled/>
-				<Label htmlFor="playerVsPlayer" $disabled>player vs player</Label>
+				<Label htmlFor="playerVsPlayer" $disabled>gracz / gracz</Label>
 			</Item>
 		</Fieldset>
 	)

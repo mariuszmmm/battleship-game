@@ -3,7 +3,6 @@ import {ver_1, ver_2} from "./configPlay.jsx";
 import {randomMinMax} from "./randomMinMax.jsx";
 
 export const getFleet = (numberOfShips) => {
-	console.log(numberOfShips)
 	let version = {};
 	switch (numberOfShips) {
 		case "5":

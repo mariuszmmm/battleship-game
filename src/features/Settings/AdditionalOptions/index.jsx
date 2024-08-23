@@ -16,7 +16,7 @@ export const AdditionalOptions = () => {
 
 	return (
 		<Fieldset>
-			<Legend>Dodatkowe Opcje</Legend>
+			<Legend>Opcje dodatkowe</Legend>
 			<Item>
 				<Input type="checkbox"
 				       id="additionalOptions"

@@ -1,25 +1,45 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import {ReactComponent as Play} from "../../assets/play.svg";
-import {ReactComponent as Rotate} from "../../assets/arrows-rotate.svg";
+import {ReactComponent as Random} from "../../assets/arrows-spin.svg";
 import {ReactComponent as ArrowLeft} from "../../assets/arrow-left.svg";
+import {ReactComponent as ArrowTop} from "../../assets/arrow-top.svg";
+import {ReactComponent as ArrowRight} from "../../assets/arrow-right.svg";
+import {ReactComponent as ArrowDown} from "../../assets/arrow-down.svg";
+import {ReactComponent as Check} from "../../assets/check.svg";
+import {ReactComponent as RotateRight} from "../../assets/arrow-rotate-right.svg";
 
-
-export const PlayIcon = styled(Play)`
-    width: 20px;
-    height: 24px;
+const iconStyles = css`
+    width: 50px;
+    height: 50px;
     fill: white;
-    margin: 0 0 -3px 10px;
-`
-
-export const RotateIcon = styled(Rotate)`
+`;
+export const PlayIcon = styled(Play)`
+    ${iconStyles};
     width: 26px;
     height: 26px;
-    fill: white;
-		margin: -4px 10px;
+`
+export const RandomIcon = styled(Random)`
+    ${iconStyles}
+`
+export const RotateRightIcon = styled(RotateRight)`
+    ${iconStyles}
 `
 export const ArrowLeftIcon = styled(ArrowLeft)`
-    width: 24px;
-    height: 24px;
-    fill: #fff;
-    margin: 5px;
+    ${iconStyles}
+`
+export const ArrowTopIcon = styled(ArrowTop)`
+    ${iconStyles}
+`
+export const ArrowRightIcon = styled(ArrowRight)`
+    ${iconStyles}
+`
+export const ArrowDownIcon = styled(ArrowDown)`
+    ${iconStyles}
+`
+export const CheckIcon = styled(Check)`
+    ${iconStyles}
+`
+export const ArrowBackIcon = styled(ArrowLeftIcon)`
+    width: 26px;
+    height: 26px;
 `

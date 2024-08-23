@@ -1,63 +1,35 @@
 import {randomMinMax} from "./randomMinMax.jsx";
 import {getFleet} from "./getFleet.jsx";
 import {rotateShip} from "./rotateShip.jsx";
+import {addInfoAboutNeighborToShip} from "./addInfoAboutNeighborToShip.jsx";
 
 export const buildShips = ({board, parameters}) => {
 		let newBoard = board.map(row => row.map(cell => ({...cell})));
 		const {players, numberOfShips, shots, mayTouch} = parameters;
 		const fleet = getFleet(numberOfShips);
 
-		fleet.map((ship) => {
+		fleet.forEach((ship) => {
 				const shipSize = ship.length;
 				let placeForShip = 0;
+				let newShip = [];
 
 				while (placeForShip < shipSize) {
 					placeForShip = 0;
-					let newShip = [];
+					newShip = [];
 
 					const colRandom = randomMinMax(1, 10);
 					const rowRandom = randomMinMax(1, 10);
 					const shipRotated = rotateShip(ship);
 
-					shipRotated.map((shipItem) => {
+					shipRotated.forEach((shipItem) => {
 						const newItem = {col: colRandom + shipItem.y, row: rowRandom + shipItem.x}
-
 						newShip = [...newShip, newItem]
-
-						const newShipWithInfo = newShip.map((item) => {
-
-							let hasNeighborTop = false;
-							let hasNeighborRight = false;
-							let hasNeighborBottom = false;
-							let hasNeighborLeft = false;
-
-							if (newShip.some((i) => item.col === i.col && item.row === i.row + 1)) {
-								hasNeighborTop = true;
-							}
-							if (newShip.some((i) => item.col === i.col - 1 && item.row === i.row)) {
-								hasNeighborRight = true;
-							}
-							if (newShip.some((i) => item.col === i.col && item.row === i.row - 1)) {
-								hasNeighborBottom = true;
-							}
-							if (newShip.some((i) => item.col === i.col + 1 && item.row === i.row)) {
-								hasNeighborLeft = true;
-							}
-
-							return {
-								...item,
-								hasNeighborTop,
-								hasNeighborRight,
-								hasNeighborBottom,
-								hasNeighborLeft
-							};
-						})
-
-						newShip = [...newShipWithInfo]
-
 					})
 
-					let tempBoard = newBoard
+					const newShipWithInfo = addInfoAboutNeighborToShip(newShip)
+					newShip = [...newShipWithInfo]
+
+					let tempBoard = [...newBoard]
 					newShip.forEach((newShipItem) => {
 						const boardWithItems = tempBoard.map((col) => col.map((cell) => {
 							if (cell.col.number === newShipItem.col && cell.row.number === newShipItem.row && cell.cell === "empty") {

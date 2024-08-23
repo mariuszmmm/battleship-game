@@ -9,7 +9,7 @@ export const SettingsWrapper = styled.div`
     max-width: 1200px;
     min-width: 380px;
     background-color: bisque;
-    margin: 10px;
+    padding: 10px 10px 50px;
 `;
 
 export const SettingsHeader = styled.div`
@@ -30,8 +30,6 @@ export const SettingsHeader = styled.div`
 
 export const SettingsItem = styled.div`
     min-width: 340px;
-    //width: 500px;
-    //min-height: 50px;
     background-color: #9c6448;
     color: white;
     border: 2px solid black;

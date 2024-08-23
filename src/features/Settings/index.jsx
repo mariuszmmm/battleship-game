@@ -3,7 +3,7 @@ import {Players} from "./Players/index.jsx";
 import {NumberOfShips} from "./NumberOfShips/index.jsx";
 import {Shots} from "./Shots/index.jsx";
 import {AdditionalOptions} from "./AdditionalOptions/index.jsx";
-import {ArrowLeftIcon, PlayIcon} from "../../components/Icons/index.jsx";
+import {ArrowBackIcon, PlayIcon} from "../../components/Icons/index.jsx";
 import {Back, StyledLink} from "../../components/Buttons/index.jsx";
 import {Section} from "../../components/Section/index.jsx";
 
@@ -11,7 +11,7 @@ export const Settings = () => {
 	return (
 		<Section>
 			<SettingsWrapper>
-				<Back to="/"><ArrowLeftIcon/></Back>
+				<Back to="/"><ArrowBackIcon/></Back>
 				<SettingsHeader>
 					Ustawienia
 				</SettingsHeader>
@@ -27,7 +27,7 @@ export const Settings = () => {
 				<SettingsItem>
 					<AdditionalOptions/>
 				</SettingsItem>
-				<StyledLink to="/play">DALEJ <PlayIcon/></StyledLink>
+				<StyledLink to="/play">Dalej<PlayIcon/></StyledLink>
 			</SettingsWrapper>
 		</Section>
 	)

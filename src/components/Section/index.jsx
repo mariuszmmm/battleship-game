@@ -4,8 +4,12 @@ export const Section = styled.section`
     min-width: 400px;
     min-height: 100vh;
     background-color: darkgray;
-    padding: 5px 10px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media (max-width: 1200px) {
+        padding: 15px;
+    }
 `
