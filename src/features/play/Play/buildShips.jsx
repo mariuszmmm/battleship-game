@@ -5,7 +5,7 @@ import {addInfoAboutNeighborToShip} from "./addInfoAboutNeighborToShip.jsx";
 
 export const buildShips = ({board, parameters}) => {
 		let newBoard = board.map(row => row.map(cell => ({...cell})));
-		const {players, numberOfShips, shots, mayTouch} = parameters;
+		const { numberOfShips} = parameters;
 		const fleet = getFleet(numberOfShips);
 
 		fleet.forEach((ship) => {
