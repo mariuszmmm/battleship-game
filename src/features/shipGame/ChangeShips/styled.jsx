@@ -39,7 +39,7 @@ export const ShipsBoard = styled.div`
     }
 
     @media (max-width: 700px) {
-        width: 80vw;
+        width: 85vw;
     }
 `;
 
@@ -80,7 +80,7 @@ export const RowName = styled.div`
 `;
 
 export const ShipItem = styled.div`
-    background-color: blue;
+    background-color: ${({$selected}) => $selected ? "green" : "blue"};
     width: 100%;
     height: 100%;
     position: absolute;
@@ -90,26 +90,26 @@ export const ShipItem = styled.div`
     border: 2px solid black;
     transition: 0.2s filter;
 
-    &:hover{
+    &:hover {
         filter: brightness(0.9);
     }
 
-    ${({$hasNeighborTop}) => $hasNeighborTop && css`
+    ${({$top}) => $top && css`
         border-top-right-radius: 0;
         border-top-left-radius: 0;
         border-top: 0;
     `}
-    ${({$hasNeighborRight}) => $hasNeighborRight && css`
+    ${({$right}) => $right && css`
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         border-right: 0;
     `}
-    ${({$hasNeighborBottom}) => $hasNeighborBottom && css`
+    ${({$bottom}) => $bottom && css`
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
         border-bottom: 0;
     `}
-    ${({$hasNeighborLeft}) => $hasNeighborLeft && css`
+    ${({$left}) => $left && css`
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-left: 0;

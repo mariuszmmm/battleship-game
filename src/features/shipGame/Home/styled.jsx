@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import background from "../../assets/background.jpg"
+import background from "../../../assets/background.jpg"
 
 export const HomeWrapper = styled.div`
     display: flex;
@@ -16,13 +16,13 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
     width: 100%;
 
 `
 export const Image = styled.img`
-    width: 100%;
-    padding: 30px 20%;
+		width: 100%;
+		max-width: 600px;
+    padding: 30px;
 `
 export const StyledLink = styled(Link)`
     text-decoration: none;

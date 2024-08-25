@@ -1,13 +1,13 @@
 import {configureStore} from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./rootSaga";
-import playReducer from "../features/play/playSlice.jsx";
+import shipGameReducer from "../features/shipGame/shipGameSlice.jsx";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
 	reducer: {
-		play: playReducer,
+		shipGame: shipGameReducer
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(sagaMiddleware),

@@ -1,20 +1,20 @@
 import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
-import {Play} from "../../features/play/Play";
-import {Wrapper} from "./styled.jsx";
-import {Home} from "../../features/Home/index.jsx";
-import {Settings} from "../../features/Settings/index.jsx";
+import {ScrollToTop} from "./ScrollToTop/index.jsx"
+import {Home} from "../../features/shipGame/Home/index.jsx";
+import {Settings} from "../../features/shipGame/Settings/index.jsx";
+import {ChangeShips} from "../../features/shipGame/ChangeShips/index.jsx";
+
 
 const App = () => {
 	return (
 		<HashRouter>
-			<Wrapper>
-				<Routes>
-					<Route path="/" element={<Home/>}/>
-					<Route path="/settings" element={<Settings/>}/>
-					<Route path="/play" element={<Play/>}/>
-					<Route path="*" element={<Navigate to="/"/>}/>
-				</Routes>
-			</Wrapper>
+			<ScrollToTop/>
+			<Routes>
+				<Route path="/home" element={<Home/>}/>
+				<Route path="/settings" element={<Settings/>}/>
+				<Route path="/changeShips" element={<ChangeShips/>}/>
+				<Route path="*" element={<Navigate to="/home"/>}/>
+			</Routes>
 		</HashRouter>
 	);
 };
