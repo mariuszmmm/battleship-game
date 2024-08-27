@@ -9,12 +9,11 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
 	selectBoard,
-	selectState,
 	setSettingsState,
-	// setStateNewGame,
-	setItemSelect,
-	setRotateShip, setChangeShipsState, selectSelectedShip,
-	moveToTop,
+	shipSelect,
+	setRotateShip, setChangeShipsState,
+	moveToTop, moveToDown, 	moveToLeft, moveToRight,
+	selectSelectedShip
 } from "../shipGameSlice.jsx";
 import {Back, Button, StyledLink} from "../../../components/Buttons/index.jsx";
 import {
@@ -32,15 +31,8 @@ import {Section} from "../../../components/Section/index.jsx";
 
 export const ChangeShips = () => {
 	const board = useSelector(selectBoard);
-	const state = useSelector(selectState);
 	const selectedShip = useSelector(selectSelectedShip);
 	const dispatch = useDispatch();
-
-
-
-	const onRotateShip = () => {
-		dispatch(setRotateShip());
-	}
 
 	useEffect(() => {
 		// if (state === "changeShips") dispatch(setStateNewGame());
@@ -65,7 +57,7 @@ export const ChangeShips = () => {
 										          $right={cell.ship.neighbors.right}
 										          $left={cell.ship.neighbors.left}
 										          $bottom={cell.ship.neighbors.bottom}
-										          onClick={() => dispatch(setItemSelect(cell))}
+										          onClick={() => dispatch(shipSelect({board, cell, selectedShip}))}
 										          $selected={cell.selected}
 										/>}
 									{/*{console.log(cell)}*/}
@@ -76,19 +68,19 @@ export const ChangeShips = () => {
 						<Button $area="random" onClick={() => dispatch(setChangeShipsState())}>
 							<RandomIcon/> Random ships
 						</Button>
-						<Button $area="arrow-top" onClick={() => dispatch(moveToTop({board, selectedShip}))}>
+						<Button $area="arrow-top" onClick={() => dispatch(moveToTop(selectedShip))}>
 							<ArrowTopIcon/>
 						</Button>
-						<Button $area="arrow-left">
+						<Button $area="arrow-left" onClick={() => dispatch(moveToLeft(selectedShip))}>
 							<ArrowLeftIcon/>
 						</Button>
-						<Button $area="rotate" onClick={() => onRotateShip()}>
+						<Button $area="rotate" onClick={() => dispatch(setRotateShip())}>
 							<RotateRightIcon/>
 						</Button>
-						<Button $area="arrow-right">
+						<Button $area="arrow-right" onClick={() => dispatch(moveToRight(selectedShip))}>
 							<ArrowRightIcon/>
 						</Button>
-						<Button $area="arrow-down">
+						<Button $area="arrow-down" onClick={() => dispatch(moveToDown(selectedShip))}>
 							<ArrowDownIcon/>
 						</Button>
 						<Button $area="check-on">

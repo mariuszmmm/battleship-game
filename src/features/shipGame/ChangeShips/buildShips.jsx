@@ -26,7 +26,8 @@ export const buildShips = ({board, parameters, fleet}) => {
 							row: rowRandom + shipItem.x,
 						},
 						rotateStep: shipItem.rotateStep,
-						numberOfShip: index + 1
+						numberOfShip: index + 1,
+						selected: false
 					}
 					newShip = [...newShip, newItem];
 				});

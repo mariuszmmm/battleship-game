@@ -6,19 +6,16 @@ const shipGameSlice = createSlice({
 		initialState: {
 			board: boardSchemat(),
 			fleet: [],
-			fleetOnBoard: [],
+			// fleetOnBoard: [],
 			state: "home",
 			parameters: {
 				players: "compVsComp",
 				numberOfShips: "10",
 				shots: "single",
-				mayTouch: false,
+				mayTouch: true,
 			},
-			selected: {
-				item: null,
-				ship: null,
-				rotateStep: null,
-			},
+			selectedShip: [],
+			movedShip: [],
 		},
 		reducers:
 			{
@@ -47,12 +44,18 @@ const shipGameSlice = createSlice({
 					(state, {payload: mayTouch}) => {
 						state.parameters.mayTouch = mayTouch;
 					},
-				setItemSelect:
-					(state, {payload: cell}) => {
-						state.fleetOnBoard = state.fleetOnBoard.map((ship) =>
-							ship.map((item) => (cell.ship.numberOfShip === item.numberOfShip) && !cell.selected ?
-								{...item, selected: true} : {...item, selected: false}))
-					},
+				// setSelect:
+				// 	(state, {payload: cell}) => {
+				// 		state.fleetOnBoard = state.fleetOnBoard.map((ship) =>
+				// 			ship.map((item) =>
+				// 				(cell.ship.numberOfShip === item.numberOfShip) &&
+				// 				!cell.selected ?
+				// 					{...item, selected: true} : {...item, selected: false}))
+				// 	},
+				// setSelectedShip:
+				// 	(state, {payload: selectedShip}) => {
+				// 		state.selectedShip = [...selectedShip];
+				// 	},
 				setRotateShip:
 					() => {
 					},
@@ -68,8 +71,65 @@ const shipGameSlice = createSlice({
 					(state) => {
 						state.state = "changeShips"
 					},
-				moveToTop: (state, {payload: {board, selectedShip}}) => {
+				shipSelect:
+					(state, {payload: {board, cell, selectedShip}}) => {
+						let ship = [];
+						if (selectedShip.every((item) => item.numberOfShip !== cell.ship.numberOfShip)) {
+							board.forEach((col) => col.forEach((row) => {
+									if (row.ship?.numberOfShip === cell.ship.numberOfShip) {
+										ship = [...ship, row.ship]
+									}
+								}
+							))
+						}
+						state.selectedShip = ship;
+					},
+				moveToTop: (state, {payload:  selectedShip}) => {
 
+					// console.log(board.forEach((col) =>
+					// 	col.forEach((cell) => { return  cell.row.number})					))
+
+					// if (selectedShip.some((item) => board.forEach((col) =>
+					// 	col.forEach((cell) => item.place.row === cell.row.number - 1)
+					// ))) return
+					if (selectedShip.some((item) => item.place.row === 1)) return
+					let movedShip = []
+
+					movedShip = selectedShip.map((item) =>
+						({...item, place: {...item.place, row: item.place.row - 1}})
+					)
+					state.movedShip = movedShip;
+					state.selectedShip = movedShip;
+				},
+				moveToDown: (state, {payload: selectedShip}) => {
+					if (selectedShip.some((item) => item.place.row === 10)) return
+					let movedShip = []
+
+					movedShip = selectedShip.map((item) =>
+						({...item, place: {...item.place, row: item.place.row + 1}})
+					)
+					state.movedShip = movedShip;
+					state.selectedShip = movedShip;
+				},
+				moveToLeft: (state, {payload: selectedShip}) => {
+					if (selectedShip.some((item) => item.place.col === 1)) return
+					let movedShip = []
+
+					movedShip = selectedShip.map((item) =>
+						({...item, place: {...item.place, col: item.place.col - 1}})
+					)
+					state.movedShip = movedShip;
+					state.selectedShip = movedShip;
+				},
+				moveToRight: (state, {payload: selectedShip}) => {
+					if (selectedShip.some((item) => item.place.col === 10)) return
+					let movedShip = []
+
+					movedShip = selectedShip.map((item) =>
+						({...item, place: {...item.place, col: item.place.col + 1}})
+					)
+					state.movedShip = movedShip;
+					state.selectedShip = movedShip;
 				},
 			}
 		,
@@ -84,12 +144,17 @@ export const {
 	setNumberOfShips,
 	setShots,
 	setMayTouch,
-	setItemSelect,
+	// setSelect,
+	// setSelectedShip,
+	shipSelect,
 	setRotateShip,
 	setHomeState,
 	setSettingsState,
 	setChangeShipsState,
-	moveToTop
+	moveToTop,
+	moveToDown,
+	moveToLeft,
+	moveToRight
 }
 	= shipGameSlice.actions;
 
@@ -115,9 +180,8 @@ export const selectNumberOfShips = (state) => selectParameters(state).numberOfSh
 export const selectShots = (state) => selectParameters(state).shots
 export const selectMayTouch = (state) => selectParameters(state).mayTouch
 
-export const selectSelected = (state) => selectPlayState(state).selected;
-export const selectSelectedItem = (state) => selectSelected(state).item;
-export const selectSelectedShip = (state) => selectSelected(state).ship;
+export const selectSelectedShip = (state) => selectPlayState(state).selectedShip;
+export const selectMovedShip = (state) => selectPlayState(state).movedShip
 
 export default shipGameSlice.reducer;
 
