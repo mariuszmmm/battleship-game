@@ -31,16 +31,18 @@ export const shipsAvailable = {
 };
 
 export const ver_1 = {
-	// fifthTypeShip: 1,
-	// fourthTypeShip: 1,
-	// thirdTypeShip: 1,
-	// secondTypeShip: 1,
-	// firstTypeShip: 1,
+	fifthTypeShip: 1,
+	fourthTypeShip: 1,
+	thirdTypeShip: 1,
+	secondTypeShip: 1,
+	firstTypeShip: 1,
 };
 
 export const ver_2 = {
 	fourthTypeShip: 1,
 	thirdTypeShip: 2,
-	// secondTypeShip: 3,
-	// firstTypeShip: 4
+	secondTypeShip: 3,
+	firstTypeShip: 4
+
+
 };

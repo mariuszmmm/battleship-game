@@ -6,7 +6,6 @@ const shipGameSlice = createSlice({
 		initialState: {
 			board: boardSchemat(),
 			fleet: [],
-			// fleetOnBoard: [],
 			state: "home",
 			parameters: {
 				players: "compVsComp",
@@ -16,6 +15,7 @@ const shipGameSlice = createSlice({
 			},
 			selectedShip: [],
 			movedShip: [],
+			changeShipPlace: null,
 		},
 		reducers:
 			{
@@ -44,18 +44,6 @@ const shipGameSlice = createSlice({
 					(state, {payload: mayTouch}) => {
 						state.parameters.mayTouch = mayTouch;
 					},
-				// setSelect:
-				// 	(state, {payload: cell}) => {
-				// 		state.fleetOnBoard = state.fleetOnBoard.map((ship) =>
-				// 			ship.map((item) =>
-				// 				(cell.ship.numberOfShip === item.numberOfShip) &&
-				// 				!cell.selected ?
-				// 					{...item, selected: true} : {...item, selected: false}))
-				// 	},
-				// setSelectedShip:
-				// 	(state, {payload: selectedShip}) => {
-				// 		state.selectedShip = [...selectedShip];
-				// 	},
 				setRotateShip:
 					() => {
 					},
@@ -72,9 +60,13 @@ const shipGameSlice = createSlice({
 						state.state = "changeShips"
 					},
 				shipSelect:
-					(state, {payload: {board, cell, selectedShip}}) => {
+					(state, {payload: {board, cell, selectedShip, movedShip}}) => {
 						let ship = [];
-						if (selectedShip.every((item) => item.numberOfShip !== cell.ship.numberOfShip)) {
+						if (movedShip?.length > 0) {
+							console.log("movedShip")
+							ship = [...movedShip]
+							return
+						} else if (selectedShip.every((item) => item.numberOfShip !== cell.ship.numberOfShip)) {
 							board.forEach((col) => col.forEach((row) => {
 									if (row.ship?.numberOfShip === cell.ship.numberOfShip) {
 										ship = [...ship, row.ship]
@@ -82,54 +74,10 @@ const shipGameSlice = createSlice({
 								}
 							))
 						}
-						state.selectedShip = ship;
+						state.selectedShip = [...ship];
 					},
-				moveToTop: (state, {payload:  selectedShip}) => {
-
-					// console.log(board.forEach((col) =>
-					// 	col.forEach((cell) => { return  cell.row.number})					))
-
-					// if (selectedShip.some((item) => board.forEach((col) =>
-					// 	col.forEach((cell) => item.place.row === cell.row.number - 1)
-					// ))) return
-					if (selectedShip.some((item) => item.place.row === 1)) return
-					let movedShip = []
-
-					movedShip = selectedShip.map((item) =>
-						({...item, place: {...item.place, row: item.place.row - 1}})
-					)
-					state.movedShip = movedShip;
-					state.selectedShip = movedShip;
-				},
-				moveToDown: (state, {payload: selectedShip}) => {
-					if (selectedShip.some((item) => item.place.row === 10)) return
-					let movedShip = []
-
-					movedShip = selectedShip.map((item) =>
-						({...item, place: {...item.place, row: item.place.row + 1}})
-					)
-					state.movedShip = movedShip;
-					state.selectedShip = movedShip;
-				},
-				moveToLeft: (state, {payload: selectedShip}) => {
-					if (selectedShip.some((item) => item.place.col === 1)) return
-					let movedShip = []
-
-					movedShip = selectedShip.map((item) =>
-						({...item, place: {...item.place, col: item.place.col - 1}})
-					)
-					state.movedShip = movedShip;
-					state.selectedShip = movedShip;
-				},
-				moveToRight: (state, {payload: selectedShip}) => {
-					if (selectedShip.some((item) => item.place.col === 10)) return
-					let movedShip = []
-
-					movedShip = selectedShip.map((item) =>
-						({...item, place: {...item.place, col: item.place.col + 1}})
-					)
-					state.movedShip = movedShip;
-					state.selectedShip = movedShip;
+				setChangeShipPlace: (state, {payload: change}) => {
+					state.changeShipPlace = change
 				},
 			}
 		,
@@ -154,7 +102,8 @@ export const {
 	moveToTop,
 	moveToDown,
 	moveToLeft,
-	moveToRight
+	moveToRight,
+	setChangeShipPlace
 }
 	= shipGameSlice.actions;
 
@@ -182,6 +131,7 @@ export const selectMayTouch = (state) => selectParameters(state).mayTouch
 
 export const selectSelectedShip = (state) => selectPlayState(state).selectedShip;
 export const selectMovedShip = (state) => selectPlayState(state).movedShip
+export const selectChangeShipPlace = (state) => selectPlayState(state).changeShipPlace
 
 export default shipGameSlice.reducer;
 

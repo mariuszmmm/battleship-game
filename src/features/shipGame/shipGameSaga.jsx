@@ -2,16 +2,13 @@ import {takeLatest, select, call, put} from "redux-saga/effects";
 import {
 	selectParameters,
 	selectBoard,
-	// setStateNewGame,
 	setBoard,
 	shipSelect,
-	setRotateShip,
 	setChangeShipsState,
-	setHomeState,
 	setFleet,
-	setFleetOnBoard, selectFleetOnBoard, moveToTop,moveToDown,
-	moveToLeft, moveToRight,selectSelectedShip,
-	selectMovedShip,
+	setFleetOnBoard,
+	selectSelectedShip,
+	setChangeShipPlace
 } from "./shipGameSlice.jsx";
 import {buildShips} from "./ChangeShips/buildShips.jsx"
 import {setSelectedShip} from "./ChangeShips/setSelectedShip.jsx";
@@ -37,13 +34,10 @@ function* shipSelectHandler() {
 	yield put(setBoard(boardWithSelected));
 }
 
-function* moveToTopHandler({payload: selectedShip}) {
+function* setChangeShipPlaceHandler({payload: change}) {
 	const board = yield select(selectBoard);
-	// const selectedShip = yield select(selectSelectedShip);
-	const movedShip = yield select(selectMovedShip);
-	const boardWithMoved = yield call(moveShip, {board, selectedShip, movedShip});
-	// shipSelect({board, cell, selectedShip})
-	// yield put(setSelectedShip(movedShip));
+	const {selectedShip, movedShip, boardWithMoved} = yield call(moveShip, {board, change});
+	yield put(shipSelect({board, selectedShip, movedShip}))
 	yield put(setBoard(boardWithMoved));
 }
 
@@ -60,11 +54,6 @@ export function* shipGameSaga() {
 	yield takeLatest(setChangeShipsState.type, setChangeShipsHandler);
 	// yield takeLatest(setSettingsState.type, settingsHandler);
 	yield takeLatest(shipSelect.type, shipSelectHandler);
-	yield takeLatest(moveToTop.type, moveToTopHandler);
-	yield takeLatest(moveToDown.type, moveToTopHandler);
-	yield takeLatest(moveToLeft.type, moveToTopHandler);
-	yield takeLatest(moveToRight.type, moveToTopHandler);
-
-
+	yield takeLatest(setChangeShipPlace.type, setChangeShipPlaceHandler);
 	// yield takeLatest(setRotateShip.type, rotateShipHandler);
 }
