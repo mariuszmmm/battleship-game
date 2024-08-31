@@ -1,4 +1,4 @@
-import {changesShip} from "./changesChips.jsx";
+import {changesShip} from "./changesShips.jsx";
 
 export const moveShip = ({board, change}) => {
 
@@ -27,7 +27,7 @@ export const moveShip = ({board, change}) => {
 		const movedShip = changesShip(change, selectedShip, placesOtherShips)
 		// console.log(change)
 		// console.log(selectedShip)
-		console.log(movedShip)
+		// console.log(movedShip)
 		let boardWithMoved = []
 		boardWithMoved = boardWithOutSelectedShip.map((col) =>
 			col.map((cell) => {

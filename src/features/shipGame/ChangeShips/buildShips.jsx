@@ -8,24 +8,22 @@ export const buildShips = ({board, parameters, fleet}) => {
 	const {mayTouch} = parameters;
 	let fleetOnBoard = [];
 	fleet.forEach((ship, index) => {
-			const shipSize = ship.length;
+			const numberOfShipElements = ship.length;
 			let placeForShip = 0;
 			let newShip = [];
 
-			while (placeForShip < shipSize) {
+			while (placeForShip < numberOfShipElements) {
 				placeForShip = 0;
 				newShip = [];
-				const colRandom = randomMinMax(1, 10);
-				const rowRandom = randomMinMax(1, 10);
-				const shipRandomRotated = rotateShip(ship);
-
+				const colRandom = randomMinMax(0, 9);  //0, 9
+				const rowRandom = randomMinMax(0, 9); //0, 9
+				const shipRandomRotated = rotateShip(ship, randomMinMax(0, 3));
 				shipRandomRotated.forEach((shipItem) => {
 					const newItem = {
 						place: {
 							col: colRandom + shipItem.y,
 							row: rowRandom + shipItem.x,
 						},
-						rotateStep: shipItem.rotateStep,
 						numberOfShip: index + 1,
 						selected: false
 					}
@@ -58,7 +56,7 @@ export const buildShips = ({board, parameters, fleet}) => {
 					}));
 					tempBoard = [...boardWithItems]
 
-					if ((placeForShip === shipSize)) {
+					if ((placeForShip === numberOfShipElements)) {
 						fleetOnBoard = [...fleetOnBoard, tempFleetOnBoard];
 						if (mayTouch) {
 							newBoard = [...tempBoard]

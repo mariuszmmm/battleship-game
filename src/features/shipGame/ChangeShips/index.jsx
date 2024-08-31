@@ -12,7 +12,7 @@ import {
 	setSettingsState,
 	shipSelect,
 	setRotateShip, setChangeShipsState,
-	moveToTop, moveToDown, 	moveToLeft, moveToRight,
+	moveToTop, moveToDown, moveToLeft, moveToRight,
 	setChangeShipPlace,
 	selectSelectedShip
 } from "../shipGameSlice.jsx";
@@ -69,20 +69,35 @@ export const ChangeShips = () => {
 						<Button $area="random" onClick={() => dispatch(setChangeShipsState())}>
 							<RandomIcon/> Random ships
 						</Button>
-						<Button $area="arrow-top" onClick={() => dispatch(setChangeShipPlace("toTop"))}>
+						<Button $area="arrow-top"
+						        onClick={() => dispatch(setChangeShipPlace("toTop"))}
+						        disabled={selectedShip.length === 0}
+						>
 							<ArrowTopIcon/>
 						</Button>
-						<Button $area="arrow-left" onClick={() => dispatch(setChangeShipPlace("toLeft"))}>
+						<Button $area="arrow-left"
+						        onClick={() => dispatch(setChangeShipPlace("toLeft"))}
+						        disabled={selectedShip.length === 0}
+						>
 							<ArrowLeftIcon/>
 						</Button>
-						<Button $area="rotate" onClick={() => dispatch(setChangeShipPlace("rotate"))}>
+						<Button $area="rotate"
+						        onClick={() => dispatch(setChangeShipPlace("rotate"))}
+						        disabled={selectedShip.length === 0}
+						>
 							<RotateRightIcon/>
 						</Button>
-						<Button $area="arrow-right" onClick={() => dispatch(setChangeShipPlace("toRight"))}>
+						<Button $area="arrow-right"
+						        onClick={() => dispatch(setChangeShipPlace("toRight"))}
+						        disabled={selectedShip.length === 0}
+						>
 
 							<ArrowRightIcon/>
 						</Button>
-						<Button $area="arrow-down" onClick={() => dispatch(setChangeShipPlace("toDown"))}>
+						<Button $area="arrow-down"
+						        onClick={() => dispatch(setChangeShipPlace("toDown"))}
+						        disabled={selectedShip.length === 0}
+						>
 							<ArrowDownIcon/>
 						</Button>
 						<Button $area="check-on">

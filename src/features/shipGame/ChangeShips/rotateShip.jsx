@@ -1,22 +1,27 @@
-import {randomMinMax} from "../../../utils/randomMinMax.jsx"
+export const rotateShip = (shipCoords, step = 1) => {
+	const minX = Math.min(...shipCoords.map(coord => coord.x));
+	const maxX = Math.max(...shipCoords.map(coord => coord.x));
+	const minY = Math.min(...shipCoords.map(coord => coord.y));
+	const maxY = Math.max(...shipCoords.map(coord => coord.y));
+	const sizeX = maxX - minX + 1;
+	const sizeY = maxY - minY + 1;
+	const cx = (minX + maxX) / 2;
+	const cy = (minY + maxY) / 2;
 
-export const rotateShip = (ship, step = randomMinMax(1, 4)) => {
-	const shipRotated = ship.map((item) => {
-		let row = item.y
-		let col = item.x
-		switch (step) {
-			case 1:
-				return {y: col, x: -row, rotateStep: step};
-			case 2:
-				return {y: -row, x: -col, rotateStep: step};
-			case 3:
-				return {y: -col, x: row, rotateStep: step};
-			case 4:
-				return {...item, rotateStep: step};
-			default:
-				return {...item, rotateStep: step};
+	const rotatedShip = (shipCoords) => {
+		let ship = [...shipCoords]
+
+		for (let i = 0; i < step; i++) {
+			ship = ship.map(({x, y}) => {
+				const newX = cx - (y - cy) - (sizeX > sizeY && (sizeX + sizeY) % 2 === 1 ? 1 : 0);
+				const newY = cy + (x - cx) - (sizeX < sizeY && (sizeX + sizeY) % 2 === 1 ? 1 : 0);
+
+				return {x: Math.round(newX), y: Math.round(newY)};
+			})
 		}
-	})
 
-	return shipRotated;
+		return ship;
+	};
+
+	return rotatedShip(shipCoords)
 };

@@ -13,14 +13,23 @@ const buttonStyles = css`
     align-items: center;
     gap: 10px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.1s filter;
+    box-shadow: 3px 3px 1px rgba(0, 0, 0, 1);
 
     &:hover {
-        filter: brightness(0.9);
+        filter: brightness(1.1);
     }
 
     &:active {
-        filter: brightness(0.7);
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+    }
+    
+    &:disabled {
+        filter: brightness(1);
+        background-color: rgba(156, 100, 72, 0.3);
+        box-shadow: 3px 3px 1px rgba(0, 0, 0, .6);
+        cursor: auto;
+        border-color: rgba(156, 100, 72, 0.3);
     }
 `;
 

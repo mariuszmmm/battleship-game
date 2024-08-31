@@ -23,6 +23,5 @@ export const getFleet = (numberOfShips) => {
 		}
 	}
 
-
 	return fleet;
-}
+};

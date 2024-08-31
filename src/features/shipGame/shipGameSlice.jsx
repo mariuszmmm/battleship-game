@@ -63,7 +63,6 @@ const shipGameSlice = createSlice({
 					(state, {payload: {board, cell, selectedShip, movedShip}}) => {
 						let ship = [];
 						if (movedShip?.length > 0) {
-							console.log("movedShip")
 							ship = [...movedShip]
 							return
 						} else if (selectedShip.every((item) => item.numberOfShip !== cell.ship.numberOfShip)) {
