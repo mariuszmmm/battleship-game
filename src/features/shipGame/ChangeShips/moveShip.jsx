@@ -1,14 +1,17 @@
 import {changesShip} from "./changesShips.jsx";
+import {setPlacesReserved, warningsAroundCell} from "./functionsCellActions.jsx";
 
-export const moveShip = ({board, change}) => {
+export const moveShip = ({board, change, mayTouch}) => {
 
 		let selectedShip = [];
-		let placesOtherShips = [];
+		let placesOfShipWithoutSelected = [];
 
 		board.forEach((col) => col.forEach((cell) => {
-			if (cell.selected) selectedShip = [...selectedShip, cell.ship];
-			if (cell.cell === "ship" && !cell.selected) {
-				placesOtherShips = [...placesOtherShips, cell.ship.place]
+			if (cell.ship?.selected) {
+				selectedShip = [...selectedShip, cell.ship]
+			}
+			if (cell.cell === "ship" && !cell.ship?.selected) {
+				placesOfShipWithoutSelected = [...placesOfShipWithoutSelected, cell.ship.place]
 			}
 		}))
 
@@ -19,15 +22,12 @@ export const moveShip = ({board, change}) => {
 						(cell.row.number === shipItem.place.row)
 					)
 				}
-			) ? ({...cell, ship: null, cell: "empty", selected: false})
+			) ? ({...cell, ship: null, cell: "empty"})
 				:
 				({...cell})
 		))
 
-		const movedShip = changesShip(change, selectedShip, placesOtherShips)
-		// console.log(change)
-		// console.log(selectedShip)
-		// console.log(movedShip)
+		const movedShip = changesShip(change, selectedShip)
 		let boardWithMoved = []
 		boardWithMoved = boardWithOutSelectedShip.map((col) =>
 			col.map((cell) => {
@@ -37,18 +37,58 @@ export const moveShip = ({board, change}) => {
 
 				return foundItem
 					?
-					({...cell, ship: foundItem, cell: "ship", selected: true})
+					({...cell, ship: foundItem, cell: "ship"})
 					:
-					({...cell, selected: false})
+					({...cell})
 			})
-		)
+		);
+
+		let tempBoard = [...boardWithMoved];
+		if (!mayTouch) {
+			let allShip = [];
+
+			const clearEmptyOnBoard = tempBoard.map((col) => col.map((cell) => {
+				if (cell.cell === "ship") {
+					allShip = [...allShip, cell.ship]
+
+					return {...cell}
+				} else {
+
+					return {...cell, cell: "empty"}
+				}
+			}))
+			tempBoard = [...clearEmptyOnBoard];
+
+			tempBoard.forEach((col) => col.forEach((cell) => {
+				if (cell.cell === "ship") {
+					const boardWithReserved = setPlacesReserved(tempBoard, cell, "reserved");
+					tempBoard = [...boardWithReserved]
+				}
+			}))
+
+			const warningsForShipNumbers = warningsAroundCell(allShip, tempBoard);
+			let boardWithReserved = []
+			tempBoard.forEach((col) => col.forEach((cell) => {
+				if (cell.cell === "ship" && warningsForShipNumbers.includes(cell.ship.numberOfShip)) {
+					// console.log(warningsForShipNumbers, tempBoard, cell)
+
+					boardWithReserved = setPlacesReserved(tempBoard, cell, "warning")
+					tempBoard = [...boardWithReserved];
+				}
+			}))
+			boardWithMoved = [...tempBoard]
+		}
 
 		selectedShip = [];
-		board.forEach((col) => col.forEach((cell) => {
-			if (cell.selected) selectedShip = [...selectedShip, cell.ship]
+		let isWarning = false;
+		boardWithMoved.forEach((col) => col.forEach((cell) => {
+			if (cell.ship?.selected) selectedShip = [...selectedShip, cell.ship]
+			if (cell.cell === "warning") {
+				isWarning = true;
+			}
 		}))
 
 
-		return {selectedShip, movedShip, boardWithMoved}
+		return {selectedShip, placesOfShipWithoutSelected, movedShip, boardWithMoved, isWarning}
 	}
 ;

@@ -1,12 +1,11 @@
 import {randomMinMax} from "../../../utils/randomMinMax.jsx";
 import {rotateShip} from "./rotateShip.jsx";
-import {addInfoAboutNeighborToShip} from "./addInfoAboutNeighborToShip.jsx";
-import {addReservedPlaceToBoard} from "./addReservedPlaceToBoard.jsx";
+import {itemNextToNeighbor} from "./itemNextToNeighbor.jsx";
+import {setPlacesReserved} from "./functionsCellActions.jsx";
 
 export const buildShips = ({board, parameters, fleet}) => {
 	let newBoard = board.map(row => row.map(cell => ({...cell})));
 	const {mayTouch} = parameters;
-	let fleetOnBoard = [];
 	fleet.forEach((ship, index) => {
 			const numberOfShipElements = ship.length;
 			let placeForShip = 0;
@@ -15,8 +14,8 @@ export const buildShips = ({board, parameters, fleet}) => {
 			while (placeForShip < numberOfShipElements) {
 				placeForShip = 0;
 				newShip = [];
-				const colRandom = randomMinMax(0, 9);  //0, 9
-				const rowRandom = randomMinMax(0, 9); //0, 9
+				const colRandom = randomMinMax(0, 9);
+				const rowRandom = randomMinMax(0, 9);
 				const shipRandomRotated = rotateShip(ship, randomMinMax(0, 3));
 				shipRandomRotated.forEach((shipItem) => {
 					const newItem = {
@@ -30,11 +29,10 @@ export const buildShips = ({board, parameters, fleet}) => {
 					newShip = [...newShip, newItem];
 				});
 
-				const newShipWithInfo = addInfoAboutNeighborToShip(newShip);
+				const newShipWithInfo = itemNextToNeighbor(newShip);
 				newShip = [...newShipWithInfo];
 
 				let tempBoard = [...newBoard];
-				let tempFleetOnBoard = [];
 				newShip.forEach((newShipItem) => {
 					const boardWithItems = tempBoard.map((col) => col.map((cell) => {
 						if (
@@ -43,7 +41,6 @@ export const buildShips = ({board, parameters, fleet}) => {
 							cell.cell === "empty"
 						) {
 							placeForShip = ++placeForShip
-							tempFleetOnBoard = [...tempFleetOnBoard, {...newShipItem}]
 
 							return {
 								ship: {...newShipItem},
@@ -51,19 +48,18 @@ export const buildShips = ({board, parameters, fleet}) => {
 								cell: "ship",
 							};
 						} else {
-							return cell;
+							return {...cell};
 						}
 					}));
 					tempBoard = [...boardWithItems]
 
 					if ((placeForShip === numberOfShipElements)) {
-						fleetOnBoard = [...fleetOnBoard, tempFleetOnBoard];
 						if (mayTouch) {
 							newBoard = [...tempBoard]
 						} else {
 							tempBoard.forEach((col) => col.forEach((cell) => {
 								if (cell.cell === "ship") {
-									const boardWithReserved = addReservedPlaceToBoard(tempBoard, cell);
+									const boardWithReserved = setPlacesReserved(tempBoard, cell, "reserved");
 									tempBoard = [...boardWithReserved]
 									newBoard = [...boardWithReserved]
 								}
@@ -72,8 +68,20 @@ export const buildShips = ({board, parameters, fleet}) => {
 					}
 				});
 			}
-		}
-	)
 
-	return {newBoard, fleetOnBoard};
+
+		}	)
+
+	const clearEmptyOnBoard = newBoard.map((col) => col.map((cell) => {
+		if (cell.cell === "ship") {
+			return {...cell}
+		} else {
+			return {...cell, cell: "empty"}
+		}
+	}))
+	newBoard = [...clearEmptyOnBoard];
+
+
+
+	return newBoard;
 };

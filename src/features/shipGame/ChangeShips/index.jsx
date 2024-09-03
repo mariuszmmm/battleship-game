@@ -3,18 +3,16 @@ import {
 	PlayWrapper,
 	ShipsBoard,
 	ColName, RowName,
-	ShipItem, Reserved, Settings, SetShips
+	ShipItem, Settings, SetShips, Empty
 } from "./styled.jsx";
-import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
 	selectBoard,
 	setSettingsState,
 	shipSelect,
-	setRotateShip, setChangeShipsState,
-	moveToTop, moveToDown, moveToLeft, moveToRight,
 	setChangeShipPlace,
-	selectSelectedShip
+	selectSelectedShip,
+	selectWarning, changesShips, selectIsWarning
 } from "../shipGameSlice.jsx";
 import {Back, Button, StyledLink} from "../../../components/Buttons/index.jsx";
 import {
@@ -33,13 +31,9 @@ import {Section} from "../../../components/Section/index.jsx";
 export const ChangeShips = () => {
 	const board = useSelector(selectBoard);
 	const selectedShip = useSelector(selectSelectedShip);
+	const warning = useSelector(selectWarning);
+	const isWarning = useSelector(selectIsWarning);
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		// if (state === "changeShips") dispatch(setStateNewGame());
-
-		// eslint-disable-next-line
-	}, []);
 
 	return (
 		<Section>
@@ -54,53 +48,61 @@ export const ChangeShips = () => {
 									{colIndex === 0 && <RowName>{cell.row.name}</RowName>}
 									{cell.cell === "ship" &&
 										<ShipItem key={cell?.id}
-										          $top={cell.ship.neighbors.top}
-										          $right={cell.ship.neighbors.right}
-										          $left={cell.ship.neighbors.left}
-										          $bottom={cell.ship.neighbors.bottom}
+										          $top={cell.ship?.neighbors.top}
+										          $right={cell.ship?.neighbors.right}
+										          $left={cell.ship?.neighbors.left}
+										          $bottom={cell.ship?.neighbors.bottom}
 										          onClick={() => dispatch(shipSelect({board, cell, selectedShip}))}
-										          $selected={cell.selected}
+										          $selected={cell.ship?.selected}
+											// disabled={isWarning}
+
 										/>}
-									{/*{console.log(cell)}*/}
-									{cell.cell === "reserved" && <Reserved key={cell?.id}/>}
+									{cell.cell !== "ship" &&
+										<Empty key={cell?.id}
+										       $reserved={cell.cell === "reserved"}
+										       $warning={cell.cell === "warning"}
+										/>}
 								</BoardCell>))}
 					</ShipsBoard>
 					<Settings>
-						<Button $area="random" onClick={() => dispatch(setChangeShipsState())}>
+						<Button $area="random" onClick={() => dispatch(changesShips())}>
 							<RandomIcon/> Random ships
 						</Button>
 						<Button $area="arrow-top"
 						        onClick={() => dispatch(setChangeShipPlace("toTop"))}
-						        disabled={selectedShip.length === 0}
+						        disabled={selectedShip.length === 0 || warning.top}
 						>
 							<ArrowTopIcon/>
 						</Button>
 						<Button $area="arrow-left"
 						        onClick={() => dispatch(setChangeShipPlace("toLeft"))}
-						        disabled={selectedShip.length === 0}
+						        disabled={selectedShip.length === 0 || warning.left}
 						>
 							<ArrowLeftIcon/>
 						</Button>
 						<Button $area="rotate"
 						        onClick={() => dispatch(setChangeShipPlace("rotate"))}
-						        disabled={selectedShip.length === 0}
+						        disabled={selectedShip.length === 0 || warning.rotate}
 						>
 							<RotateRightIcon/>
 						</Button>
 						<Button $area="arrow-right"
 						        onClick={() => dispatch(setChangeShipPlace("toRight"))}
-						        disabled={selectedShip.length === 0}
+						        disabled={selectedShip.length === 0 || warning.right}
 						>
 
 							<ArrowRightIcon/>
 						</Button>
 						<Button $area="arrow-down"
 						        onClick={() => dispatch(setChangeShipPlace("toDown"))}
-						        disabled={selectedShip.length === 0}
+						        disabled={selectedShip.length === 0 || warning.down}
 						>
 							<ArrowDownIcon/>
 						</Button>
-						<Button $area="check-on">
+						<Button $area="check-on"
+						        onClick={() => dispatch(shipSelect({board, selectedShip}))}
+						        disabled={isWarning}
+						>
 							<CheckIcon/>
 						</Button>
 					</Settings>

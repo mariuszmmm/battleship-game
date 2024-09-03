@@ -11,5 +11,5 @@ export const Section = styled.section`
 
     @media (max-width: 1200px) {
         padding: 5px;
-    }
-`
+    };
+`;

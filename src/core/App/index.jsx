@@ -12,7 +12,7 @@ const App = () => {
 			<Routes>
 				<Route path="/home" element={<Home/>}/>
 				<Route path="/settings" element={<Settings/>}/>
-				<Route path="/changeShips" element={<ChangeShips/>}/>
+				<Route path="/changesShips" element={<ChangeShips/>}/>
 				<Route path="*" element={<Navigate to="/home"/>}/>
 			</Routes>
 		</HashRouter>

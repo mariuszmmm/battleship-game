@@ -6,7 +6,6 @@ import {setSettingsState} from "../shipGameSlice.jsx"
 
 export const Home = () => {
 	const dispatch = useDispatch();
-console.log("test")
 	return (
 		<HomeWrapper>
 			<Content>

@@ -13,33 +13,42 @@ const iconStyles = css`
     height: 50px;
     fill: white;
 `;
+
 export const PlayIcon = styled(Play)`
     ${iconStyles};
     width: 26px;
     height: 26px;
-`
+`;
+
 export const RandomIcon = styled(Random)`
     ${iconStyles}
-`
+`;
+
 export const RotateRightIcon = styled(RotateRight)`
     ${iconStyles}
-`
+`;
+
 export const ArrowLeftIcon = styled(ArrowLeft)`
     ${iconStyles}
-`
+`;
+
 export const ArrowTopIcon = styled(ArrowTop)`
     ${iconStyles}
-`
+`;
+
 export const ArrowRightIcon = styled(ArrowRight)`
     ${iconStyles}
-`
+`;
+
 export const ArrowDownIcon = styled(ArrowDown)`
     ${iconStyles}
-`
+`;
+
 export const CheckIcon = styled(Check)`
     ${iconStyles}
-`
+`;
+
 export const ArrowBackIcon = styled(ArrowLeftIcon)`
     width: 26px;
     height: 26px;
-`
+`;

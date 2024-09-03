@@ -33,6 +33,7 @@ export const ShipsBoard = styled.div`
     aspect-ratio: 1/1;
     border: 3px solid #2b2b2b;
     margin-left: 60px;
+    position: relative;
 
     @media (max-width: 1200px) {
         margin: 0 30px;
@@ -48,7 +49,7 @@ export const BoardCell = styled.div`
     align-items: center;
     justify-content: center;
     background-color: white;
-    border: 1px solid lightgrey;
+    border: 1px solid #c6c6c6;
     border-collapse: collapse;
     aspect-ratio: 1/1;
     position: relative;
@@ -80,7 +81,7 @@ export const RowName = styled.div`
 `;
 
 export const ShipItem = styled.div`
-    background-color: ${({$selected}) => $selected ? "green" : "blue"};
+    background-color: ${({$selected}) => $selected ? "#22ec22" : "#2424fe"};
     width: 100%;
     height: 100%;
     position: absolute;
@@ -88,7 +89,7 @@ export const ShipItem = styled.div`
     border-radius: 45%;
     margin: 20px;
     border: 2px solid black;
-    transition: 0.2s filter;
+    transition: .3s filter, .3s background-color;
 
     &:hover {
         filter: brightness(0.9);
@@ -116,11 +117,19 @@ export const ShipItem = styled.div`
     `}
 `
 
-export const Reserved = styled.div`
-    background-color: #d6f4ff;
+export const Empty = styled.div`
     width: 100%;
     height: 100%;
     position: absolute;
+		transition: .3s background-color;
+
+    ${({$reserved}) => $reserved && css`
+        background-color: #d6f4ff;
+    `};
+
+    ${({$warning}) => $warning && css`
+        background-color: #f8c2c2;
+    `};
 `
 
 export const Settings = styled.div`

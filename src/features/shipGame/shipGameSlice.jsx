@@ -8,14 +8,22 @@ const shipGameSlice = createSlice({
 			fleet: [],
 			state: "home",
 			parameters: {
-				players: "compVsComp",
+				players: "compVsPlayer",
 				numberOfShips: "10",
 				shots: "single",
-				mayTouch: true,
+				mayTouch: false,
 			},
 			selectedShip: [],
 			movedShip: [],
 			changeShipPlace: null,
+			warning: {
+				top: false,
+				down: false,
+				left: false,
+				right: false,
+				rotate: false,
+			},
+			isWarning: false,
 		},
 		reducers:
 			{
@@ -24,9 +32,6 @@ const shipGameSlice = createSlice({
 				},
 				setFleet: (state, {payload: fleet}) => {
 					state.fleet = fleet;
-				},
-				setFleetOnBoard: (state, {payload: fleetOnBoard}) => {
-					state.fleetOnBoard = fleetOnBoard;
 				},
 				setPlayers:
 					(state, {payload: players}) => {
@@ -44,9 +49,6 @@ const shipGameSlice = createSlice({
 					(state, {payload: mayTouch}) => {
 						state.parameters.mayTouch = mayTouch;
 					},
-				setRotateShip:
-					() => {
-					},
 				setHomeState:
 					(state) => {
 						state.state = "home"
@@ -55,12 +57,17 @@ const shipGameSlice = createSlice({
 					(state) => {
 						state.state = "settings"
 					},
-				setChangeShipsState:
+				changesShips:
 					(state) => {
-						state.state = "changeShips"
+						state.state = "changesShips";
+						state.selectedShip = [];
 					},
 				shipSelect:
-					(state, {payload: {board, cell, selectedShip, movedShip}}) => {
+					(state, {payload: {board, cell, selectedShip, movedShip, isWarning}}) => {
+						if (!cell && !movedShip && !isWarning) {
+							state.selectedShip = []
+							return
+						}
 						let ship = [];
 						if (movedShip?.length > 0) {
 							ship = [...movedShip]
@@ -78,8 +85,13 @@ const shipGameSlice = createSlice({
 				setChangeShipPlace: (state, {payload: change}) => {
 					state.changeShipPlace = change
 				},
+				setWarning: (state, {payload: warning}) => {
+					state.warning = warning
+				},
+				setIsWarning: (state, {payload: isWarning}) => {
+					state.isWarning = isWarning
+				},
 			}
-		,
 	})
 ;
 
@@ -91,18 +103,13 @@ export const {
 	setNumberOfShips,
 	setShots,
 	setMayTouch,
-	// setSelect,
-	// setSelectedShip,
 	shipSelect,
-	setRotateShip,
 	setHomeState,
 	setSettingsState,
-	setChangeShipsState,
-	moveToTop,
-	moveToDown,
-	moveToLeft,
-	moveToRight,
-	setChangeShipPlace
+	changesShips,
+	setChangeShipPlace,
+	setWarning,
+	setIsWarning,
 }
 	= shipGameSlice.actions;
 
@@ -110,27 +117,19 @@ const selectPlayState = (state) => state.shipGame;
 
 export const selectBoard = (state) => selectPlayState(state).board;
 
-export const selectState = (state) => selectPlayState(state).state;
-export const selectColumns = (state) =>
-	selectBoard(state).columns;
-export const selectRows = (state) =>
-	selectColumns(state).rows;
-export const selectCell = (state) =>
-	selectRows(state).cell;
-
-export const selectFleet = (state) => selectPlayState(state).fleet;
-export const selectFleetOnBoard = (state) => selectPlayState(state).fleetOnBoard;
-
+// export const selectState = (state) => selectPlayState(state).state;
+// export const selectColumns = (state) =>	selectBoard(state).columns;
+// export const selectRows = (state) =>	selectColumns(state).rows;
+// export const selectCell = (state) => selectRows(state).cell;
 
 export const selectParameters = (state) => selectPlayState(state).parameters;
 export const selectPlayers = (state) => selectParameters(state).players
 export const selectNumberOfShips = (state) => selectParameters(state).numberOfShips
 export const selectShots = (state) => selectParameters(state).shots
 export const selectMayTouch = (state) => selectParameters(state).mayTouch
-
 export const selectSelectedShip = (state) => selectPlayState(state).selectedShip;
-export const selectMovedShip = (state) => selectPlayState(state).movedShip
-export const selectChangeShipPlace = (state) => selectPlayState(state).changeShipPlace
+export const selectWarning = (state) => selectPlayState(state).warning;
+export const selectIsWarning = (state) => selectPlayState(state).isWarning;
 
 export default shipGameSlice.reducer;
 
