@@ -12,6 +12,10 @@ const iconStyles = css`
     width: 50px;
     height: 50px;
     fill: white;
+
+    @media (max-width: 700px ) {
+        width: 26px;
+        height: 26px;    }
 `;
 
 export const PlayIcon = styled(Play)`

@@ -21,6 +21,8 @@ export const SetShips = styled.div`
 
     @media (max-width: 1200px) {
         grid-template-columns: 1fr;
+		    gap: 20px;
+        padding: 50px 10px 20px;
     }
 `;
 
@@ -139,13 +141,13 @@ export const Settings = styled.div`
         "random random random"
         ". arrow-top ."
         "arrow-left rotate arrow-right"
-        ". arrow-down ."
-        ". . check-on";
+        ". arrow-down check-on";
     justify-items: center;
     justify-content: center;
     gap: 20px;
 
     @media (max-width: 700px) {
         width: 85vw;
+		    gap: 15px
     }
 `;

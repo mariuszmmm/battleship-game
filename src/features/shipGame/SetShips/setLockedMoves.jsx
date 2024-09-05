@@ -1,36 +1,37 @@
 import {rotateShip} from "./rotateShip.jsx";
 
-export const moveWarning = ({ship, placesOtherShips}) => {
-	let warning = {
-		top: false,
-		down: false,
-		left: false,
-		right: false,
-		rotate: false,
+export const setLockedMoves = ({ship, placesOtherShips}) => {
+	const shipNumber = ship[0]?.numberOfShip;
+	let lockedMoves = {
+		toTop: false,
+		toDown: false,
+		toLeft: false,
+		toRight: false,
+		toRotate: false,
 	};
 
 	if (ship.some((item) => item.place.row <= 1 ||
 		placesOtherShips.some((places) => (places.row === item.place.row - 1) && (places.col === item.place.col))
 	)) {
-		warning = {...warning, top: true}
+		lockedMoves = {...lockedMoves, toTop: true}
 	}
 
 	if (ship.some((item) => item.place.row >= 10 ||
 		placesOtherShips.some((places) => (places.row === item.place.row + 1) && (places.col === item.place.col))
 	)) {
-		warning = {...warning, down: true}
+		lockedMoves = {...lockedMoves, toDown: true}
 	}
 
 	if (ship.some((item) => item.place.col <= 1 ||
 		placesOtherShips.some((places) => (places.row === item.place.row) && (places.col === item.place.col - 1))
 	)) {
-		warning = {...warning, left: true}
+		lockedMoves = {...lockedMoves, toLeft: true}
 	}
 
 	if (ship.some((item) => item.place.col >= 10 ||
 		placesOtherShips.some((places) => (places.row === item.place.row) && (places.col === item.place.col + 1))
 	)) {
-		warning = {...warning, right: true}
+		lockedMoves = {...lockedMoves, toRight: true}
 	}
 
 	const coordinateShip = () => {
@@ -49,8 +50,8 @@ export const moveWarning = ({ship, placesOtherShips}) => {
 		item.x > 10 || item.x < 1));
 
 	if (collision || isOnBorder) {
-		warning = {...warning, rotate: true}
+		lockedMoves = {...lockedMoves, toRotate: true}
 	}
 
-	return warning;
+	return {[shipNumber]: lockedMoves};
 };

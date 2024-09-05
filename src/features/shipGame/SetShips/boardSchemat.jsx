@@ -8,7 +8,8 @@ export const boardSchemat = () => {
 					id: `${colItem + rowItem}`,
 					col: {number: colIndex + 1, name: colItem},
 					row: {number: rowIndex + 1, name: rowItem},
-					cell: "empty"
+					cell: "empty",
+					ship: null
 				})))
 	);
 };

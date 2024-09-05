@@ -3,48 +3,61 @@ import {
 	selectParameters,
 	selectBoard,
 	setBoard,
-	shipSelect,
-	setFleet,
+	setShipSelectedNumber,
 	selectSelectedShip,
 	setChangeShipPlace,
-	setWarning, selectMayTouch, changesShips, setIsWarning
+	selectMayTouch, setShips,
+	setSelectedShip, setLockedMoves,
+	setWrongSettingOfShips, setApprovedSetting
 } from "./shipGameSlice.jsx";
-import {buildShips} from "./ChangeShips/buildShips.jsx"
-import {setSelectedShip} from "./ChangeShips/setSelectedShip.jsx";
-import {getFleet} from "./ChangeShips/getFleet.jsx";
-import {boardSchemat} from "./ChangeShips/boardSchemat.jsx";
-import {moveShip} from "./ChangeShips/moveShip.jsx";
+import {addRandomShips} from "./SetShips/addRandomShips.jsx"
+import {changeSelectedShip} from "./SetShips/changeSelectedShip.jsx";
+import {getFleet} from "./SetShips/getFleet.jsx";
+import {boardSchemat} from "./SetShips/boardSchemat.jsx";
+import {moveShip} from "./SetShips/moveShip.jsx";
 
-function* changesShipsHandler() {
-	const parameters = yield select(selectParameters);
+function* setShipsHandler() {
+	const {mayTouch, numberOfShips} = yield select(selectParameters);
 	const board = yield call(boardSchemat);
-	const fleet = yield call(getFleet, parameters.numberOfShips);
-	yield put(setFleet(fleet));
-	const newBoard = yield call(buildShips, {board, parameters, fleet});
+	const fleet = yield call(getFleet, numberOfShips);
+	const newBoard = yield call(addRandomShips, {board, mayTouch, fleet});
 	yield put(setBoard(newBoard));
 }
 
-function* shipSelectHandler({payload: {boardWithMoved, movedShip, isWarning}}) {
-	const defaultBoard = yield select(selectBoard);
+function* setShipSelectedNumberHandler({payload: {number, approvedSetting}}) {
+	if (approvedSetting) yield put(setApprovedSetting(approvedSetting));
+	const board = yield select(selectBoard);
 	const selectedShip = yield select(selectSelectedShip);
-	const board = boardWithMoved || defaultBoard;
-	const ship = movedShip || selectedShip;
-	const {boardWithSelected, warning} = yield call(setSelectedShip, {board, ship,isWarning});
-	yield put(setWarning(warning))
-	yield put(setIsWarning(isWarning))
-	yield put(setBoard(boardWithMoved || boardWithSelected));
+	const {boardWithSelected, newSelectedShip, lockedMoves} = yield call(changeSelectedShip, {
+		board,
+		number,
+		selectedShip
+	});
+	yield put(setLockedMoves(lockedMoves))
+	yield put(setSelectedShip(newSelectedShip))
+	yield put(setBoard(boardWithSelected));
 }
 
 function* setChangeShipPlaceHandler({payload: change}) {
+	yield put(setApprovedSetting(false))
 	const board = yield select(selectBoard);
 	const mayTouch = yield select(selectMayTouch);
-	const {selectedShip, movedShip, boardWithMoved, isWarning} = yield call(moveShip, {board, change, mayTouch});
-	yield put(shipSelect({board, selectedShip, movedShip, boardWithMoved, isWarning}))
+	const selectedShip = yield select(selectSelectedShip);
+	const {newSelectedShip, boardWithMoved, lockedMoves, wrongSettingOfShips} = yield call(moveShip, {
+		board,
+		change,
+		mayTouch,
+		selectedShip
+	});
+	yield put(setWrongSettingOfShips(wrongSettingOfShips))
+	yield put(setLockedMoves(lockedMoves))
+	yield put(setSelectedShip(newSelectedShip))
+	yield put(setBoard(boardWithMoved));
 }
 
 export function* shipGameSaga() {
-	yield takeLatest(changesShips.type, changesShipsHandler);
-	yield takeLatest(shipSelect.type, shipSelectHandler);
+	yield takeLatest(setShips.type, setShipsHandler);
+	yield takeLatest(setShipSelectedNumber.type, setShipSelectedNumberHandler);
 	yield takeLatest(setChangeShipPlace.type, setChangeShipPlaceHandler);
 }
 

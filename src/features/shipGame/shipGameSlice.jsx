@@ -1,135 +1,113 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {boardSchemat} from "./ChangeShips/boardSchemat.jsx";
+import {boardSchemat} from "./SetShips/boardSchemat.jsx";
 
 const shipGameSlice = createSlice({
-		name: "shipGame",
-		initialState: {
-			board: boardSchemat(),
-			fleet: [],
-			state: "home",
-			parameters: {
-				players: "compVsPlayer",
-				numberOfShips: "10",
-				shots: "single",
-				mayTouch: false,
-			},
-			selectedShip: [],
-			movedShip: [],
-			changeShipPlace: null,
-			warning: {
-				top: false,
-				down: false,
-				left: false,
-				right: false,
-				rotate: false,
-			},
-			isWarning: false,
+	name: "shipGame",
+	initialState: {
+		board: boardSchemat(),
+		state: "home",
+		parameters: {
+			players: "compVsPlayer",
+			numberOfShips: "10",
+			shots: "single",
+			mayTouch: false,
 		},
-		reducers:
-			{
-				setBoard: (state, {payload: board}) => {
-					state.board = board;
+		selectedShip: {
+			number: null,
+			ship: []
+		},
+		movedShip: [],
+		changeShipPlace: null,
+		lockedMoves: {},
+		wrongSettingOfShips: false,
+		approvedSetting: false,
+	},
+	reducers:
+		{
+			setBoard: (state, {payload: board}) => { //used
+				state.board = board;
+			},
+			setPlayers:
+				(state, {payload: players}) => { //used
+					state.parameters.players = players;
 				},
-				setFleet: (state, {payload: fleet}) => {
-					state.fleet = fleet;
+			setNumberOfShips:
+				(state, {payload: numberOfShips}) => { //used
+					state.parameters.numberOfShips = numberOfShips;
 				},
-				setPlayers:
-					(state, {payload: players}) => {
-						state.parameters.players = players;
-					},
-				setNumberOfShips:
-					(state, {payload: numberOfShips}) => {
-						state.parameters.numberOfShips = numberOfShips;
-					},
-				setShots:
-					(state, {payload: shots}) => {
-						state.parameters.shots = shots;
-					},
-				setMayTouch:
-					(state, {payload: mayTouch}) => {
-						state.parameters.mayTouch = mayTouch;
-					},
-				setHomeState:
-					(state) => {
-						state.state = "home"
-					},
-				setSettingsState:
-					(state) => {
-						state.state = "settings"
-					},
-				changesShips:
-					(state) => {
-						state.state = "changesShips";
-						state.selectedShip = [];
-					},
-				shipSelect:
-					(state, {payload: {board, cell, selectedShip, movedShip, isWarning}}) => {
-						if (!cell && !movedShip && !isWarning) {
-							state.selectedShip = []
-							return
-						}
-						let ship = [];
-						if (movedShip?.length > 0) {
-							ship = [...movedShip]
-							return
-						} else if (selectedShip.every((item) => item.numberOfShip !== cell.ship.numberOfShip)) {
-							board.forEach((col) => col.forEach((row) => {
-									if (row.ship?.numberOfShip === cell.ship.numberOfShip) {
-										ship = [...ship, row.ship]
-									}
-								}
-							))
-						}
-						state.selectedShip = [...ship];
-					},
-				setChangeShipPlace: (state, {payload: change}) => {
-					state.changeShipPlace = change
+			setShots:
+				(state, {payload: shots}) => { //used
+					state.parameters.shots = shots;
 				},
-				setWarning: (state, {payload: warning}) => {
-					state.warning = warning
+			setMayTouch:
+				(state, {payload: mayTouch}) => { //used
+					state.parameters.mayTouch = mayTouch;
 				},
-				setIsWarning: (state, {payload: isWarning}) => {
-					state.isWarning = isWarning
+			setHomeState:
+				(state) => { //used
+					state.state = "home"
 				},
+			setSettingsState:
+				(state) => { //used
+					state.state = "settings"
+				},
+			setShips:
+				(state) => { //used
+					state.state = "setShips";
+				},
+			setShipSelectedNumber:
+				(state, {payload: number}) => { //used
+					state.selectedShip.number = number;
+				},
+			setSelectedShip: (state, {payload: selectedShip}) => { //used
+				state.selectedShip.ship = selectedShip;
+			},
+			setChangeShipPlace: (state, {payload: change}) => {  //used
+				state.changeShipPlace = change
+			},
+			setLockedMoves: (state, {payload: lockedMoves}) => {  // used
+				state.lockedMoves = {...state.lockedMoves, ...lockedMoves};
+			},
+			setWrongSettingOfShips: (state, {payload: wrongSettingOfShips}) => { // used
+				state.wrongSettingOfShips = wrongSettingOfShips
+			},
+			setApprovedSetting: (state, {payload: boolean}) => { // used
+				state.approvedSetting = boolean;
 			}
-	})
-;
+		}
+});
 
 export const {
 	setBoard,
-	setFleet,
-	setFleetOnBoard,
 	setPlayers,
 	setNumberOfShips,
 	setShots,
 	setMayTouch,
-	shipSelect,
+	setShipSelectedNumber,
 	setHomeState,
 	setSettingsState,
-	changesShips,
+	setShips,
 	setChangeShipPlace,
-	setWarning,
-	setIsWarning,
+	setLockedMoves,
+	setWrongSettingOfShips,
+	setSelectedShip,
+	setApprovedSetting,
 }
 	= shipGameSlice.actions;
 
 const selectPlayState = (state) => state.shipGame;
 
-export const selectBoard = (state) => selectPlayState(state).board;
-
-// export const selectState = (state) => selectPlayState(state).state;
-// export const selectColumns = (state) =>	selectBoard(state).columns;
-// export const selectRows = (state) =>	selectColumns(state).rows;
-// export const selectCell = (state) => selectRows(state).cell;
-
-export const selectParameters = (state) => selectPlayState(state).parameters;
+export const selectBoard = (state) => selectPlayState(state).board; //used
+export const selectParameters = (state) => selectPlayState(state).parameters; //used
 export const selectPlayers = (state) => selectParameters(state).players
 export const selectNumberOfShips = (state) => selectParameters(state).numberOfShips
 export const selectShots = (state) => selectParameters(state).shots
 export const selectMayTouch = (state) => selectParameters(state).mayTouch
-export const selectSelectedShip = (state) => selectPlayState(state).selectedShip;
-export const selectWarning = (state) => selectPlayState(state).warning;
-export const selectIsWarning = (state) => selectPlayState(state).isWarning;
+export const selectSelected = (state) => selectPlayState(state).selectedShip;
+export const selectSelectedShip = (state) => selectSelected(state).ship;
+export const selectLockedMoves = (state) => selectPlayState(state).lockedMoves;
+export const selectWrongSettingOfShips = (state) => selectPlayState(state).wrongSettingOfShips;
+export const selectApprovedSetting = (state) => selectPlayState(state).approvedSetting;
 
 export default shipGameSlice.reducer;
 

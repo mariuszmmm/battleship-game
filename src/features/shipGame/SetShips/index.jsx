@@ -9,10 +9,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {
 	selectBoard,
 	setSettingsState,
-	shipSelect,
+	setShipSelectedNumber,
 	setChangeShipPlace,
 	selectSelectedShip,
-	selectWarning, changesShips, selectIsWarning
+	setShips, selectWrongSettingOfShips, selectLockedMoves, selectApprovedSetting
 } from "../shipGameSlice.jsx";
 import {Back, Button, StyledLink} from "../../../components/Buttons/index.jsx";
 import {
@@ -26,13 +26,13 @@ import {
 	ArrowBackIcon
 } from "../../../components/Icons/index.jsx";
 import {Section} from "../../../components/Section/index.jsx";
-// import {rotateSelectedShip} from "./rotateSelectedShip.jsx";
 
 export const ChangeShips = () => {
 	const board = useSelector(selectBoard);
 	const selectedShip = useSelector(selectSelectedShip);
-	const warning = useSelector(selectWarning);
-	const isWarning = useSelector(selectIsWarning);
+	const wrongSettingOfShips = useSelector(selectWrongSettingOfShips);
+	const lockedMoves = useSelector(selectLockedMoves);
+	const approvedSetting = useSelector(selectApprovedSetting)
 	const dispatch = useDispatch();
 
 	return (
@@ -52,10 +52,8 @@ export const ChangeShips = () => {
 										          $right={cell.ship?.neighbors.right}
 										          $left={cell.ship?.neighbors.left}
 										          $bottom={cell.ship?.neighbors.bottom}
-										          onClick={() => dispatch(shipSelect({board, cell, selectedShip}))}
+										          onClick={() => dispatch(setShipSelectedNumber({number: cell.ship.numberOfShip}))}
 										          $selected={cell.ship?.selected}
-											// disabled={isWarning}
-
 										/>}
 									{cell.cell !== "ship" &&
 										<Empty key={cell?.id}
@@ -65,49 +63,52 @@ export const ChangeShips = () => {
 								</BoardCell>))}
 					</ShipsBoard>
 					<Settings>
-						<Button $area="random" onClick={() => dispatch(changesShips())}>
+						<Button $area="random" onClick={() => dispatch(setShips())}>
 							<RandomIcon/> Random ships
 						</Button>
 						<Button $area="arrow-top"
 						        onClick={() => dispatch(setChangeShipPlace("toTop"))}
-						        disabled={selectedShip.length === 0 || warning.top}
+						        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toTop}
 						>
 							<ArrowTopIcon/>
 						</Button>
 						<Button $area="arrow-left"
 						        onClick={() => dispatch(setChangeShipPlace("toLeft"))}
-						        disabled={selectedShip.length === 0 || warning.left}
+						        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toLeft}
 						>
 							<ArrowLeftIcon/>
 						</Button>
 						<Button $area="rotate"
 						        onClick={() => dispatch(setChangeShipPlace("rotate"))}
-						        disabled={selectedShip.length === 0 || warning.rotate}
+						        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toRotate}
 						>
 							<RotateRightIcon/>
 						</Button>
 						<Button $area="arrow-right"
 						        onClick={() => dispatch(setChangeShipPlace("toRight"))}
-						        disabled={selectedShip.length === 0 || warning.right}
+						        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toRight}
 						>
 
 							<ArrowRightIcon/>
 						</Button>
 						<Button $area="arrow-down"
 						        onClick={() => dispatch(setChangeShipPlace("toDown"))}
-						        disabled={selectedShip.length === 0 || warning.down}
+						        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toDown}
 						>
 							<ArrowDownIcon/>
 						</Button>
 						<Button $area="check-on"
-						        onClick={() => dispatch(shipSelect({board, selectedShip}))}
-						        disabled={isWarning}
+						        onClick={() => dispatch(setShipSelectedNumber({
+							        number: selectedShip[0].numberOfShip,
+							        approvedSetting: true
+						        }))}
+						        disabled={selectedShip.length === 0 || wrongSettingOfShips}
 						>
 							<CheckIcon/>
 						</Button>
 					</Settings>
 				</SetShips>
-				<StyledLink to="">START<PlayIcon/></StyledLink>
+				<StyledLink to="" $disabled={selectedShip.length > 0 || !approvedSetting}>START<PlayIcon/></StyledLink>
 			</PlayWrapper>
 		</Section>
 	)

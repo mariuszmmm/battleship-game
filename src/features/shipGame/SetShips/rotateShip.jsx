@@ -1,8 +1,8 @@
-export const rotateShip = (shipCoords, step = 1) => {
-	const minX = Math.min(...shipCoords.map(coord => coord.x));
-	const maxX = Math.max(...shipCoords.map(coord => coord.x));
-	const minY = Math.min(...shipCoords.map(coord => coord.y));
-	const maxY = Math.max(...shipCoords.map(coord => coord.y));
+export const rotateShip = (shipCoordinates, step = 1) => {
+	const minX = Math.min(...shipCoordinates.map(coordinate => coordinate.x));
+	const maxX = Math.max(...shipCoordinates.map(coordinate => coordinate.x));
+	const minY = Math.min(...shipCoordinates.map(coordinate => coordinate.y));
+	const maxY = Math.max(...shipCoordinates.map(coordinate => coordinate.y));
 	const sizeX = maxX - minX + 1;
 	const sizeY = maxY - minY + 1;
 	const cx = (minX + maxX) / 2;
@@ -23,5 +23,5 @@ export const rotateShip = (shipCoords, step = 1) => {
 		return ship;
 	};
 
-	return rotatedShip(shipCoords)
+	return rotatedShip(shipCoordinates)
 };

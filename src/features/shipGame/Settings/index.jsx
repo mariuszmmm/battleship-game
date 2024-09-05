@@ -6,7 +6,7 @@ import {AdditionalOptions} from "./AdditionalOptions/index.jsx";
 import {ArrowBackIcon, PlayIcon} from "../../../components/Icons/index.jsx";
 import {Back, StyledLink} from "../../../components/Buttons/index.jsx";
 import {Section} from "../../../components/Section/index.jsx";
-import {setHomeState, changesShips} from "../shipGameSlice.jsx";
+import {setHomeState, setShips} from "../shipGameSlice.jsx";
 import {useDispatch} from "react-redux";
 
 export const Settings = () => {
@@ -31,7 +31,7 @@ export const Settings = () => {
 				<SettingsItem>
 					<AdditionalOptions/>
 				</SettingsItem>
-				<StyledLink to="/changesShips" onClick={() => dispatch(changesShips())}>Dalej<PlayIcon/></StyledLink>
+				<StyledLink to="/setShips" onClick={() => dispatch(setShips())}>Dalej<PlayIcon/></StyledLink>
 			</SettingsWrapper>
 		</Section>
 	)

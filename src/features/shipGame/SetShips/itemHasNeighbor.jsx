@@ -1,4 +1,4 @@
-export const itemNextToNeighbor = (newShip) =>
+export const itemHasNeighbor = (newShip) =>
 	(newShip.map((item) => {
 			let top = false;
 			let right = false;
