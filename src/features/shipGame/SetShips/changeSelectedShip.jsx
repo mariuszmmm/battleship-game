@@ -1,7 +1,9 @@
 import {setLockedMoves} from "./setLockedMoves.jsx";
 
 export const changeSelectedShip = ({board, number, selectedShip}) => {
-	let boardWithSelected, newSelectedShip, placesOtherShips;
+		let boardWithSelected = [];
+		let newSelectedShip = [];
+		let placesOtherShips = [];
 
 		board.forEach((col) => col.forEach((cell) => {
 			if (cell.cell !== "ship" ||
