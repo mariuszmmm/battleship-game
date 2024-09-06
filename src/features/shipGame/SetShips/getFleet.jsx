@@ -1,26 +1,11 @@
-import {shipsAvailable} from "./configShipGame.jsx";
-import {ver_1, ver_2} from "./configShipGame.jsx";
-import {randomMinMax} from "../../../utils/randomMinMax.jsx";
-
-export const getFleet = (numberOfShips) => {
-	let version = {};
-	switch (numberOfShips) {
-		case "5":
-			version = {...ver_1}
-			break;
-		case "10":
-			version = {...ver_2}
-			break;
-		default:
-			return;
-	}
+export const getFleet = (board) => {
 	let fleet = [];
-	for (let key in version) {
-		for (let step = 1; step <= version[key]; step++) {
-			const selectModels = randomMinMax(1, shipsAvailable[key].length)
-			fleet = [...fleet, shipsAvailable[key][selectModels - 1]]
+
+	board.forEach((col) => col.forEach((cell) => {
+		if (cell.cell === "ship") {
+			fleet = [...fleet, cell];
 		}
-	}
+	}))
 
 	return fleet;
 };

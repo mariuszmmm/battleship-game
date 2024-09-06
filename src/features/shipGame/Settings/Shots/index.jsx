@@ -11,10 +11,10 @@ export const Shots = () => {
 
 		switch (shotsValue) {
 			case "single":
-				dispatch(setShots("single"))
+				dispatch(setShots({name: "single", number: 1}))
 				break;
 			case "series":
-				dispatch(setShots("series"))
+				dispatch(setShots({name: "series", number: 3}))
 				break;
 			default:
 				return
@@ -29,7 +29,7 @@ export const Shots = () => {
 				       id="single"
 				       name="shots"
 				       value="single"
-				       checked={shots === "single"}
+				       checked={shots.name === "single"}
 				       onChange={onChangeHandler}
 				/>
 				<Label htmlFor="single">pojedyncze (+ bonus za trafienie )</Label>
@@ -39,7 +39,7 @@ export const Shots = () => {
 				       id="series"
 				       name="shots"
 				       value="series"
-				       checked={shots === "series"}
+				       checked={shots.name === "series"}
 				       onChange={onChangeHandler}
 				/>
 				<Label htmlFor="series">seria (3 strzały)</Label>

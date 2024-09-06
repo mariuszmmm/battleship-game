@@ -3,10 +3,10 @@ import {rotateShip} from "./rotateShip.jsx";
 import {itemHasNeighbor} from "./itemHasNeighbor.jsx";
 import {setPlacesAroundCell} from "./changesOnBoard.jsx";
 
-export const addRandomShips = ({board, mayTouch, fleet}) => {
+export const addRandomShips = ({board, mayTouch, ships}) => {
 	let newBoard = board.map(row => row.map(cell => ({...cell})));
 
-	fleet.forEach((shipCoordinates, index) => {
+	ships.forEach((shipCoordinates, index) => {
 		const numberOfShipElements = shipCoordinates.length;
 		let placeForShip = 0;
 		let newShip = [];

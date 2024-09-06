@@ -1,20 +1,20 @@
-import {
-	BoardCell,
-	PlayWrapper,
-	ShipsBoard,
-	ColName, RowName,
-	ShipItem, Settings, SetShips, Empty
-} from "./styled.jsx";
 import {useDispatch, useSelector} from "react-redux";
+import {Back, Button, StyledLink} from "../../../components/Buttons";
+import {Section} from "../../../components/Section";
+import {ShipsBoard} from "../../../components/ShipsBoard";
+import {SetShipsWrapper, Settings, Content} from "./styled";
 import {
-	selectBoard,
+	setShips,
+	setPlayGame,
 	setSettingsState,
 	setShipSelectedNumber,
 	setChangeShipPlace,
 	selectSelectedShip,
-	setShips, selectWrongSettingOfShips, selectLockedMoves, selectApprovedSetting
-} from "../shipGameSlice.jsx";
-import {Back, Button, StyledLink} from "../../../components/Buttons/index.jsx";
+	selectWrongSettingOfShips,
+	selectLockedMoves,
+	selectApprovedSetting,
+	selectFirstPlayerBoard,
+} from "../shipGameSlice";
 import {
 	ArrowDownIcon,
 	ArrowLeftIcon,
@@ -24,11 +24,10 @@ import {
 	RandomIcon,
 	RotateRightIcon,
 	ArrowBackIcon
-} from "../../../components/Icons/index.jsx";
-import {Section} from "../../../components/Section/index.jsx";
+} from "../../../components/Icons";
 
-export const ChangeShips = () => {
-	const board = useSelector(selectBoard);
+export const SetShips = () => {
+	const board = useSelector(selectFirstPlayerBoard);
 	const selectedShip = useSelector(selectSelectedShip);
 	const wrongSettingOfShips = useSelector(selectWrongSettingOfShips);
 	const lockedMoves = useSelector(selectLockedMoves);
@@ -37,31 +36,10 @@ export const ChangeShips = () => {
 
 	return (
 		<Section>
-			<PlayWrapper>
+			<SetShipsWrapper>
 				<Back to="/settings" onClick={() => dispatch(setSettingsState())}><ArrowBackIcon/></Back>
-				<SetShips>
-					<ShipsBoard>
-						{board.map((col, colIndex) =>
-							col.map((cell, cellIndex) =>
-								<BoardCell key={cell.id} $ship={cell.cell === "ship"}>
-									{cellIndex === 0 && <ColName>{cell.col.name}</ColName>}
-									{colIndex === 0 && <RowName>{cell.row.name}</RowName>}
-									{cell.cell === "ship" &&
-										<ShipItem key={cell?.id}
-										          $top={cell.ship?.neighbors.top}
-										          $right={cell.ship?.neighbors.right}
-										          $left={cell.ship?.neighbors.left}
-										          $bottom={cell.ship?.neighbors.bottom}
-										          onClick={() => dispatch(setShipSelectedNumber({number: cell.ship.numberOfShip}))}
-										          $selected={cell.ship?.selected}
-										/>}
-									{cell.cell !== "ship" &&
-										<Empty key={cell?.id}
-										       $reserved={cell.cell === "reserved"}
-										       $warning={cell.cell === "warning"}
-										/>}
-								</BoardCell>))}
-					</ShipsBoard>
+				<Content>
+					<ShipsBoard board={board}/>
 					<Settings>
 						<Button $area="random" onClick={() => dispatch(setShips())}>
 							<RandomIcon/> Random ships
@@ -107,9 +85,15 @@ export const ChangeShips = () => {
 							<CheckIcon/>
 						</Button>
 					</Settings>
-				</SetShips>
-				<StyledLink to="" $disabled={selectedShip.length > 0 || !approvedSetting}>START<PlayIcon/></StyledLink>
-			</PlayWrapper>
+				</Content>
+				<StyledLink
+					to="/playGame"
+					$disabled={selectedShip.length > 0 || !approvedSetting}
+					onClick={() => dispatch(setPlayGame())}
+				>
+					START <PlayIcon/>
+				</StyledLink>
+			</SetShipsWrapper>
 		</Section>
 	)
 };

@@ -31,7 +31,9 @@ export const Settings = () => {
 				<SettingsItem>
 					<AdditionalOptions/>
 				</SettingsItem>
-				<StyledLink to="/setShips" onClick={() => dispatch(setShips())}>Dalej<PlayIcon/></StyledLink>
+				<StyledLink
+					to="/setShips" onClick={() => dispatch(setShips())}>
+					Dalej<PlayIcon/></StyledLink>
 			</SettingsWrapper>
 		</Section>
 	)

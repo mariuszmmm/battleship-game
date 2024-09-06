@@ -1,8 +1,9 @@
 import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
-import {ScrollToTop} from "./ScrollToTop/index.jsx"
-import {Home} from "../../features/shipGame/Home/index.jsx";
-import {Settings} from "../../features/shipGame/Settings/index.jsx";
-import {ChangeShips} from "../../features/shipGame/SetShips/index.jsx";
+import {ScrollToTop} from "./ScrollToTop"
+import {Home} from "../../features/shipGame/Home";
+import {Settings} from "../../features/shipGame/Settings";
+import {SetShips} from "../../features/shipGame/SetShips";
+import {PlayGame} from "../../features/shipGame/PlayGame";
 
 
 const App = () => {
@@ -12,7 +13,8 @@ const App = () => {
 			<Routes>
 				<Route path="/home" element={<Home/>}/>
 				<Route path="/settings" element={<Settings/>}/>
-				<Route path="/setShips" element={<ChangeShips/>}/>
+				<Route path="/setShips" element={<SetShips/>}/>
+				<Route path="/playGame" element={<PlayGame/>}/>
 				<Route path="*" element={<Navigate to="/home"/>}/>
 			</Routes>
 		</HashRouter>
