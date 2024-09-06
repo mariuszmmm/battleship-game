@@ -1,7 +1,7 @@
 import {setLockedMoves} from "./setLockedMoves.jsx";
 
 export const changeSelectedShip = ({board, number, selectedShip, approvedSetting}) => {
-		let boardWithSelected = [];
+		let boardWithSelected;
 		let newSelectedShip = [];
 		let placesOtherShips = [];
 
