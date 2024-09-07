@@ -27,8 +27,8 @@ export const Content = styled.div`
 `;
 
 export const BoardsWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 		gap: 50px;
 ` ;
 
@@ -60,4 +60,8 @@ export const Info = styled.div`
     li {
         text-align: left;
     }
+`;
+
+export const TargetDisplay = styled.span`
+
 `;

@@ -35,11 +35,7 @@ export const changeSelectedShip = ({board, number, selectedShip, approvedSetting
 
 		if (approvedSetting) {
 			boardWithSelected = boardWithSelected.map((col) => col.map((cell) => (
-				(cell.cell !== "ship")
-					?
-					{...cell, cell: "empty"}
-					:
-					{...cell}
+				(cell.cell !== "ship") ? {...cell, cell: "empty"} : {...cell}
 			)));
 		}
 

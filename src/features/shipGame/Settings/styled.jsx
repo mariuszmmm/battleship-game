@@ -44,6 +44,7 @@ export const SettingsItem = styled.div`
 
 export const Fieldset = styled.fieldset`
     width: 100%;
+		padding: 8px;
 `
 
 export const Legend = styled.legend`
@@ -53,7 +54,7 @@ export const Legend = styled.legend`
 `
 
 export const Item = styled.div`
-    padding: 5px;
+    padding: 5px 0 5px 3px;
 `
 
 export const Input = styled.input`
@@ -61,7 +62,7 @@ export const Input = styled.input`
 `
 
 export const Label = styled.label`
-    padding: 10px;
+    padding: 10px 0 10px 10px;
     ${({$disabled}) => $disabled && css`
         color: lightgrey
     `}

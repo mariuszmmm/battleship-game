@@ -4,11 +4,18 @@ import {
 	selectFirstPlayerBoard,
 	selectSelectedShip,
 	selectMayTouch,
-	setBoard, setShips, setFleet,
+	setBoardForFirstPlayer,
+	setShips,
 	setShipSelectedNumber,
 	setChangeShipPlace,
-	setSelectedShip, setLockedMoves,
-	setWrongSettingOfShips, setApprovedSetting
+	setSelectedShip,
+	setLockedMoves,
+	setWrongSettingOfShips,
+	setApprovedSetting,
+	setTargetedCell,
+	setBoardForFirstPlayersShots,
+	setBoardForComputersShots,
+	setBoardForComputer
 } from "./shipGameSlice.jsx";
 import {addRandomShips} from "./SetShips/addRandomShips.jsx"
 import {changeSelectedShip} from "./SetShips/changeSelectedShip.jsx";
@@ -16,16 +23,26 @@ import {getShips} from "./SetShips/getShips.jsx";
 import {boardSchemat} from "./SetShips/boardSchemat.jsx";
 import {moveShip} from "./SetShips/moveShip.jsx";
 import {getFleet} from "./SetShips/getFleet";
+import {getTargetedCell} from "./PlayGame/getTargetedCell.jsx";
 
 function* setShipsHandler() {
 	const {mayTouch, numberOfShips} = yield select(selectParameters);
 	const board = yield call(boardSchemat);
-	const ships = yield call(getShips, numberOfShips);
-	const newBoard = yield call(addRandomShips, {board, mayTouch, ships});
-	const fleet = yield call(getFleet, newBoard)
-	yield put(setFleet(fleet))
+
+	const playersShips = yield call(getShips, numberOfShips);
+	const playersNewBoard = yield call(addRandomShips, {board, mayTouch, ships: playersShips});
+	const playersFleet = yield call(getFleet, {board: playersNewBoard})
+	// yield put(setFleet({fleet: playersFleet}))
 	yield put(setApprovedSetting(true))
-	yield put(setBoard(newBoard));
+	yield put(setBoardForFirstPlayer(playersNewBoard));
+
+	const computersShips = yield call(getShips, numberOfShips);
+	const computersNewBoard = yield call(addRandomShips, {board, mayTouch, ships: computersShips});
+	const computersFleet = yield call(getFleet, {board: computersNewBoard})
+	// yield put(setFleet({fleet: computersFleet}))
+	// yield put(setApprovedSetting(true))
+	yield put(setBoardForComputer(computersNewBoard));
+
 }
 
 function* setShipSelectedNumberHandler({payload: {number, approvedSetting}}) {
@@ -40,7 +57,7 @@ function* setShipSelectedNumberHandler({payload: {number, approvedSetting}}) {
 	});
 	yield put(setLockedMoves(lockedMoves))
 	yield put(setSelectedShip(newSelectedShip))
-	yield put(setBoard(boardWithSelected));
+	yield put(setBoardForFirstPlayer(boardWithSelected));
 }
 
 function* setChangeShipPlaceHandler({payload: change}) {
@@ -57,11 +74,23 @@ function* setChangeShipPlaceHandler({payload: change}) {
 	yield put(setWrongSettingOfShips(wrongSettingOfShips))
 	yield put(setLockedMoves(lockedMoves))
 	yield put(setSelectedShip(newSelectedShip))
-	yield put(setBoard(boardWithMoved));
+	yield put(setBoardForFirstPlayer(boardWithMoved));
+}
+
+function* setTargetedCellHandler({payload: {cell, board, activeBoard}}) {
+	// if (activeBoard !== "firstPlayerBoardToShots") return;
+	// const board = yield select(selectFirstPlayerBoardToShots)
+	const newBoard = yield call(getTargetedCell, {board, targetedCell: cell})
+
+	if (activeBoard === "firstPlayerBoardToShots")
+		yield put(setBoardForFirstPlayersShots(newBoard));
+	if (activeBoard === "computerBoardToShots")
+		yield put(setBoardForComputersShots(newBoard));
 }
 
 export function* shipGameSaga() {
 	yield takeLatest(setShips.type, setShipsHandler);
 	yield takeLatest(setShipSelectedNumber.type, setShipSelectedNumberHandler);
 	yield takeLatest(setChangeShipPlace.type, setChangeShipPlaceHandler);
+	yield takeLatest(setTargetedCell.type, setTargetedCellHandler);
 }

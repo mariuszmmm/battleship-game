@@ -60,7 +60,7 @@ export const Button = styled.button`
         width: 100%;
         grid-area: ${$area};
     `};
-    ${({$area}) => $area === "random"  && css`
+    ${({$area}) => $area === "random" && css`
         margin: 20px 0;
 
         @media (max-width: 700px ) {
@@ -84,4 +84,8 @@ export const Back = styled(Link)`
     @media (max-width: 700px ) {
         padding: 5px;
     }
+`;
+
+export const Exit = styled(Back)`
+    align-self: flex-end;
 `;

@@ -36,6 +36,10 @@ export const BoardCell = styled.div`
             filter: brightness(0.9);
         }
     `};
+
+    ${({$targeted}) => $targeted && css`
+        background-color: yellow;
+    `};
 `
 
 export const ColName = styled.div`

@@ -1,20 +1,25 @@
 import {ShipsBoardWrapper, BoardCell, ColName, RowName, ShipItem, Empty} from "./styled.jsx"
 import {useDispatch, useSelector} from "react-redux";
-import {selectState, setShipSelectedNumber} from "../../features/shipGame/shipGameSlice.jsx"
+import {
+	selectState,
+	setShipSelectedNumber,
+	setTargetedCell
+} from "../../features/shipGame/shipGameSlice.jsx"
 
 // eslint-disable-next-line react/prop-types
-export const ShipsBoard = ({board}) => {
+export const ShipsBoard = ({board, activeBoard}) => {
 	const dispatch = useDispatch();
 	const state = useSelector(selectState);
-
-	console.log(state)
 
 	return (
 		<ShipsBoardWrapper>
 			{/* eslint-disable-next-line react/prop-types */}
 			{board.map((col, colIndex) =>
 				col.map((cell, cellIndex) =>
-					<BoardCell key={cell.id} $ship={cell.cell === "ship"}>
+					<BoardCell key={cell.id} $ship={cell.cell === "ship"}
+					           onClick={() => dispatch(setTargetedCell({cell, board, activeBoard}))}
+					           $targeted={state === "playGame" && cell.cell === "targeted"}
+					>
 						{cellIndex === 0 && <ColName>{cell.col.name}</ColName>}
 						{colIndex === 0 && <RowName>{cell.row.name}</RowName>}
 						{cell.cell === "ship" &&

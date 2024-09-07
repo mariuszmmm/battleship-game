@@ -7,6 +7,7 @@ import {ReactComponent as ArrowRight} from "../../assets/arrow-right.svg";
 import {ReactComponent as ArrowDown} from "../../assets/arrow-down.svg";
 import {ReactComponent as Check} from "../../assets/check.svg";
 import {ReactComponent as RotateRight} from "../../assets/arrow-rotate-right.svg";
+import {ReactComponent as Xmark} from "../../assets/xmark.svg";
 
 const iconStyles = css`
     width: 50px;
@@ -15,7 +16,8 @@ const iconStyles = css`
 
     @media (max-width: 700px ) {
         width: 26px;
-        height: 26px;    }
+        height: 26px;
+    }
 `;
 
 export const PlayIcon = styled(Play)`
@@ -55,4 +57,8 @@ export const CheckIcon = styled(Check)`
 export const ArrowBackIcon = styled(ArrowLeftIcon)`
     width: 26px;
     height: 26px;
+`;
+
+export const XmarkIcon = styled(Xmark)`
+    ${iconStyles}
 `;
