@@ -42,7 +42,7 @@ export const NumberOfShips = () => {
 				       checked={numberOfShips === "10"}
 				       onChange={onChangeHandler}
 				/>
-				<Label htmlFor="10">{`10 ➔ (1x4m,2x3m,3x2m,4x1m)`}</Label>
+				<Label htmlFor="10">{`10 ➔ (1x4m, 2x3m, 3x2m, 4x1m)`}</Label>
 			</Item>
 		</Fieldset>
 	)

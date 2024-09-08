@@ -7,7 +7,10 @@ import {ReactComponent as ArrowRight} from "../../assets/arrow-right.svg";
 import {ReactComponent as ArrowDown} from "../../assets/arrow-down.svg";
 import {ReactComponent as Check} from "../../assets/check.svg";
 import {ReactComponent as RotateRight} from "../../assets/arrow-rotate-right.svg";
-import {ReactComponent as Xmark} from "../../assets/xmark.svg";
+import {ReactComponent as X_mark} from "../../assets/xmark.svg";
+import {ReactComponent as CrossHairs} from "../../assets/crosshairs.svg";
+import {ReactComponent as Fire} from "../../assets/fire.svg";
+
 
 const iconStyles = css`
     width: 50px;
@@ -59,6 +62,23 @@ export const ArrowBackIcon = styled(ArrowLeftIcon)`
     height: 26px;
 `;
 
-export const XmarkIcon = styled(Xmark)`
-    ${iconStyles}
+export const X_markIcon = styled(X_mark)`
+    ${iconStyles};
+    ${({$board}) => $board && css`
+        fill: black;
+    `}
+`;
+
+export const CrossHairsIcon = styled(CrossHairs)`
+    ${iconStyles};
+    position: absolute;
+    fill: black;
+    width: 100%;
+    height: 100%;
+`;
+
+export const FireIcon = styled(Fire)`
+    ${iconStyles};
+    position: absolute;
+    padding-bottom: 5px;
 `;

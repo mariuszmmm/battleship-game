@@ -3,25 +3,32 @@ import {Content, Info, PlayGameWrapper, BoardsWrapper, InfoWrapper, TargetDispla
 import {ShipsBoard} from "../../../components/ShipsBoard";
 import {useDispatch, useSelector} from "react-redux";
 import {
+	selectActivePlayer,
 	selectComputerBoard,
-	selectComputerBoardToShots, selectComputerTargetedCell,
+	selectComputerBoardToShots, selectComputerTarget,
 	selectFirstPlayerBoard,
 	selectFirstPlayerBoardToShots,
-	selectFirstPlayerFleet, selectFirstPlayerTargetedCell,
+	selectFirstPlayerFleet, selectFirstPlayerNumberOfShots, selectFirstPlayerTarget,
 	selectShots,
-	setShips
+	setShips,
+	setShot,selectComputerNumberOfShots
 } from "../shipGameSlice.jsx"
 import {Button, Exit} from "../../../components/Buttons/index.jsx";
-import {XmarkIcon} from "../../../components/Icons/index.jsx";
+import {X_markIcon} from "../../../components/Icons/index.jsx";
 
 export const PlayGame = () => {
 	const firstPlayerBoard = useSelector(selectFirstPlayerBoard)
 	const firstPlayerBoardToShots = useSelector(selectFirstPlayerBoardToShots)
-	const firstPlayerTargetedCell = useSelector(selectFirstPlayerTargetedCell)
+	const firstPlayerTarget = useSelector(selectFirstPlayerTarget)
+	const firstPlayerNumberOfShots = useSelector(selectFirstPlayerNumberOfShots)
 
 	const computerBoard = useSelector(selectComputerBoard)
 	const computerBoardToShots = useSelector(selectComputerBoardToShots)
-	const computerTargetedCell = useSelector(selectComputerTargetedCell)
+	const computerTarget = useSelector(selectComputerTarget)
+	const computerNumberOfShots = useSelector(selectComputerNumberOfShots)
+
+
+	const activePlayer = useSelector(selectActivePlayer);
 
 	const dispatch = useDispatch();
 	const shots = useSelector(selectShots);
@@ -29,26 +36,22 @@ export const PlayGame = () => {
 
 	return (<Section>
 		<PlayGameWrapper>
-			<Exit to="/home" onClick={() => dispatch(setShips())}><XmarkIcon/></Exit>
+			<Exit to="/home" onClick={() => dispatch(setShips())}><X_markIcon/></Exit>
 			<Content>
 				<BoardsWrapper>
 					<ShipsBoard board={firstPlayerBoardToShots}
-					            activeBoard={"firstPlayerBoardToShots"}
+					            player={"firstPlayer"}
 					/>
-					<ShipsBoard board={firstPlayerBoard}
-					            activeBoard={"firstPlayerBoard"}
-					/>
+					<ShipsBoard board={firstPlayerBoard}/>
 					<ShipsBoard board={computerBoardToShots}
-					            activeBoard={"computerBoardToShots"}
+					            player={"computer"}
 					/>
-					<ShipsBoard board={computerBoard}
-					            activeBoard={"computerBoard"}
-					/>
+					<ShipsBoard board={computerBoard}/>
 				</BoardsWrapper>
 				<InfoWrapper>
 					<Info>
 						Ilość strzałów: <br/>
-						{shots.number}
+						{firstPlayerNumberOfShots}
 					</Info>
 					<Info>
 						Ilość pozostałych statków: <br/>
@@ -61,15 +64,22 @@ export const PlayGame = () => {
 					</Info>
 
 					<Info>
-						<TargetDisplay>namierzony: {firstPlayerTargetedCell?.id}</TargetDisplay>
-						<Button>STRZAŁ</Button>
+						<TargetDisplay>namierzony: {firstPlayerTarget}</TargetDisplay>
+						<Button
+							onClick={() => dispatch(setShot({
+								shot: firstPlayerTarget,
+								boardToShots: firstPlayerBoardToShots,
+								activePlayer
+							}))}>
+							STRZAŁ
+						</Button>
 					</Info>
 
 
 					<Info>
 						Ilość strzałów: <br/>
 
-						{shots.number}
+						{computerNumberOfShots}
 					</Info>
 					<Info>
 						Ilość pozostałych statków: <br/>
@@ -82,13 +92,17 @@ export const PlayGame = () => {
 					</Info>
 
 					<Info>
-						<TargetDisplay>namierzony: {computerTargetedCell?.id}</TargetDisplay>
-						<Button>STRZAŁ</Button>
+						<TargetDisplay>namierzony: {computerTarget}</TargetDisplay>
+						<Button onClick={() => dispatch(setShot({
+							shot: computerTarget,
+							boardToShots: computerBoardToShots,
+							activePlayer
+						}))}>
+							STRZAŁ
+						</Button>
 					</Info>
 				</InfoWrapper>
 			</Content>
-
-
 		</PlayGameWrapper>
 	</Section>)
 };

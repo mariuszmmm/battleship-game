@@ -38,7 +38,7 @@ export const BoardCell = styled.div`
     `};
 
     ${({$targeted}) => $targeted && css`
-        background-color: yellow;
+        background-color: #c3c3c3;
     `};
 `
 

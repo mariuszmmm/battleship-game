@@ -12,10 +12,17 @@ import {
 	setLockedMoves,
 	setWrongSettingOfShips,
 	setApprovedSetting,
-	setTargetedCell,
+	setTarget,
 	setBoardForFirstPlayersShots,
 	setBoardForComputersShots,
-	setBoardForComputer
+	setBoardForComputer,
+	setShot,
+	selectFirstPlayerShot,
+	selectFirstPlayerBoardToShots,
+	selectComputerBoard,
+	selectComputerShot,
+	selectComputerBoardToShots,
+	setNumberOfShots, selectFirstPlayerNumberOfShots, selectComputerNumberOfShots
 } from "./shipGameSlice.jsx";
 import {addRandomShips} from "./SetShips/addRandomShips.jsx"
 import {changeSelectedShip} from "./SetShips/changeSelectedShip.jsx";
@@ -23,7 +30,8 @@ import {getShips} from "./SetShips/getShips.jsx";
 import {boardSchemat} from "./SetShips/boardSchemat.jsx";
 import {moveShip} from "./SetShips/moveShip.jsx";
 import {getFleet} from "./SetShips/getFleet";
-import {getTargetedCell} from "./PlayGame/getTargetedCell.jsx";
+import {getTarget} from "./PlayGame/getTarget.jsx";
+import {getShot} from "./PlayGame/getShot.jsx";
 
 function* setShipsHandler() {
 	const {mayTouch, numberOfShips} = yield select(selectParameters);
@@ -77,20 +85,50 @@ function* setChangeShipPlaceHandler({payload: change}) {
 	yield put(setBoardForFirstPlayer(boardWithMoved));
 }
 
-function* setTargetedCellHandler({payload: {cell, board, activeBoard}}) {
-	// if (activeBoard !== "firstPlayerBoardToShots") return;
-	// const board = yield select(selectFirstPlayerBoardToShots)
-	const newBoard = yield call(getTargetedCell, {board, targetedCell: cell})
-
-	if (activeBoard === "firstPlayerBoardToShots")
+function* setTargetHandler({payload: {target, boardToShots, player, activePlayer}}) {
+	if (player !== activePlayer) return;
+	const newBoard = yield call(getTarget, {target, boardToShots})
+	if (activePlayer === "firstPlayer")
 		yield put(setBoardForFirstPlayersShots(newBoard));
-	if (activeBoard === "computerBoardToShots")
+	if (activePlayer === "computer")
 		yield put(setBoardForComputersShots(newBoard));
+}
+
+function* setShotHandler({payload: {numberOfShots, activePlayer}}) {
+	const selectShot = () => {
+		if (activePlayer === "firstPlayer") return selectFirstPlayerShot;
+		if (activePlayer === "computer") return selectComputerShot;
+	};
+	const selectBoard = () => {
+		if (activePlayer === "firstPlayer") return selectComputerBoard;
+		if (activePlayer === "computer") return selectFirstPlayerBoard;
+	};
+	const selectBoardToShots = () => {
+		if (activePlayer === "firstPlayer") return selectFirstPlayerBoardToShots;
+		if (activePlayer === "computer") return selectComputerBoardToShots;
+	};
+	const shot = yield select(selectShot())
+	const board = yield select(selectBoard())
+	const boardToShots = yield select(selectBoardToShots())
+	const {boardToShotsAfterShot, boardAfterShot} = yield call(getShot, {boardToShots, board, shot})
+
+	if (activePlayer === "firstPlayer") {
+		yield put(setBoardForFirstPlayersShots(boardToShotsAfterShot));
+		yield put(setBoardForComputer(boardAfterShot));
+	}
+
+	if (activePlayer === "computer") {
+		yield put(setBoardForComputersShots(boardToShotsAfterShot));
+		yield put(setBoardForFirstPlayer(boardAfterShot));
+	}
+
+	yield put(setNumberOfShots(activePlayer))
 }
 
 export function* shipGameSaga() {
 	yield takeLatest(setShips.type, setShipsHandler);
 	yield takeLatest(setShipSelectedNumber.type, setShipSelectedNumberHandler);
 	yield takeLatest(setChangeShipPlace.type, setChangeShipPlaceHandler);
-	yield takeLatest(setTargetedCell.type, setTargetedCellHandler);
+	yield takeLatest(setTarget.type, setTargetHandler);
+	yield takeLatest(setShot.type, setShotHandler);
 }
