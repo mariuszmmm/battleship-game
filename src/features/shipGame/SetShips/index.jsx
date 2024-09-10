@@ -12,8 +12,7 @@ import {
 	selectSelectedShip,
 	selectWrongSettingOfShips,
 	selectLockedMoves,
-	selectApprovedSetting,
-	selectFirstPlayerBoard,
+	selectFirstPlayerBoard, selectFirstPlayerApprovedSetting,
 } from "../shipGameSlice";
 import {
 	ArrowDownIcon,
@@ -31,7 +30,7 @@ export const SetShips = () => {
 	const selectedShip = useSelector(selectSelectedShip);
 	const wrongSettingOfShips = useSelector(selectWrongSettingOfShips);
 	const lockedMoves = useSelector(selectLockedMoves);
-	const approvedSetting = useSelector(selectApprovedSetting)
+	const approvedSetting = useSelector(selectFirstPlayerApprovedSetting)
 	const dispatch = useDispatch();
 
 	return (

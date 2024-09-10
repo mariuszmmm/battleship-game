@@ -95,6 +95,10 @@ export const ShipItem = styled.div`
         border-bottom-left-radius: 0;
         border-left: 0;
     `}
+		${({$sunk}) => $sunk && css`
+        filter: brightness(.5);
+				opacity: 0.5;
+		`}
 `
 
 export const Empty = styled.div`

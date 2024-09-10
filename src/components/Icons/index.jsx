@@ -75,10 +75,12 @@ export const CrossHairsIcon = styled(CrossHairs)`
     fill: black;
     width: 100%;
     height: 100%;
+		z-index: 2;
 `;
 
 export const FireIcon = styled(Fire)`
     ${iconStyles};
+    z-index: 1;
     position: absolute;
     padding-bottom: 5px;
 `;

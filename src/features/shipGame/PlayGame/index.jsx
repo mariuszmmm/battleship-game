@@ -8,10 +8,9 @@ import {
 	selectComputerBoardToShots, selectComputerTarget,
 	selectFirstPlayerBoard,
 	selectFirstPlayerBoardToShots,
-	selectFirstPlayerFleet, selectFirstPlayerNumberOfShots, selectFirstPlayerTarget,
-	selectShots,
+	selectFirstPlayerNumberOfShots, selectFirstPlayerTarget,
 	setShips,
-	setShot,selectComputerNumberOfShots
+	setShot, selectComputerNumberOfShots,
 } from "../shipGameSlice.jsx"
 import {Button, Exit} from "../../../components/Buttons/index.jsx";
 import {X_markIcon} from "../../../components/Icons/index.jsx";
@@ -19,20 +18,17 @@ import {X_markIcon} from "../../../components/Icons/index.jsx";
 export const PlayGame = () => {
 	const firstPlayerBoard = useSelector(selectFirstPlayerBoard)
 	const firstPlayerBoardToShots = useSelector(selectFirstPlayerBoardToShots)
-	const firstPlayerTarget = useSelector(selectFirstPlayerTarget)
+	const firstPlayerTargetInCel = useSelector(selectFirstPlayerTarget)
 	const firstPlayerNumberOfShots = useSelector(selectFirstPlayerNumberOfShots)
 
 	const computerBoard = useSelector(selectComputerBoard)
 	const computerBoardToShots = useSelector(selectComputerBoardToShots)
-	const computerTarget = useSelector(selectComputerTarget)
+	const computerTargetInCel = useSelector(selectComputerTarget)
 	const computerNumberOfShots = useSelector(selectComputerNumberOfShots)
-
-
 	const activePlayer = useSelector(selectActivePlayer);
 
 	const dispatch = useDispatch();
-	const shots = useSelector(selectShots);
-	const fleet = useSelector(selectFirstPlayerFleet);
+	const playersName = ["firstPlayer", "computer"]
 
 	return (<Section>
 		<PlayGameWrapper>
@@ -40,11 +36,11 @@ export const PlayGame = () => {
 			<Content>
 				<BoardsWrapper>
 					<ShipsBoard board={firstPlayerBoardToShots}
-					            player={"firstPlayer"}
+					            player={playersName[0]}
 					/>
 					<ShipsBoard board={firstPlayerBoard}/>
 					<ShipsBoard board={computerBoardToShots}
-					            player={"computer"}
+					            player={playersName[1]}
 					/>
 					<ShipsBoard board={computerBoard}/>
 				</BoardsWrapper>
@@ -64,13 +60,14 @@ export const PlayGame = () => {
 					</Info>
 
 					<Info>
-						<TargetDisplay>namierzony: {firstPlayerTarget}</TargetDisplay>
+						<TargetDisplay>namierzony: {firstPlayerTargetInCel}</TargetDisplay>
 						<Button
 							onClick={() => dispatch(setShot({
-								shot: firstPlayerTarget,
+								shotInCell: firstPlayerTargetInCel,
 								boardToShots: firstPlayerBoardToShots,
-								activePlayer
-							}))}>
+							}))}
+							disabled={activePlayer !== playersName[0]}
+						>
 							STRZAŁ
 						</Button>
 					</Info>
@@ -92,12 +89,13 @@ export const PlayGame = () => {
 					</Info>
 
 					<Info>
-						<TargetDisplay>namierzony: {computerTarget}</TargetDisplay>
+						<TargetDisplay>namierzony: {computerTargetInCel}</TargetDisplay>
 						<Button onClick={() => dispatch(setShot({
-							shot: computerTarget,
+							shotInCell: computerTargetInCel,
 							boardToShots: computerBoardToShots,
-							activePlayer
-						}))}>
+						}))}
+						        disabled={activePlayer !== playersName[1]}
+						>
 							STRZAŁ
 						</Button>
 					</Info>

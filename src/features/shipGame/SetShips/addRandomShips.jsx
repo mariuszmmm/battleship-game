@@ -25,6 +25,7 @@ export const addRandomShips = ({board, mayTouch, ships}) => {
 						row: rowRandom + shipItem.x,
 					},
 					numberOfShip: index + 1,
+					size: shipRandomRotated.length,
 					selected: false
 				}
 				newShip = [...newShip, newItem];
