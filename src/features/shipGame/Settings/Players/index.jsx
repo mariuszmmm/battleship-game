@@ -10,6 +10,9 @@ export const Players = () => {
 		const playersValue = target.value;
 
 		switch (playersValue) {
+			case "compVsComp":
+				dispatch(setPlayers("compVsComp"))
+				break;
 			case "compVsPlayer":
 				dispatch(setPlayers("compVsPlayer"))
 				break;
@@ -24,6 +27,16 @@ export const Players = () => {
 	return (
 		<Fieldset>
 			<Legend>Gracze</Legend>
+			<Item>
+				<Input type="radio"
+				       id="compVsComp"
+				       name="players"
+				       value="compVsComp"
+				       checked={players === "compVsComp"}
+				       onChange={onChangeHandler}
+				/>
+				<Label htmlFor="compVsComp">komputer / komputer</Label>
+			</Item>
 			<Item>
 				<Input type="radio"
 				       id="compVsPlayer"

@@ -1,4 +1,4 @@
-import {takeLatest, select, call, put} from "redux-saga/effects";
+import {takeLatest, select, call, put, delay} from "redux-saga/effects";
 import {
 	selectParameters,
 	selectFirstPlayerBoard,
@@ -14,16 +14,17 @@ import {
 	setApprovedSetting,
 	setTarget,
 	setBoardForFirstPlayersShots,
-	setBoardForComputersShots,
-	setBoardForComputer,
+	setBoardForSecondPlayersShots,
+	setBoardForSecondPlayer,
 	selectFirstPlayerBoardToShots,
-	selectComputerBoard,
-	selectComputerBoardToShots,
+	selectSecondPlayerBoard,
+	selectSecondPlayerBoardToShots,
 	setNumberOfShots,
 	setShot, setActivePlayer, selectFirstPlayerNumberOfShots,
-	selectComputerNumberOfShots, subtractShot,
-	selectFirstPlayerShotInCell, selectComputerShotInCell,
-	selectActivePlayer
+	selectSecondPlayerNumberOfShots, subtractShot,
+	selectFirstPlayerShotInCell, selectSecondPlayerShotInCell,
+	selectActivePlayer, selectSecondPlayerTarget, selectPlayers,
+	setFleetForFirstPlayer, setFleetForSecondPlayer, selectFirstPlayerFleet, selectSecondPlayerFleet
 } from "./shipGameSlice.jsx";
 import {addRandomShips} from "./SetShips/addRandomShips.jsx"
 import {changeSelectedShip} from "./SetShips/changeSelectedShip.jsx";
@@ -32,18 +33,29 @@ import {boardSchemat} from "./SetShips/boardSchemat.jsx";
 import {moveShip} from "./SetShips/moveShip.jsx";
 import {getTarget} from "./PlayGame/getTarget.jsx";
 import {getShot} from "./PlayGame/getShot.jsx";
+import {computerChooses} from "./PlayGame/computerChooses.jsx"
 
 function* setShipsHandler() {
 	const {mayTouch, numberOfShips} = yield select(selectParameters);
 	const board = yield call(boardSchemat);
 
-	const playersShips = yield call(getShips, numberOfShips);
-	const playersNewBoard = yield call(addRandomShips, {board, mayTouch, ships: playersShips});
+	const firstPlayersShips = yield call(getShips, numberOfShips);
+	const {fleet: firstPlayersFleet, newBoard: firstPlayersNewBoard} = yield call(addRandomShips, {
+		board,
+		mayTouch,
+		ships: firstPlayersShips
+	});
 	yield put(setApprovedSetting(true))
-	yield put(setBoardForFirstPlayer(playersNewBoard));
-	const computersShips = yield call(getShips, numberOfShips);
-	const computersNewBoard = yield call(addRandomShips, {board, mayTouch, ships: computersShips});
-	yield put(setBoardForComputer(computersNewBoard));
+	yield put(setBoardForFirstPlayer(firstPlayersNewBoard));
+	yield put(setFleetForFirstPlayer(firstPlayersFleet))
+	const secondPlayersShips = yield call(getShips, numberOfShips);
+	const {fleet: secondPlayersFleet, newBoard: secondPlayersNewBoard} = yield call(addRandomShips, {
+		board,
+		mayTouch,
+		ships: secondPlayersShips
+	});
+	yield put(setBoardForSecondPlayer(secondPlayersNewBoard));
+	yield put(setFleetForSecondPlayer(secondPlayersFleet))
 }
 
 function* setShipSelectedNumberHandler({payload: {number, approvedSetting}}) {
@@ -78,30 +90,41 @@ function* setChangeShipPlaceHandler({payload: change}) {
 	yield put(setBoardForFirstPlayer(boardWithMoved));
 }
 
-function* setTargetHandler({payload: {target, boardToShots, player}}) {
+function* setTargetHandler({payload: {target, player}}) {
+	const forActivePlayer = {
+		firstPlayer: {
+			selectBoardToShots: selectFirstPlayerBoardToShots,
+		},
+		secondPlayer: {
+			selectBoardToShots: selectSecondPlayerBoardToShots,
+		},
+	};
 	const activePlayer = yield select(selectActivePlayer)
 	if (player !== activePlayer) return;
+	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots)
 	const newBoard = yield call(getTarget, {target, boardToShots})
 	if (activePlayer === "firstPlayer")
 		yield put(setBoardForFirstPlayersShots(newBoard));
-	if (activePlayer === "computer")
-		yield put(setBoardForComputersShots(newBoard));
+	if (activePlayer === "secondPlayer")
+		yield put(setBoardForSecondPlayersShots(newBoard));
 }
 
 function* setShotHandler() {
 	const forActivePlayer = {
 		firstPlayer: {
 			selectShotInCell: selectFirstPlayerShotInCell,
-			selectBoard: selectComputerBoard,
+			selectBoard: selectSecondPlayerBoard,
 			selectBoardToShots: selectFirstPlayerBoardToShots,
 			selectNumberOfShots: selectFirstPlayerNumberOfShots,
-			changeActivePlayer: "computer",
+			selectFleet: selectFirstPlayerFleet,
+			changeActivePlayer: "secondPlayer",
 		},
-		computer: {
-			selectShotInCell: selectComputerShotInCell,
+		secondPlayer: {
+			selectShotInCell: selectSecondPlayerShotInCell,
 			selectBoard: selectFirstPlayerBoard,
-			selectBoardToShots: selectComputerBoardToShots,
-			selectNumberOfShots: selectComputerNumberOfShots,
+			selectBoardToShots: selectSecondPlayerBoardToShots,
+			selectFleet: selectSecondPlayerFleet,
+			selectNumberOfShots: selectSecondPlayerNumberOfShots,
 			changeActivePlayer: "firstPlayer"
 		},
 	};
@@ -109,27 +132,57 @@ function* setShotHandler() {
 	const shotInCell = yield select(forActivePlayer[activePlayer].selectShotInCell)
 	const board = yield select(forActivePlayer[activePlayer].selectBoard)
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots)
-	const {boardToShotsAfterShot, boardAfterShot} = yield call(getShot, {boardToShots, board, shotInCell})
+	const fleet = yield select(forActivePlayer[activePlayer].selectFleet)
+	const {boardToShotsAfterShot, boardAfterShot} = yield call(getShot, {boardToShots, board, shotInCell,fleet})
 	yield put(subtractShot());
 	const numberOfShots = yield select(forActivePlayer[activePlayer].selectNumberOfShots)
+
+	if (activePlayer === "firstPlayer") {
+		yield put(setBoardForFirstPlayersShots(boardToShotsAfterShot));
+		yield put(setBoardForSecondPlayer(boardAfterShot));
+	}
+
+	if (activePlayer === "secondPlayer") {
+		yield put(setBoardForSecondPlayersShots(boardToShotsAfterShot));
+		yield put(setBoardForFirstPlayer(boardAfterShot));
+	}
 
 	if (numberOfShots <= 0) {
 		yield put(setActivePlayer(forActivePlayer[activePlayer].changeActivePlayer));
 	}
-
-	if (activePlayer === "firstPlayer") {
-		yield put(setBoardForFirstPlayersShots(boardToShotsAfterShot));
-		yield put(setBoardForComputer(boardAfterShot));
-	}
-
-	if (activePlayer === "computer") {
-		yield put(setBoardForComputersShots(boardToShotsAfterShot));
-		yield put(setBoardForFirstPlayer(boardAfterShot));
-	}
 }
 
-function* setActivePlayerHandler() {
+function* setActivePlayerHandler({payload: activePlayer}) {
 	yield put(setNumberOfShots());
+	const players = yield select(selectPlayers);
+	const player1 = "firstPlayer";
+	const player2 = "secondPlayer"
+	const moveDelay = 200
+
+	if (activePlayer === player1 && players === "compVsComp") {
+		const numberOfShots = yield select(selectFirstPlayerNumberOfShots)
+		for (let number = numberOfShots; number > 0; number--) {
+			const boardToShots = yield select(selectFirstPlayerBoardToShots)
+			const target = yield call(computerChooses)
+			yield delay(moveDelay)
+			yield put(setTarget({target, boardToShots, player: player1}))
+			yield delay(moveDelay)
+			yield put(setShot({shotInCell: target}))
+			yield delay(moveDelay)
+		}
+	}
+	if (activePlayer === player2 && (players === "compVsComp" || players === "compVsPlayer")) {
+		const numberOfShots = yield select(selectSecondPlayerNumberOfShots)
+		for (let number = numberOfShots; number > 0; number--) {
+			const boardToShots = yield select(selectSecondPlayerBoardToShots)
+			const target = yield call(computerChooses)
+			yield delay(moveDelay)
+			yield put(setTarget({target, boardToShots, player: player2}))
+			yield delay(moveDelay)
+			yield put(setShot({shotInCell: target}))
+			yield delay(moveDelay)
+		}
+	}
 }
 
 export function* shipGameSaga() {

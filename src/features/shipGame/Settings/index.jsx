@@ -6,11 +6,12 @@ import {AdditionalOptions} from "./AdditionalOptions/index.jsx";
 import {ArrowBackIcon, PlayIcon} from "../../../components/Icons/index.jsx";
 import {Back, StyledLink} from "../../../components/Buttons/index.jsx";
 import {Section} from "../../../components/Section/index.jsx";
-import {setHomeState, setShips} from "../shipGameSlice.jsx";
-import {useDispatch} from "react-redux";
+import {selectPlayers, setHomeState, setShips} from "../shipGameSlice.jsx";
+import {useDispatch, useSelector} from "react-redux";
 
 export const Settings = () => {
 	const dispatch = useDispatch();
+	const players = useSelector(selectPlayers);
 
 	return (
 		<Section>
@@ -32,7 +33,8 @@ export const Settings = () => {
 					<AdditionalOptions/>
 				</SettingsItem>
 				<StyledLink
-					to="/setShips" onClick={() => dispatch(setShips())}>
+					to={players === "compVsComp" ? "/playGame" : "/setShips"}
+					onClick={() => dispatch(setShips())}>
 					Dalej<PlayIcon/></StyledLink>
 			</SettingsWrapper>
 		</Section>

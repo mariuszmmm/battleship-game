@@ -8,17 +8,18 @@ const defaultState = {
 		target: null,
 		shotInCell: null,
 		numberOfShots: 0,
-
+		fleet: [],
 		approvedSetting: false,
 	},
-	computer: {
+	secondPlayer: {
 		board: boardSchemat(),
 		boardToShots: boardSchemat(),
 		target: null,
 		shotInCell: null,
+		fleet: [],
 		numberOfShots: 0,
 	},
-	activePlayer: "firstPlayer",
+	activePlayer: null,
 	state: "home",
 	parameters: {
 		players: "compVsPlayer",
@@ -47,11 +48,17 @@ const shipGameSlice = createSlice({
 			setBoardForFirstPlayersShots: (state, {payload: board}) => { //used
 				state.firstPlayer.boardToShots = board;
 			},
-			setBoardForComputer: (state, {payload: board}) => { //used
-				state.computer.board = board;
+			setBoardForSecondPlayer: (state, {payload: board}) => { //used
+				state.secondPlayer.board = board;
 			},
-			setBoardForComputersShots: (state, {payload: board}) => { //used
-				state.computer.boardToShots = board;
+			setBoardForSecondPlayersShots: (state, {payload: board}) => { //used
+				state.secondPlayer.boardToShots = board;
+			},
+			setFleetForFirstPlayer: (state, {payload: fleet}) => {
+				state.firstPlayer.fleet = fleet
+			},
+			setFleetForSecondPlayer: (state, {payload: fleet}) => {
+				state.secondPlayer.fleet = fleet
 			},
 			setPlayers:
 				(state, {payload: players}) => { //used
@@ -102,7 +109,7 @@ const shipGameSlice = createSlice({
 				state.wrongSettingOfShips = wrongSettingOfShips
 			},
 			setApprovedSetting: (state, {payload: boolean}) => { // used
-				state[state.activePlayer].approvedSetting = boolean;
+				state.firstPlayer.approvedSetting = boolean;
 			},
 			setActivePlayer: (state, {payload: activePlayer}) => {
 				state.activePlayer = activePlayer;
@@ -110,25 +117,25 @@ const shipGameSlice = createSlice({
 			setTarget: (state, {payload: {target, player}}) => {
 				if (player !== state.activePlayer) return;
 				if (state.activePlayer === "firstPlayer") state.firstPlayer.target = target
-				if (state.activePlayer === "computer") state.computer.target = target
+				if (state.activePlayer === "secondPlayer") state.secondPlayer.target = target
 			},
 			setShot: (state, {payload: {shotInCell}}) => {
 				if (state.activePlayer === "firstPlayer") state.firstPlayer.shotInCell = shotInCell
-				if (state.activePlayer === "computer") state.computer.shotInCell = shotInCell
+				if (state.activePlayer === "secondPlayer") state.secondPlayer.shotInCell = shotInCell
 			},
 			subtractShot: (state) => {
 				if (state.activePlayer === "firstPlayer") {
 					if (state.firstPlayer.numberOfShots <= 0) return
 					state.firstPlayer.numberOfShots -= 1
 				}
-				if (state.activePlayer === "computer") {
-					if (state.computer.numberOfShots <= 0) return
-					state.computer.numberOfShots -= 1
+				if (state.activePlayer === "secondPlayer") {
+					if (state.secondPlayer.numberOfShots <= 0) return
+					state.secondPlayer.numberOfShots -= 1
 				}
 			},
 			setNumberOfShots: (state) => {
 				if (state.activePlayer === "firstPlayer") state.firstPlayer.numberOfShots = state.parameters.shots.number
-				if (state.activePlayer === "computer") state.computer.numberOfShots = state.parameters.shots.number
+				if (state.activePlayer === "secondPlayer") state.secondPlayer.numberOfShots = state.parameters.shots.number
 			},
 		}
 });
@@ -136,8 +143,10 @@ const shipGameSlice = createSlice({
 export const {
 	setBoardForFirstPlayer,
 	setBoardForFirstPlayersShots,
-	setBoardForComputer,
-	setBoardForComputersShots,
+	setBoardForSecondPlayer,
+	setBoardForSecondPlayersShots,
+	setFleetForFirstPlayer,
+	setFleetForSecondPlayer,
 	setPlayers,
 	setNumberOfShips,
 	setShots,
@@ -173,13 +182,15 @@ export const selectFirstPlayerTarget = (state) => selectFirstPlayer(state).targe
 export const selectFirstPlayerShotInCell = (state) => selectFirstPlayer(state).shotInCell;
 export const selectFirstPlayerNumberOfShots = (state) => selectFirstPlayer(state).numberOfShots;
 export const selectFirstPlayerApprovedSetting = (state) => selectFirstPlayer(state).approvedSetting;
+export const selectFirstPlayerFleet = (state) => selectFirstPlayer(state).fleet;
 
-export const selectComputer = (state) => selectPlayState(state).computer;
-export const selectComputerBoard = (state) => selectComputer(state).board;
-export const selectComputerBoardToShots = (state) => selectComputer(state).boardToShots;
-export const selectComputerTarget = (state) => selectComputer(state).target;
-export const selectComputerShotInCell = (state) => selectComputer(state).shotInCell;
-export const selectComputerNumberOfShots = (state) => selectComputer(state).numberOfShots;
+export const selectSecondPlayer = (state) => selectPlayState(state).secondPlayer;
+export const selectSecondPlayerBoard = (state) => selectSecondPlayer(state).board;
+export const selectSecondPlayerBoardToShots = (state) => selectSecondPlayer(state).boardToShots;
+export const selectSecondPlayerTarget = (state) => selectSecondPlayer(state).target;
+export const selectSecondPlayerShotInCell = (state) => selectSecondPlayer(state).shotInCell;
+export const selectSecondPlayerNumberOfShots = (state) => selectSecondPlayer(state).numberOfShots;
+export const selectSecondPlayerFleet = (state) => selectSecondPlayer(state).fleet;
 
 export const selectParameters = (state) => selectPlayState(state).parameters; //used
 export const selectPlayers = (state) => selectParameters(state).players

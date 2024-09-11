@@ -17,7 +17,7 @@ export const ShipsBoard = ({board, player}) => {
 			{board.map((col, colIndex) =>
 				col.map((cell, cellIndex) =>
 					<BoardCell key={cell.id} $ship={cell.cell === "ship"}
-					           onClick={() => dispatch(setTarget({target: cell.id, boardToShots: board, player}))}
+					           onClick={() => dispatch(setTarget({target: cell.id, player}))}
 					           $targeted={state === "playGame" && cell.cellState === "set"}
 					>
 						{cellIndex === 0 && <ColName>{cell.col.name}</ColName>}
