@@ -5,7 +5,7 @@ import {setPlacesAroundCell} from "./changesOnBoard.jsx";
 
 export const addRandomShips = ({board, mayTouch, ships}) => {
 	let newBoard = board.map(row => row.map(cell => ({...cell})));
-	let fleet = [];
+	let allShips = [];
 
 	ships.forEach((shipCoordinates, index) => {
 		const numberOfShipElements = shipCoordinates.length;
@@ -55,7 +55,7 @@ export const addRandomShips = ({board, mayTouch, ships}) => {
 				tempBoard = [...boardWithItems]
 
 				if ((placeForShip === numberOfShipElements)) {
-					fleet = [...fleet, newShip]
+					allShips = [...allShips, newShip]
 					if (mayTouch) {
 						newBoard = [...tempBoard]
 					} else {
@@ -78,6 +78,19 @@ export const addRandomShips = ({board, mayTouch, ships}) => {
 			:
 			{...cell}
 	)));
+
+	const fleet = allShips.reduce((acc, cur) => {
+		const key = "size" + cur[0].size;
+		const number = cur[0].numberOfShip;
+
+		if (!acc[key]) {
+			acc[key] = [];
+		}
+
+		acc[key].push(number);
+
+		return acc
+	}, {})
 
 	return {fleet, newBoard}
 };

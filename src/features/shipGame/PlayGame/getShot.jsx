@@ -1,26 +1,23 @@
 export const getShot = ({boardToShots, board, shotInCell, fleet}) => {
 	let hitCell = {};
-	let newFleet = [];
-	const deleteItemFromFleet = (cell) => {
-		newFleet = fleet.map((ship) => {
-			ship.map((item) => {
-				if (item.place.col === cell.col.number && item.place.row === cell.row.number) {
-					return null;
-				} else {
-					return {...item}
-				}
-			})
+	let newFleet = {...fleet}
 
-
-		})
+	const deleteItemFromFleet = (numberOfShip) => {
+		for (const size in fleet) {
+			const index = fleet[size].indexOf(numberOfShip);
+			if (index !== -1) {
+				newFleet[size] = [...fleet[size].slice(0, index), ...fleet[size].slice(index + 1)];
+				break;
+			} else {
+				newFleet[size] = [...fleet[size]];
+			}
+		}
 	}
 
 	let boardAfterShot = board.map((col) => col.map((cell) => {
 			if (cell.id === shotInCell && cell.shipState !== "sunk") {
 				if (cell.cell === "ship") {
 					hitCell = {...cell}
-					deleteItemFromFleet(cell)
-					console.log(newFleet)
 					return {...cell, shipState: "hit"}
 				} else {
 					return {...cell, target: "missed"}
@@ -43,7 +40,10 @@ export const getShot = ({boardToShots, board, shotInCell, fleet}) => {
 
 	const isSunkShip = numberOfSunkElements === hitShip?.size;
 
+
 	if (isSunkShip) {
+		deleteItemFromFleet(hitShip?.numberOfShip);
+
 		boardAfterShot = boardAfterShot.map((col) => col.map((cell) => {
 			if (cell.cell === "ship" && cell.ship?.numberOfShip === hitShip?.numberOfShip) {
 				return {...cell, shipState: "sunk"}
@@ -51,6 +51,7 @@ export const getShot = ({boardToShots, board, shotInCell, fleet}) => {
 				return {...cell}
 			}
 		}));
+
 	}
 
 	let boardToShotsAfterShot = boardToShots.map((col) => col.map((cell) =>

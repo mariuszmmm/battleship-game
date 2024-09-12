@@ -134,7 +134,12 @@ function* setShotHandler() {
 	const board = yield select(forActivePlayer[activePlayer].selectBoard)
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots)
 	const fleet = yield select(forActivePlayer[activePlayer].selectFleet)
-	const {boardToShotsAfterShot, boardAfterShot,newFleet} = yield call(getShot, {boardToShots, board, shotInCell,fleet})
+	const {boardToShotsAfterShot, boardAfterShot, newFleet} = yield call(getShot, {
+		boardToShots,
+		board,
+		shotInCell,
+		fleet
+	})
 	yield put(subtractShot());
 	const numberOfShots = yield select(forActivePlayer[activePlayer].selectNumberOfShots)
 
@@ -160,7 +165,7 @@ function* setActivePlayerHandler({payload: activePlayer}) {
 	const players = yield select(selectPlayers);
 	const player1 = "firstPlayer";
 	const player2 = "secondPlayer"
-	const moveDelay = 200
+	const moveDelay = 10
 
 	if (activePlayer === player1 && players === "compVsComp") {
 		const numberOfShots = yield select(selectFirstPlayerNumberOfShots)

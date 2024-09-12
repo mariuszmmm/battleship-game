@@ -1,44 +1,21 @@
 import {Item, List} from "./styled.jsx";
 
-export const FleetInfo = ({fleet, keys}) => {
-	let info = {
-		pięciomasztowce: 0,
-		czteromasztowce: 0,
-		trzymasztowce: 0,
-		dwumasztowce: 0,
-		jednomasztowce: 0,
-	}
+export const FleetInfo = ({fleet}) => {
+	const info = {
+		size5: "pięciomasztowce",
+		size4: "czteromasztowce",
+		size3: "trzymasztowce",
+		size2: "dwumasztowce",
+		size1: "jednomasztowce",
+	};
 
-	fleet.forEach((ship) => {
-			switch (ship.length) {
-				case 1:
-					info.jednomasztowce++
-					break;
-				case 2:
-					info.dwumasztowce++
-					break;
-				case 3:
-					info.trzymasztowce++
-					break;
-				case 4:
-					info.czteromasztowce++
-					break;
-				case 5:
-					info.pięciomasztowce++
-					break;
-				default:
-					return;
-			}
-		}
-	)
+	const shipSizes = Object.entries(fleet)
 
 	return (
-		<List key={keys}>
-			{info.pięciomasztowce > 0 && <Item>{info.pięciomasztowce} x pięciomasztowce</Item>}
-			{info.czteromasztowce > 0 && <Item>{info.czteromasztowce} x czteromasztowce</Item>}
-			{info.trzymasztowce > 0 && <Item>{info.trzymasztowce} x trzymasztowce</Item>}
-			{info.dwumasztowce > 0 && <Item>{info.dwumasztowce} x dwumasztowce</Item>}
-			{info.jednomasztowce > 0 && <Item>{info.jednomasztowce} x jednomasztowce</Item>}
+		<List>
+			{shipSizes.map((size) =>
+				<Item key={size[0]}>{size[1].length + `${" "}` + info[size[0]]}</Item>
+			)}
 		</List>
 	)
-}
+};

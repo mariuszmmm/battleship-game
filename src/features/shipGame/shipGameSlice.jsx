@@ -22,7 +22,7 @@ const defaultState = {
 	activePlayer: null,
 	state: "home",
 	parameters: {
-		players: "compVsPlayer",
+		players: "compVsComp",
 		numberOfShips: "10",
 		shots: {name: "single", number: 1},
 		mayTouch: false,
