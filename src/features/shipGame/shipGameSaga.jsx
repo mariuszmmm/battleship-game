@@ -24,7 +24,8 @@ import {
 	selectSecondPlayerNumberOfShots, subtractShot,
 	selectFirstPlayerShotInCell, selectSecondPlayerShotInCell,
 	selectActivePlayer, selectSecondPlayerTarget, selectPlayers,
-	setFleetForFirstPlayer, setFleetForSecondPlayer, selectFirstPlayerFleet, selectSecondPlayerFleet
+	setFleetForFirstPlayer, setFleetForSecondPlayer,
+	selectFirstPlayerFleet, selectSecondPlayerFleet
 } from "./shipGameSlice.jsx";
 import {addRandomShips} from "./SetShips/addRandomShips.jsx"
 import {changeSelectedShip} from "./SetShips/changeSelectedShip.jsx";
@@ -133,16 +134,18 @@ function* setShotHandler() {
 	const board = yield select(forActivePlayer[activePlayer].selectBoard)
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots)
 	const fleet = yield select(forActivePlayer[activePlayer].selectFleet)
-	const {boardToShotsAfterShot, boardAfterShot} = yield call(getShot, {boardToShots, board, shotInCell,fleet})
+	const {boardToShotsAfterShot, boardAfterShot,newFleet} = yield call(getShot, {boardToShots, board, shotInCell,fleet})
 	yield put(subtractShot());
 	const numberOfShots = yield select(forActivePlayer[activePlayer].selectNumberOfShots)
 
 	if (activePlayer === "firstPlayer") {
+		yield put(setFleetForFirstPlayer(newFleet))
 		yield put(setBoardForFirstPlayersShots(boardToShotsAfterShot));
 		yield put(setBoardForSecondPlayer(boardAfterShot));
 	}
 
 	if (activePlayer === "secondPlayer") {
+		yield put(setFleetForSecondPlayer(newFleet))
 		yield put(setBoardForSecondPlayersShots(boardToShotsAfterShot));
 		yield put(setBoardForFirstPlayer(boardAfterShot));
 	}

@@ -1,14 +1,17 @@
 export const getShot = ({boardToShots, board, shotInCell, fleet}) => {
 	let hitCell = {};
-
+	let newFleet = [];
 	const deleteItemFromFleet = (cell) => {
-		console.log(cell, fleet)
-		fleet.forEach((ship) => {
-			ship.forEach((item) => {
+		newFleet = fleet.map((ship) => {
+			ship.map((item) => {
 				if (item.place.col === cell.col.number && item.place.row === cell.row.number) {
-					console.log("usunąć element:", cell, " z floty: ", fleet)
+					return null;
+				} else {
+					return {...item}
 				}
 			})
+
+
 		})
 	}
 
@@ -17,6 +20,7 @@ export const getShot = ({boardToShots, board, shotInCell, fleet}) => {
 				if (cell.cell === "ship") {
 					hitCell = {...cell}
 					deleteItemFromFleet(cell)
+					console.log(newFleet)
 					return {...cell, shipState: "hit"}
 				} else {
 					return {...cell, target: "missed"}
@@ -70,5 +74,5 @@ export const getShot = ({boardToShots, board, shotInCell, fleet}) => {
 		)
 	}
 
-	return {boardAfterShot, boardToShotsAfterShot}
+	return {boardAfterShot, boardToShotsAfterShot, newFleet}
 };

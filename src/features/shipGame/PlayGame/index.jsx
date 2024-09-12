@@ -15,6 +15,7 @@ import {
 } from "../shipGameSlice.jsx"
 import {Button, Exit} from "../../../components/Buttons/index.jsx";
 import {X_markIcon} from "../../../components/Icons/index.jsx";
+import {FleetInfo} from "../../../components/FleetInfo/index.jsx"
 import {useEffect} from "react";
 
 export const PlayGame = () => {
@@ -60,20 +61,14 @@ export const PlayGame = () => {
 						</Info>
 						<Info>
 							Ilość pozostałych statków: <br/>
-							<ul>
-								<li>1 x czteromasztowiec</li>
-								<li>2 x trzymasztowce</li>
-								<li>3 x dwumasztowce</li>
-								<li>4 x jednomasztowce</li>
-							</ul>
+							<FleetInfo fleet={firstPlayersFleet}/>
 						</Info>
 
 						<Info>
-							<TargetDisplay>namierzony: {firstPlayerTargetInCel}</TargetDisplay>
+							<TargetDisplay>cell: {firstPlayerTargetInCel}</TargetDisplay>
 							<Button
 								onClick={() => dispatch(setShot({
 									shotInCell: firstPlayerTargetInCel,
-									// boardToShots: firstPlayerBoardToShots,
 								}))}
 								disabled={activePlayer !== playersName[0]}
 							>
@@ -89,19 +84,13 @@ export const PlayGame = () => {
 						</Info>
 						<Info>
 							Ilość pozostałych statków: <br/>
-							<ul>
-								<li>1 x czteromasztowiec</li>
-								<li>2 x trzymasztowce</li>
-								<li>3 x dwumasztowce</li>
-								<li>4 x jednomasztowce</li>
-							</ul>
+							<FleetInfo fleet={secondPlayerFleet}/>
 						</Info>
 
 						<Info>
-							<TargetDisplay>namierzony: {secondPlayerTargetInCel}</TargetDisplay>
+							<TargetDisplay>cel: {secondPlayerTargetInCel}</TargetDisplay>
 							<Button onClick={() => dispatch(setShot({
 								shotInCell: secondPlayerTargetInCel,
-								// boardToShots: secondPlayerBoardToShots,
 							}))}
 							        disabled={activePlayer !== playersName[1]}
 							>

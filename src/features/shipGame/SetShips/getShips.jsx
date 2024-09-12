@@ -14,13 +14,13 @@ export const getShips = (numberOfShips) => {
 		default:
 			return;
 	}
-	let fleet = [];
+	let ships = [];
 	for (let key in version) {
 		for (let step = 1; step <= version[key]; step++) {
 			const selectModels = randomMinMax(1, shipsAvailable[key].length)
-			fleet = [...fleet, shipsAvailable[key][selectModels - 1]]
+			ships = [...ships, shipsAvailable[key][selectModels - 1]]
 		}
 	}
 
-	return fleet;
+	return ships;
 };
