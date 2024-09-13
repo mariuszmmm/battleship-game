@@ -30,7 +30,9 @@ export const theme = {
 		disabledButton: "3px 3px 1px rgba(0, 0, 0, .6)",
 	},
 	colors: {
-		// primary: colorNames.yellow,
+		primaryColor: colorNames.yellow,
+		secondaryColor: colorNames.coconut,
+
 
 		button: {
 			text: colorNames.white,

@@ -1,5 +1,5 @@
 import {Fieldset, Input, Item, Label, Legend} from "../styled.jsx";
-import {selectPlayers, setPlayers} from "../../shipGameSlice.jsx";
+import {selectPlayers, setParameters} from "../../shipGameSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
 
 export const Players = () => {
@@ -11,13 +11,13 @@ export const Players = () => {
 
 		switch (playersValue) {
 			case "compVsComp":
-				dispatch(setPlayers("compVsComp"))
+				dispatch(setParameters({players: "compVsComp"}))
 				break;
 			case "compVsPlayer":
-				dispatch(setPlayers("compVsPlayer"))
+				dispatch(setParameters({players: "compVsPlayer"}))
 				break;
 			case "playerVsPlayer":
-				dispatch(setPlayers("playerVsPlayer"))
+				dispatch(setParameters({players: "playerVsPlayer"}))
 				break;
 			default:
 				return

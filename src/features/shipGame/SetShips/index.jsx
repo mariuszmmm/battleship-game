@@ -4,15 +4,13 @@ import {Section} from "../../../components/Section";
 import {ShipsBoard} from "../../../components/ShipsBoard";
 import {SetShipsWrapper, Settings, Content} from "./styled";
 import {
-	setShips,
-	setPlayGame,
-	setSettingsState,
+	setState,
 	setShipSelectedNumber,
 	setChangeShipPlace,
 	selectSelectedShip,
 	selectWrongSettingOfShips,
 	selectLockedMoves,
-	selectFirstPlayerBoard, selectFirstPlayerApprovedSetting,
+	selectFirstPlayerBoard, selectApprovedSetting,
 } from "../shipGameSlice";
 import {
 	ArrowDownIcon,
@@ -30,17 +28,17 @@ export const SetShips = () => {
 	const selectedShip = useSelector(selectSelectedShip);
 	const wrongSettingOfShips = useSelector(selectWrongSettingOfShips);
 	const lockedMoves = useSelector(selectLockedMoves);
-	const approvedSetting = useSelector(selectFirstPlayerApprovedSetting)
+	const approvedSetting = useSelector(selectApprovedSetting)
 	const dispatch = useDispatch();
 
 	return (
 		<Section>
 			<SetShipsWrapper>
-				<Back to="/settings" onClick={() => dispatch(setSettingsState())}><ArrowBackIcon/></Back>
+				<Back to="/settings" onClick={() => dispatch(setState("settings"))}><ArrowBackIcon/></Back>
 				<Content>
 					<ShipsBoard board={board}/>
 					<Settings>
-						<Button $area="random" onClick={() => dispatch(setShips())}>
+						<Button $area="random" onClick={() => dispatch(setState("setShips"))}>
 							<RandomIcon/> Random ships
 						</Button>
 						<Button $area="arrow-top"
@@ -75,10 +73,7 @@ export const SetShips = () => {
 							<ArrowDownIcon/>
 						</Button>
 						<Button $area="check-on"
-						        onClick={() => dispatch(setShipSelectedNumber({
-							        number: selectedShip[0].numberOfShip,
-							        approvedSetting: true
-						        }))}
+						        onClick={() => dispatch(setShipSelectedNumber({approvedSetting: true}))}
 						        disabled={selectedShip.length === 0 || wrongSettingOfShips}
 						>
 							<CheckIcon/>
@@ -88,7 +83,7 @@ export const SetShips = () => {
 				<StyledLink
 					to="/playGame"
 					$disabled={selectedShip.length > 0 || !approvedSetting}
-					onClick={() => dispatch(setPlayGame())}
+					onClick={() => dispatch(setState("playGame"))}
 				>
 					START <PlayIcon/>
 				</StyledLink>

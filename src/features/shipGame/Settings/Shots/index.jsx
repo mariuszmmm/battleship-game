@@ -1,6 +1,6 @@
 import {Fieldset, Input, Item, Label, Legend} from "../styled.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {selectShots, setShots} from "../../shipGameSlice.jsx";
+import {selectShots, setParameters} from "../../shipGameSlice.jsx";
 
 export const Shots = () => {
 	const shots = useSelector(selectShots);
@@ -11,10 +11,10 @@ export const Shots = () => {
 
 		switch (shotsValue) {
 			case "single":
-				dispatch(setShots({name: "single", number: 1}))
+				dispatch(setParameters({shots: {name: "single", numberOfShots: 1}}))
 				break;
 			case "series":
-				dispatch(setShots({name: "series", number: 3}))
+				dispatch(setParameters({shots: {name: "series", numberOfShots: 3}}))
 				break;
 			default:
 				return

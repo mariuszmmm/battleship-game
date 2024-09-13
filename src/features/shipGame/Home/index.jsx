@@ -2,7 +2,7 @@ import {Content, HomeWrapper, Image} from "./styled.jsx";
 import shipsImage from "../../../assets/ships.png";
 import {StyledLink} from "../../../components/Buttons";
 import {useDispatch} from "react-redux";
-import {setSettingsState} from "../shipGameSlice.jsx"
+import {setState} from "../shipGameSlice.jsx"
 
 export const Home = () => {
 	const dispatch = useDispatch();
@@ -10,7 +10,7 @@ export const Home = () => {
 		<HomeWrapper>
 			<Content>
 				<Image src={shipsImage}/>
-				<StyledLink to="/settings" onClick={() => dispatch(setSettingsState())}> Rozpocznij </StyledLink>
+				<StyledLink to="/settings" onClick={() => dispatch(setState("settings"))}> Rozpocznij </StyledLink>
 			</Content>
 		</HomeWrapper>
 	)

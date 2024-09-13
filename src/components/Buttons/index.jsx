@@ -72,7 +72,6 @@ export const Button = styled.button`
 export const StyledLink = styled(Link)`
     ${buttonStyles};
     text-decoration: none;
-    margin: 30px 0;
 `;
 
 export const Back = styled(Link)`
@@ -86,6 +85,6 @@ export const Back = styled(Link)`
     }
 `;
 
-export const Exit = styled(Back)`
+export const Exit = styled(Button)`
     align-self: flex-end;
 `;

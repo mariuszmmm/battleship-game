@@ -1,6 +1,6 @@
 import {Fieldset, Input, Item, Label, Legend} from "../styled.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {selectMayTouch, setMayTouch} from "../../shipGameSlice.jsx";
+import {selectMayTouch, setParameters} from "../../shipGameSlice.jsx";
 
 export const AdditionalOptions = () => {
 	const mayTouch = useSelector(selectMayTouch);
@@ -10,7 +10,7 @@ export const AdditionalOptions = () => {
 		const mayTouchValue = target.value;
 
 		if (mayTouchValue) {
-			dispatch(setMayTouch(!mayTouch));
+			dispatch(setParameters({mayTouch: !mayTouch}));
 		}
 	};
 

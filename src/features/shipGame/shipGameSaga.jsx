@@ -5,7 +5,7 @@ import {
 	selectSelectedShip,
 	selectMayTouch,
 	setBoardForFirstPlayer,
-	setShips,
+	setState,
 	setShipSelectedNumber,
 	setChangeShipPlace,
 	setSelectedShip,
@@ -13,8 +13,7 @@ import {
 	setWrongSettingOfShips,
 	setApprovedSetting,
 	setTarget,
-	setBoardForFirstPlayersShots,
-	setBoardForSecondPlayersShots,
+	setBoardForPlayerShots,
 	setBoardForSecondPlayer,
 	selectFirstPlayerBoardToShots,
 	selectSecondPlayerBoard,
@@ -23,9 +22,10 @@ import {
 	setShot, setActivePlayer, selectFirstPlayerNumberOfShots,
 	selectSecondPlayerNumberOfShots, subtractShot,
 	selectFirstPlayerShotInCell, selectSecondPlayerShotInCell,
-	selectActivePlayer, selectSecondPlayerTarget, selectPlayers,
+	selectActivePlayer, selectPlayers,
 	setFleetForFirstPlayer, setFleetForSecondPlayer,
-	selectFirstPlayerFleet, selectSecondPlayerFleet
+	selectFirstPlayerFleet, selectSecondPlayerFleet, selectChangeShipPlace,
+	setClearBoard
 } from "./shipGameSlice.jsx";
 import {addRandomShips} from "./SetShips/addRandomShips.jsx"
 import {changeSelectedShip} from "./SetShips/changeSelectedShip.jsx";
@@ -36,7 +36,10 @@ import {getTarget} from "./PlayGame/getTarget.jsx";
 import {getShot} from "./PlayGame/getShot.jsx";
 import {computerChooses} from "./PlayGame/computerChooses.jsx"
 
-function* setShipsHandler() {
+function* setShipsHandler({payload: currentState}) {
+	if (currentState === "home") yield put(setClearBoard());
+	if (currentState !== "setShips") return;
+
 	const {mayTouch, numberOfShips} = yield select(selectParameters);
 	const board = yield call(boardSchemat);
 
@@ -74,7 +77,8 @@ function* setShipSelectedNumberHandler({payload: {number, approvedSetting}}) {
 	yield put(setBoardForFirstPlayer(boardWithSelected));
 }
 
-function* setChangeShipPlaceHandler({payload: change}) {
+function* setChangeShipPlaceHandler() {
+	const change = yield select(selectChangeShipPlace);
 	yield put(setApprovedSetting(false))
 	const board = yield select(selectFirstPlayerBoard);
 	const mayTouch = yield select(selectMayTouch);
@@ -104,10 +108,7 @@ function* setTargetHandler({payload: {target, player}}) {
 	if (player !== activePlayer) return;
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots)
 	const newBoard = yield call(getTarget, {target, boardToShots})
-	if (activePlayer === "firstPlayer")
-		yield put(setBoardForFirstPlayersShots(newBoard));
-	if (activePlayer === "secondPlayer")
-		yield put(setBoardForSecondPlayersShots(newBoard));
+	yield put(setBoardForPlayerShots(newBoard));
 }
 
 function* setShotHandler() {
@@ -142,16 +143,15 @@ function* setShotHandler() {
 	})
 	yield put(subtractShot());
 	const numberOfShots = yield select(forActivePlayer[activePlayer].selectNumberOfShots)
+	yield put(setBoardForPlayerShots(boardToShotsAfterShot));
 
 	if (activePlayer === "firstPlayer") {
 		yield put(setFleetForFirstPlayer(newFleet))
-		yield put(setBoardForFirstPlayersShots(boardToShotsAfterShot));
 		yield put(setBoardForSecondPlayer(boardAfterShot));
 	}
 
 	if (activePlayer === "secondPlayer") {
 		yield put(setFleetForSecondPlayer(newFleet))
-		yield put(setBoardForSecondPlayersShots(boardToShotsAfterShot));
 		yield put(setBoardForFirstPlayer(boardAfterShot));
 	}
 
@@ -165,7 +165,7 @@ function* setActivePlayerHandler({payload: activePlayer}) {
 	const players = yield select(selectPlayers);
 	const player1 = "firstPlayer";
 	const player2 = "secondPlayer"
-	const moveDelay = 10
+	const moveDelay = 100
 
 	if (activePlayer === player1 && players === "compVsComp") {
 		const numberOfShots = yield select(selectFirstPlayerNumberOfShots)
@@ -194,7 +194,7 @@ function* setActivePlayerHandler({payload: activePlayer}) {
 }
 
 export function* shipGameSaga() {
-	yield takeLatest(setShips.type, setShipsHandler);
+	yield takeLatest(setState.type, setShipsHandler);
 	yield takeLatest(setShipSelectedNumber.type, setShipSelectedNumberHandler);
 	yield takeLatest(setChangeShipPlace.type, setChangeShipPlaceHandler);
 	yield takeLatest(setTarget.type, setTargetHandler);
