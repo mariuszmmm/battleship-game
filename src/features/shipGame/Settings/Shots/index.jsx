@@ -1,20 +1,23 @@
-import {Fieldset, Input, Item, Label, Legend} from "../styled.jsx";
+import {ButtonsContainer, Fieldset, Legend} from "../styled.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {selectShots, setParameters} from "../../shipGameSlice.jsx";
+import {selectNumberOfShips, selectNumberOfShots, setParameters} from "../../shipGameSlice.jsx";
+import {Button} from "../../../../components/Buttons/index.jsx";
 
 export const Shots = () => {
-	const shots = useSelector(selectShots);
+	const numberOfShots = useSelector(selectNumberOfShots);
+	const numberOfShips = useSelector(selectNumberOfShips);
 	const dispatch = useDispatch();
 
-	const onChangeHandler = ({target}) => {
-		const shotsValue = target.value;
-
-		switch (shotsValue) {
-			case "single":
-				dispatch(setParameters({shots: {name: "single", numberOfShots: 1}}))
+	const onClickHandler = (number) => {
+		switch (number) {
+			case 1:
+				dispatch(setParameters({numberOfShots: 1}))
 				break;
-			case "series":
-				dispatch(setParameters({shots: {name: "series", numberOfShots: 3}}))
+			case 3:
+				dispatch(setParameters({numberOfShots: 3}))
+				break;
+			case numberOfShips:
+				dispatch(setParameters({numberOfShots: numberOfShips}))
 				break;
 			default:
 				return
@@ -24,26 +27,26 @@ export const Shots = () => {
 	return (
 		<Fieldset>
 			<Legend>Strzały</Legend>
-			<Item>
-				<Input type="radio"
-				       id="single"
-				       name="shots"
-				       value="single"
-				       checked={shots.name === "single"}
-				       onChange={onChangeHandler}
-				/>
-				<Label htmlFor="single">pojedyncze (+ bonus za trafienie )</Label>
-			</Item>
-			<Item>
-				<Input type="radio"
-				       id="series"
-				       name="shots"
-				       value="series"
-				       checked={shots.name === "series"}
-				       onChange={onChangeHandler}
-				/>
-				<Label htmlFor="series">seria (3 strzały)</Label>
-			</Item>
+			<ButtonsContainer>
+				<Button
+					$active={numberOfShots === 1}
+					onClick={() => onClickHandler(1)}
+				>
+					<span>1</span>
+				</Button>
+				<Button
+					$active={numberOfShots === 3}
+					onClick={() => onClickHandler(3)}
+				>
+					<span>3</span>
+				</Button>
+				<Button
+					$active={numberOfShots === numberOfShips}
+					onClick={() => onClickHandler(numberOfShips)}
+				>
+					<span>= statki</span>
+				</Button>
+			</ButtonsContainer>
 		</Fieldset>
 	)
 };

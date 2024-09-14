@@ -61,7 +61,6 @@ export const RowName = styled.div`
 `;
 
 export const ShipItem = styled.div`
-    background-color: ${({$selected}) => $selected ? "#22ec22" : "#2424fe"};
     width: 100%;
     height: 100%;
     position: absolute;
@@ -95,10 +94,16 @@ export const ShipItem = styled.div`
         border-bottom-left-radius: 0;
         border-left: 0;
     `}
-		${({$sunk}) => $sunk && css`
+
+    ${({$selected, theme}) => theme && css`
+        background-color: ${$selected ?
+                theme.colors.specialColor : "#2424fe"}
+    `};
+
+    ${({$sunk}) => $sunk && css`
         filter: brightness(.5);
-				opacity: 0.5;
-		`}
+        opacity: 0.5;
+    `}
 `
 
 export const Empty = styled.div`

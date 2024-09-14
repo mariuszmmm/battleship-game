@@ -5,8 +5,8 @@ const defaultState = {
 	state: "home",
 	parameters: {
 		players: "compVsPlayer",
-		numberOfShips: "10",
-		shots: {name: "single", numberOfShots: 1},
+		numberOfShips: 5,
+		numberOfShots: 1,
 		mayTouch: false,
 	},
 	activePlayer: null,
@@ -131,7 +131,7 @@ export const selectState = (state) => selectPlayState(state).state;
 export const selectParameters = (state) => selectPlayState(state).parameters;
 export const selectPlayers = (state) => selectParameters(state).players
 export const selectNumberOfShips = (state) => selectParameters(state).numberOfShips
-export const selectShots = (state) => selectParameters(state).shots
+export const selectNumberOfShots = (state) => selectParameters(state).numberOfShots
 export const selectMayTouch = (state) => selectParameters(state).mayTouch
 
 export const selectActivePlayer = (state) => selectPlayState(state).activePlayer;

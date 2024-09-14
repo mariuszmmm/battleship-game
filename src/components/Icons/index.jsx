@@ -10,6 +10,8 @@ import {ReactComponent as RotateRight} from "../../assets/arrow-rotate-right.svg
 import {ReactComponent as X_mark} from "../../assets/xmark.svg";
 import {ReactComponent as CrossHairs} from "../../assets/crosshairs.svg";
 import {ReactComponent as Fire} from "../../assets/fire.svg";
+import {ReactComponent as User} from "../../assets/user.svg";
+import {ReactComponent as Desktop} from "../../assets/desktop.svg";
 
 
 const iconStyles = css`
@@ -75,7 +77,7 @@ export const CrossHairsIcon = styled(CrossHairs)`
     fill: black;
     width: 100%;
     height: 100%;
-		z-index: 2;
+    z-index: 2;
 `;
 
 export const FireIcon = styled(Fire)`
@@ -83,4 +85,22 @@ export const FireIcon = styled(Fire)`
     z-index: 1;
     position: absolute;
     padding-bottom: 5px;
+`;
+
+export const UserIcon = styled(User)`
+    ${iconStyles};
+    width: 30px;
+    height: 30px;
+    ${({$active}) => $active && css`
+        fill: black;
+    `}
+`;
+
+export const DesktopIcon = styled(Desktop)`
+    ${iconStyles};
+    width: 30px;
+    height: 30px;
+    ${({$active}) => $active && css`
+        fill: black;
+    `}
 `;

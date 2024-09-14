@@ -21,7 +21,8 @@ const buttonStyles = css`
             theme.colors.button.borderColor};
     border-radius: 10px;
     min-width: max-content;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
+		font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -30,6 +31,10 @@ const buttonStyles = css`
     transition: 0.1s filter;
     box-shadow: ${({theme}) =>
             theme.boxShadow.button};
+		
+    span {
+        min-width: 65px;
+    }
 
     &:hover {
         filter: brightness(1.1);
@@ -38,10 +43,14 @@ const buttonStyles = css`
     &:active {
         box-shadow: ${({theme}) =>
                 theme.boxShadow.activeButton};
+		    span {
+				    color: black;
+		    }
     }
 
     &:disabled {
-        ${disabledStyles}
+        ${disabledStyles};
+        color: grey;
     }
 
     ${({$disabled}) => $disabled && css`
@@ -67,6 +76,16 @@ export const Button = styled.button`
             margin: 10px 0;
         }
     `};
+
+    ${({theme, $active}) => theme && $active && css`
+        box-shadow: ${({theme}) =>
+                theme.boxShadow.activeButton};
+        background-color: ${theme.colors.specialColor};
+
+        span {
+            color: black;
+        }
+    `}
 `;
 
 export const StyledLink = styled(Link)`

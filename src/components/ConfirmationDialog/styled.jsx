@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
     position: fixed;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
     z-index: 100;
@@ -29,5 +29,6 @@ export const Overlay = styled.div`
 
 export const ButtonContainer = styled.div`
     display: flex;
-    gap: 10px;
+		margin: 10px;
+    gap: 20px;
 `

@@ -3,6 +3,7 @@ const colorNames = {
 	coconut_1: "rgba(156, 100, 72, 0.3)",
 	white: "#FFFFFF",
 	black: "#000000",
+	malachite: "#22EC22",
 
 	test: "yellow",
 };
@@ -32,6 +33,7 @@ export const theme = {
 	colors: {
 		primaryColor: colorNames.yellow,
 		secondaryColor: colorNames.coconut,
+		specialColor: colorNames.malachite,
 
 
 		button: {

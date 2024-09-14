@@ -85,7 +85,7 @@ export const SetShips = () => {
 					$disabled={selectedShip.length > 0 || !approvedSetting}
 					onClick={() => dispatch(setState("playGame"))}
 				>
-					START <PlayIcon/>
+					Start <PlayIcon/>
 				</StyledLink>
 			</SetShipsWrapper>
 		</Section>
