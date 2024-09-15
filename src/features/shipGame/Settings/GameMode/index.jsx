@@ -31,22 +31,25 @@ export const GameMode = () => {
 			<ButtonsContainer>
 				<Button $active={players === "compVsPlayer"}
 				        onClick={() => onChangeHandler("compVsPlayer")}
+				        $setting
 				>
 					<DesktopIcon $active={players === "compVsPlayer"}/>
 					<UserIcon $active={players === "compVsPlayer"}/>
 				</Button>
 				<Button $active={players === "compVsComp"}
 				        onClick={() => onChangeHandler("compVsComp")}
+				        $setting
 				>
 					<DesktopIcon $active={players === "compVsComp"}/>
 					<DesktopIcon $active={players === "compVsComp"}/>
 				</Button>
 				<Button $active={players === "playerVsPlayer"}
 				        onClick={() => onChangeHandler("playerVsPlayer")}
+				        $setting
 				        disabled
 				>
-					<UserIcon $active={players === "playerVsPlayer"}/>
-					<UserIcon $active={players === "playerVsPlayer"}/>
+					<UserIcon $active={players === "playerVsPlayer"} $disabled/>
+					<UserIcon $active={players === "playerVsPlayer"} $disabled/>
 				</Button>
 			</ButtonsContainer>
 		</Fieldset>

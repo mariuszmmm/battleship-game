@@ -14,7 +14,7 @@ export const FleetInfo = ({fleet}) => {
 	return (
 		<List>
 			{shipSizes.map((size) =>
-				<Item key={size[0]}>{size[1].length + `${" "}` + info[size[0]]}</Item>
+				<Item key={size[0]}>{<span>{info[size[0]]}:</span>}{<span>{size[1].length}</span>}</Item>
 			)}
 		</List>
 	)

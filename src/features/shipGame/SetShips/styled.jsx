@@ -9,6 +9,7 @@ export const SetShipsWrapper = styled.div`
     min-width: 380px;
     background-color: bisque;
     padding: 10px 10px 50px;
+    min-height: calc(100vh - 60px);
 `;
 
 export const Content = styled.div`

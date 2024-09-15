@@ -25,7 +25,8 @@ import {
 	selectActivePlayer, selectPlayers,
 	setFleetForFirstPlayer, setFleetForSecondPlayer,
 	selectFirstPlayerFleet, selectSecondPlayerFleet, selectChangeShipPlace,
-	setClearBoard
+	setClearBoard,
+	clearAfterSwitchActivePlayer
 } from "./shipGameSlice.jsx";
 import {addRandomShips} from "./SetShips/addRandomShips.jsx"
 import {changeSelectedShip} from "./SetShips/changeSelectedShip.jsx";
@@ -51,7 +52,8 @@ function* setShipsHandler({payload: currentState}) {
 	});
 	yield put(setApprovedSetting(true))
 	yield put(setBoardForFirstPlayer(firstPlayersNewBoard));
-	yield put(setFleetForFirstPlayer(firstPlayersFleet))
+	yield put(setFleetForFirstPlayer(firstPlayersFleet));
+
 	const secondPlayersShips = yield call(getShips, numberOfShips);
 	const {fleet: secondPlayersFleet, newBoard: secondPlayersNewBoard} = yield call(addRandomShips, {
 		board,
@@ -60,6 +62,9 @@ function* setShipsHandler({payload: currentState}) {
 	});
 	yield put(setBoardForSecondPlayer(secondPlayersNewBoard));
 	yield put(setFleetForSecondPlayer(secondPlayersFleet))
+
+	const players = yield select(selectPlayers);
+	if (players === "compVsComp") yield put(setState("playGame"));
 }
 
 function* setShipSelectedNumberHandler({payload: {number, approvedSetting}}) {
@@ -96,6 +101,9 @@ function* setChangeShipPlaceHandler() {
 }
 
 function* setTargetHandler({payload: {target, player}}) {
+	const activePlayer = yield select(selectActivePlayer)
+	if (player !== activePlayer) return;
+
 	const forActivePlayer = {
 		firstPlayer: {
 			selectBoardToShots: selectFirstPlayerBoardToShots,
@@ -104,8 +112,7 @@ function* setTargetHandler({payload: {target, player}}) {
 			selectBoardToShots: selectSecondPlayerBoardToShots,
 		},
 	};
-	const activePlayer = yield select(selectActivePlayer)
-	if (player !== activePlayer) return;
+
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots)
 	const newBoard = yield call(getTarget, {target, boardToShots})
 	yield put(setBoardForPlayerShots(newBoard));
@@ -118,45 +125,48 @@ function* setShotHandler() {
 			selectBoard: selectSecondPlayerBoard,
 			selectBoardToShots: selectFirstPlayerBoardToShots,
 			selectNumberOfShots: selectFirstPlayerNumberOfShots,
-			selectFleet: selectFirstPlayerFleet,
+			selectEnemyFleet: selectSecondPlayerFleet,
 			changeActivePlayer: "secondPlayer",
 		},
 		secondPlayer: {
 			selectShotInCell: selectSecondPlayerShotInCell,
 			selectBoard: selectFirstPlayerBoard,
 			selectBoardToShots: selectSecondPlayerBoardToShots,
-			selectFleet: selectSecondPlayerFleet,
+			selectEnemyFleet: selectFirstPlayerFleet,
 			selectNumberOfShots: selectSecondPlayerNumberOfShots,
 			changeActivePlayer: "firstPlayer"
 		},
 	};
+
 	const activePlayer = yield select(selectActivePlayer);
 	const shotInCell = yield select(forActivePlayer[activePlayer].selectShotInCell)
 	const board = yield select(forActivePlayer[activePlayer].selectBoard)
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots)
-	const fleet = yield select(forActivePlayer[activePlayer].selectFleet)
+	const fleet = yield select(forActivePlayer[activePlayer].selectEnemyFleet)
 	const {boardToShotsAfterShot, boardAfterShot, newFleet} = yield call(getShot, {
 		boardToShots,
 		board,
 		shotInCell,
 		fleet
-	})
+	});
 	yield put(subtractShot());
 	const numberOfShots = yield select(forActivePlayer[activePlayer].selectNumberOfShots)
 	yield put(setBoardForPlayerShots(boardToShotsAfterShot));
 
 	if (activePlayer === "firstPlayer") {
-		yield put(setFleetForFirstPlayer(newFleet))
+		yield put(setFleetForSecondPlayer(newFleet))
 		yield put(setBoardForSecondPlayer(boardAfterShot));
 	}
 
 	if (activePlayer === "secondPlayer") {
-		yield put(setFleetForSecondPlayer(newFleet))
+		yield put(setFleetForFirstPlayer(newFleet))
 		yield put(setBoardForFirstPlayer(boardAfterShot));
 	}
 
+	yield delay(1500)
 	if (numberOfShots <= 0) {
 		yield put(setActivePlayer(forActivePlayer[activePlayer].changeActivePlayer));
+		yield put(clearAfterSwitchActivePlayer())
 	}
 }
 
@@ -165,30 +175,28 @@ function* setActivePlayerHandler({payload: activePlayer}) {
 	const players = yield select(selectPlayers);
 	const player1 = "firstPlayer";
 	const player2 = "secondPlayer"
-	const moveDelay = 100
 
 	if (activePlayer === player1 && players === "compVsComp") {
 		const numberOfShots = yield select(selectFirstPlayerNumberOfShots)
 		for (let number = numberOfShots; number > 0; number--) {
 			const boardToShots = yield select(selectFirstPlayerBoardToShots)
-			const target = yield call(computerChooses)
-			yield delay(moveDelay)
+			const target = yield call(computerChooses);
+			yield delay(700);
 			yield put(setTarget({target, boardToShots, player: player1}))
-			yield delay(moveDelay)
-			yield put(setShot({shotInCell: target}))
-			yield delay(moveDelay)
+			yield delay(500);
+			yield put(setShot({shotInCell: target}));
 		}
 	}
-	if (activePlayer === player2 && (players === "compVsComp" || players === "compVsPlayer")) {
+
+	if (activePlayer === player2 && (players === "compVsPlayer" || players === "compVsComp")) {
 		const numberOfShots = yield select(selectSecondPlayerNumberOfShots)
 		for (let number = numberOfShots; number > 0; number--) {
 			const boardToShots = yield select(selectSecondPlayerBoardToShots)
 			const target = yield call(computerChooses)
-			yield delay(moveDelay)
+			yield delay(700)
 			yield put(setTarget({target, boardToShots, player: player2}))
-			yield delay(moveDelay)
-			yield put(setShot({shotInCell: target}))
-			yield delay(moveDelay)
+			yield delay(500);
+			yield put(setShot({shotInCell: target}));
 		}
 	}
 }

@@ -10,6 +10,7 @@ export const SettingsWrapper = styled.div`
     min-width: 340px;
     background-color: bisque;
     padding: 10px 10px 50px;
+    min-height: calc(100vh - 60px);
 `;
 
 export const SettingsHeader = styled.div`
@@ -26,8 +27,7 @@ export const SettingsHeader = styled.div`
     font-weight: bold;
     letter-spacing: 2px;
     padding: 10px;
-    width: 60%;
-`;
+    width: 40%;`;
 
 export const SettingsItem = styled.div`
     display: flex;
@@ -41,7 +41,7 @@ export const SettingsItem = styled.div`
     border: 2px solid black;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
     padding: 10px;
-    width: 60%;
+    width: 40%;
 `;
 
 export const Fieldset = styled.fieldset`

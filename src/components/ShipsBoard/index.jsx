@@ -1,6 +1,8 @@
 import {ShipsBoardWrapper, BoardCell, ColName, RowName, ShipItem, Empty} from "./styled.jsx"
 import {useDispatch, useSelector} from "react-redux";
 import {
+	selectFirstPlayerShotInCell,
+	selectFirstPlayerTarget, selectPlayers,
 	selectState,
 	setShipSelectedNumber,
 	setTarget
@@ -8,17 +10,33 @@ import {
 import {CrossHairsIcon, X_markIcon, FireIcon} from "../Icons/index.jsx";
 
 // eslint-disable-next-line react/prop-types
-export const ShipsBoard = ({board, player}) => {
+export const ShipsBoard = ({board, player, toLeft}) => {
 	const dispatch = useDispatch();
 	const state = useSelector(selectState);
+	const target = useSelector(selectFirstPlayerTarget);
+	const shotInCell = useSelector(selectFirstPlayerShotInCell)
+	const players = useSelector(selectPlayers);
+
+	const onClickTargetHandler = (cell) => {
+		if ((target && shotInCell) || players === "compVsComp") return;
+		dispatch(setTarget({target: cell.id, player}))
+	};
+
 	return (
-		<ShipsBoardWrapper>
+		<ShipsBoardWrapper $toLeft={toLeft}>
 			{/* eslint-disable-next-line react/prop-types */}
 			{board.map((col, colIndex) =>
 				col.map((cell, cellIndex) =>
 					<BoardCell key={cell.id} $ship={cell.cell === "ship"}
-					           onClick={() => dispatch(setTarget({target: cell.id, player}))}
+					           onClick={() => onClickTargetHandler(cell)}
+					           $targetedLine={state === "playGame" &&
+						           (
+							           cell.col.name === target?.charAt(0) ||
+							           cell.row.name === target?.charAt(1) + target?.charAt(2)
+						           )
+					           }
 					           $targeted={state === "playGame" && cell.cellState === "set"}
+					           $compVsComp={players === "compVsComp"}
 					>
 						{cellIndex === 0 && <ColName>{cell.col.name}</ColName>}
 						{colIndex === 0 && <RowName>{cell.row.name}</RowName>}
@@ -39,6 +57,7 @@ export const ShipsBoard = ({board, player}) => {
 							          onClick={() => dispatch(setShipSelectedNumber({number: cell.ship.numberOfShip}))}
 							          $selected={state === "setShips" && cell.ship?.selected}
 							          $sunk={cell.shipState === "sunk"}
+							          $compVsComp={players === "compVsComp"}
 							/>}
 						{cell.cell !== "ship" &&
 							<Empty key={cell?.id}

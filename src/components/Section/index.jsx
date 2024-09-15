@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Section = styled.section`
     min-width: 380px;
-    min-height: 100vh;
     background-color: darkgray;
     padding: 30px;
     display: flex;

@@ -4,7 +4,7 @@ const colorNames = {
 	white: "#FFFFFF",
 	black: "#000000",
 	malachite: "#22EC22",
-
+	grey: "#808080",
 	test: "yellow",
 };
 
@@ -28,7 +28,7 @@ export const theme = {
 	boxShadow: {
 		button: "3px 3px 1px rgba(0, 0, 0, 1)",
 		activeButton: "1px 1px 1px rgba(0, 0, 0, 1)",
-		disabledButton: "3px 3px 1px rgba(0, 0, 0, .6)",
+		disabledButton: "3px 3px 1px rgba(0, 0, 0, .2)",
 	},
 	colors: {
 		primaryColor: colorNames.yellow,
@@ -41,7 +41,7 @@ export const theme = {
 			backgroundColor: colorNames.coconut,
 			disabledBackgroundColor: colorNames.coconut_1,
 			borderColor: colorNames.black,
-			disabledBorderColor: colorNames.coconut_1,
+			disabled: colorNames.grey,
 		},
 	},
 };

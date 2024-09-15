@@ -12,6 +12,7 @@ import {ReactComponent as CrossHairs} from "../../assets/crosshairs.svg";
 import {ReactComponent as Fire} from "../../assets/fire.svg";
 import {ReactComponent as User} from "../../assets/user.svg";
 import {ReactComponent as Desktop} from "../../assets/desktop.svg";
+import {ReactComponent as Home} from "../../assets/home.svg";
 
 
 const iconStyles = css`
@@ -60,12 +61,21 @@ export const CheckIcon = styled(Check)`
 `;
 
 export const ArrowBackIcon = styled(ArrowLeftIcon)`
+    ${iconStyles};
+    width: 26px;
+    height: 26px;
+`;
+
+export const HomeIcon = styled(Home)`
+    ${iconStyles};
     width: 26px;
     height: 26px;
 `;
 
 export const X_markIcon = styled(X_mark)`
     ${iconStyles};
+    width: 100%;
+    height: 100%;
     ${({$board}) => $board && css`
         fill: black;
     `}
@@ -74,7 +84,7 @@ export const X_markIcon = styled(X_mark)`
 export const CrossHairsIcon = styled(CrossHairs)`
     ${iconStyles};
     position: absolute;
-    fill: black;
+    fill: red;
     width: 100%;
     height: 100%;
     z-index: 2;
@@ -93,6 +103,11 @@ export const UserIcon = styled(User)`
     height: 30px;
     ${({$active}) => $active && css`
         fill: black;
+    `}
+
+    ${({theme, $disabled}) => $disabled && theme && css`
+        fill: ${({theme}) =>
+                theme.colors.button.disabled}
     `}
 `;
 

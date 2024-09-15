@@ -29,16 +29,21 @@ export const Ships = () => {
 			<ButtonsContainer>
 				<Button $active={numberOfShips === 5}
 				        onClick={() => onClickHandler(5)}
+				        $setting
 				>
-					<span>5</span>
+					5
 				</Button>
 				<Button $active={numberOfShips === 7}
-				        onClick={() => onClickHandler(7)}>
-					<span>7</span>
+				        onClick={() => onClickHandler(7)}
+				        $setting
+				>
+					7
 				</Button>
 				<Button $active={numberOfShips === 10}
-				        onClick={() => onClickHandler(10)}>
-					<span>10</span>
+				        onClick={() => onClickHandler(10)}
+				        $setting
+				>
+					10
 				</Button>
 			</ButtonsContainer>
 		</Fieldset>

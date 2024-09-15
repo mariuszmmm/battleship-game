@@ -1,40 +1,34 @@
 import {Section} from "../../../components/Section";
-import {Content, Info, PlayGameWrapper, BoardsWrapper, InfoWrapper, TargetDisplay} from "./styled";
+import {Content, Info, PlayGameWrapper, BoardsWrapper, InfoWrapper} from "./styled";
 import {ShipsBoard} from "../../../components/ShipsBoard";
 import {useDispatch, useSelector} from "react-redux";
 import {
 	selectActivePlayer,
-	selectSecondPlayerBoard,
-	selectSecondPlayerBoardToShots, selectSecondPlayerTarget,
 	selectFirstPlayerBoard,
 	selectFirstPlayerBoardToShots,
 	selectFirstPlayerNumberOfShots, selectFirstPlayerTarget,
-	setState,
-	setShot, selectSecondPlayerNumberOfShots, setActivePlayer,
-	selectFirstPlayerFleet, selectSecondPlayerFleet
+	setShot, setActivePlayer,
+	selectSecondPlayerFleet, selectFirstPlayerShotInCell, selectPlayers, setState
 } from "../shipGameSlice.jsx"
-import {Button, Exit} from "../../../components/Buttons";
-import {X_markIcon} from "../../../components/Icons";
+import {Back, Button} from "../../../components/Buttons";
+import {HomeIcon} from "../../../components/Icons";
 import {FleetInfo} from "../../../components/FleetInfo"
 import {useEffect, useState} from "react";
 import {ConfirmationDialog} from "../../../components/ConfirmationDialog";
+import {ButtonContainer} from "../../../components/ConfirmationDialog/styled.jsx";
 
 export const PlayGame = () => {
-	const firstPlayerBoard = useSelector(selectFirstPlayerBoard)
-	const firstPlayerBoardToShots = useSelector(selectFirstPlayerBoardToShots)
-	const firstPlayerTargetInCel = useSelector(selectFirstPlayerTarget)
-	const firstPlayerNumberOfShots = useSelector(selectFirstPlayerNumberOfShots)
-
-	const secondPlayerBoard = useSelector(selectSecondPlayerBoard)
-	const secondPlayerBoardToShots = useSelector(selectSecondPlayerBoardToShots)
-	const secondPlayerTargetInCel = useSelector(selectSecondPlayerTarget)
-	const secondPlayerNumberOfShots = useSelector(selectSecondPlayerNumberOfShots)
+	const firstPlayerBoard = useSelector(selectFirstPlayerBoard);
+	const firstPlayerBoardToShots = useSelector(selectFirstPlayerBoardToShots);
+	const firstPlayerTargetInCell = useSelector(selectFirstPlayerTarget);
+	const firstPlayerNumberOfShots = useSelector(selectFirstPlayerNumberOfShots);
+	const secondPlayerFleet = useSelector(selectSecondPlayerFleet);
 	const activePlayer = useSelector(selectActivePlayer);
-
+	const target = useSelector(selectFirstPlayerTarget);
+	const shotInCell = useSelector(selectFirstPlayerShotInCell)
+	const players = useSelector(selectPlayers)
 	const dispatch = useDispatch();
 	const playersName = ["firstPlayer", "secondPlayer"];
-	const firstPlayersFleet = useSelector(selectFirstPlayerFleet);
-	const secondPlayerFleet = useSelector(selectSecondPlayerFleet);
 
 	useEffect(() => {
 		dispatch(setActivePlayer("firstPlayer"))
@@ -50,60 +44,39 @@ export const PlayGame = () => {
 			{overGame && <ConfirmationDialog setOverGame={setOverGame} text="Czy chcesz zakończyć grę ?"/>}
 			<Section>
 				<PlayGameWrapper>
-					<Exit onClick={onExitHandler}><X_markIcon/></Exit>
+					<Back onClick={onExitHandler}><HomeIcon/></Back>
 					<Content>
 						<BoardsWrapper>
 							<ShipsBoard board={firstPlayerBoardToShots}
 							            player={playersName[0]}
+							            toLeft={activePlayer === "secondPlayer"}
 							/>
-							<ShipsBoard board={firstPlayerBoard}/>
-							<ShipsBoard board={secondPlayerBoardToShots}
-							            player={playersName[1]}
+							<ShipsBoard board={firstPlayerBoard}
+							            toLeft={activePlayer === "secondPlayer"}
 							/>
-							<ShipsBoard board={secondPlayerBoard}/>
 						</BoardsWrapper>
 						<InfoWrapper>
 							<Info>
-								Ilość strzałów: <br/>
-								{firstPlayerNumberOfShots}
-							</Info>
-							<Info>
-								Ilość pozostałych statków: <br/>
-								<FleetInfo fleet={firstPlayersFleet}/>
-							</Info>
-
-							<Info>
-								<TargetDisplay>cell: {firstPlayerTargetInCel}</TargetDisplay>
-								<Button
-									onClick={() => dispatch(setShot({
-										shotInCell: firstPlayerTargetInCel,
-									}))}
-									disabled={activePlayer !== playersName[0]}
-								>
-									STRZAŁ
-								</Button>
-							</Info>
-
-
-							<Info>
-								Ilość strzałów: <br/>
-
-								{secondPlayerNumberOfShots}
-							</Info>
-							<Info>
-								Ilość pozostałych statków: <br/>
-								<FleetInfo fleet={secondPlayerFleet}/>
-							</Info>
-
-							<Info>
-								<TargetDisplay>cel: {secondPlayerTargetInCel}</TargetDisplay>
-								<Button onClick={() => dispatch(setShot({
-									shotInCell: secondPlayerTargetInCel,
-								}))}
-								        disabled={activePlayer !== playersName[1]}
-								>
-									STRZAŁ
-								</Button>
+								<p>Strzały: {firstPlayerNumberOfShots}</p>
+								<p>Statki przeciwnika</p>
+								<FleetInfo fleet={{...secondPlayerFleet}}/>
+								<p>Cel: {firstPlayerTargetInCell}</p>
+								<ButtonContainer>
+									<Button
+										onClick={() => dispatch(setShot({
+											shotInCell: firstPlayerTargetInCell,
+										}))}
+										disabled={
+											activePlayer !== playersName[0] ||
+											!target ||
+											(target && shotInCell) ||
+											players === "compVsComp"
+										}
+										$shot
+									>
+										STRZAŁ
+									</Button>
+								</ButtonContainer>
 							</Info>
 						</InfoWrapper>
 					</Content>

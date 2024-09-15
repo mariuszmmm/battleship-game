@@ -7,14 +7,14 @@ export const Difficulty = () => {
 		<Fieldset>
 			<Legend>Poziom trudności</Legend>
 			<ButtonsContainer>
-				<Button $active={true}>
-					<span>Łatwy</span>
+				<Button $active={true} $setting>
+					Łatwy
 				</Button>
-				<Button disabled>
-					<span>Średni</span>
+				<Button disabled $setting>
+					Średni
 				</Button>
-				<Button disabled>
-					<span>Trudny</span>
+				<Button disabled $setting>
+					Trudny
 				</Button>
 			</ButtonsContainer>
 		</Fieldset>

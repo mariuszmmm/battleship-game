@@ -76,7 +76,7 @@ const shipGameSlice = createSlice({
 				if (player.numberOfShots > 0) player.numberOfShots--;
 			},
 			setNumberOfShots: (state) => {
-				state[state.activePlayer].numberOfShots = state.parameters.shots.numberOfShots;
+				state[state.activePlayer].numberOfShots = state.parameters.numberOfShots;
 			},
 			setShipSelectedNumber:
 				(state, {payload: number}) => {
@@ -98,6 +98,12 @@ const shipGameSlice = createSlice({
 				state.settingShips.approvedSetting = boolean;
 			},
 			setClearBoard: () => defaultState,
+			clearAfterSwitchActivePlayer: (state) => {
+				state.firstPlayer.target = null;
+				state.firstPlayer.shotInCell = null;
+				state.secondPlayer.target = null;
+				state.secondPlayer.shotInCell = null;
+			},
 		}
 });
 
@@ -121,6 +127,7 @@ export const {
 	setWrongSettingOfShips,
 	setApprovedSetting,
 	setClearBoard,
+	clearAfterSwitchActivePlayer,
 }
 	= shipGameSlice.actions;
 

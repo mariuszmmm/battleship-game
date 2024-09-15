@@ -8,7 +8,8 @@ export const PlayGameWrapper = styled.div`
     max-width: 1200px;
     min-width: 380px;
     background-color: bisque;
-    padding: 30px 10px 30px;
+    padding: 10px 10px 50px;
+    min-height: calc(100vh - 60px);
 `;
 
 export const Content = styled.div`
@@ -21,7 +22,7 @@ export const Content = styled.div`
 
     @media (max-width: 1200px) {
         grid-template-columns: 1fr;
-		    gap: 20px;
+        gap: 20px;
         padding: 50px 10px 20px;
     }
 `;
@@ -29,14 +30,17 @@ export const Content = styled.div`
 export const BoardsWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-		gap: 50px;
-` ;
+    height: 120%;
+    overflow: hidden;
+    width: 510px;
+		padding-top: 25px;
+`;
 
 export const InfoWrapper = styled.div`
     display: flex;
     flex-direction: column;
-		gap: 50px;
-` ;
+    gap: 50px;
+`;
 
 export const Info = styled.div`
     min-width: 350px;
@@ -46,7 +50,7 @@ export const Info = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     margin: 10px 0 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
     font-size: 1.3rem;
@@ -59,9 +63,10 @@ export const Info = styled.div`
 
     li {
         text-align: left;
+		    margin-left: 25px;
     }
-`;
 
-export const TargetDisplay = styled.span`
-
+    p {
+        margin: 0 0 20px;
+    }
 `;

@@ -38,6 +38,14 @@ export const ver_1 = {
 };
 
 export const ver_2 = {
+	fifthTypeShips: 1,
+	fourthTypeShips: 1,
+	thirdTypeShips: 1,
+	secondTypeShips: 2,
+	firstTypeShips: 2,
+};
+
+export const ver_3 = {
 	fourthTypeShips: 1,
 	thirdTypeShips: 2,
 	secondTypeShips: 3,

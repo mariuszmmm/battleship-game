@@ -1,15 +1,18 @@
 import {shipsAvailable} from "./configShipGame.jsx";
-import {ver_1, ver_2} from "./configShipGame.jsx";
+import {ver_1, ver_2,ver_3} from "./configShipGame.jsx";
 import {randomMinMax} from "../../../utils/randomMinMax.jsx";
 
 export const getShips = (numberOfShips) => {
 	let version = {};
 	switch (numberOfShips) {
-		case "5":
+		case 5:
 			version = {...ver_1}
 			break;
-		case "10":
+		case 7:
 			version = {...ver_2}
+			break;
+		case 10:
+			version = {...ver_3}
 			break;
 		default:
 			return;
