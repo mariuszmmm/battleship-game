@@ -2,7 +2,6 @@ import styled, {css} from "styled-components";
 import {Link} from 'react-router-dom';
 
 const disabledStyles = css`
-    filter: brightness(1);
     background-color: ${({theme}) =>
             theme.colors.button.disabledBackgroundColor};
     box-shadow: ${({theme}) =>
@@ -21,24 +20,52 @@ const buttonStyles = css`
             theme.colors.button.borderColor};
     border-radius: 10px;
     min-width: max-content;
+    max-width: 120px;
     font-size: 1.3rem;
-    font-weight: bold;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     cursor: pointer;
-    transition: 0.2s filter;
+    transition: 0.2s background-color, 0.5s color;
     box-shadow: ${({theme}) =>
             theme.boxShadow.button};
 
     &:hover {
-        filter: brightness(1.1);
+        background-color: rgba(146, 90, 62, 1)
     }
+;
 
+    ${({theme, $shot}) => theme && css`
+        ${$shot ? "transition: 0s background-color, 0s color" :
+                "transition: 0.2s background-color, 0.3s color"
+        }
+        &:hover {
+            ${({theme, $shot}) => theme && $shot && css`
+                background-color: red;
+            `}
+
+        }
+
+    `};
+
+
+    ${({theme}) => theme && css`
+        &:hover {
+            ${({theme, $setting}) => theme && $setting && css`
+                background-color: rgba(34, 236, 34, .3)
+            `};
+        }
+    `}
     &:active {
         box-shadow: ${({theme}) =>
                 theme.boxShadow.activeButton};
+        transform: translate(1px, 1px);
+        ${({theme, $setting}) => theme && css`
+            ${$setting ? "background-color: rgba(0, 255, 0, 1)" :
+                    theme.colors.button.backgroundColor}
+        `}
     }
 
     &:disabled {
@@ -74,10 +101,15 @@ export const Button = styled.button`
         box-shadow: ${({theme}) =>
                 theme.boxShadow.activeButton};
         background-color: ${theme.colors.specialColor};
+        transform: translate(1px, 1px);
 
         ${({theme, disabled}) => theme && css`
             color: ${disabled ? theme.colors.button.disabled : "black"};
         `}
+        &:hover {
+            background-color: rgba(0, 255, 0, 1);
+        }
+
     `}
 
     ${({theme, $setting}) => theme && $setting && css`

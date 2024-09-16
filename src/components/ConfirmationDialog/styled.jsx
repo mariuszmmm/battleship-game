@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 
 export const Overlay = styled.div`
     background-color: ${({theme}) => theme.colors.secondaryColor};
-    width: 300px;
+    width: clamp(300px, 20vw, 500px);
     padding: 20px;
     z-index: 1000;
     color: white;
@@ -25,6 +25,11 @@ export const Overlay = styled.div`
     border: 2px solid black;
     border-radius: 10px;
     letter-spacing: 1px;
+    font-size: 1rem;
+
+    @media (orientation: landscape) {
+        font-size: 1.5rem;
+    }
 `
 
 export const ButtonContainer = styled.div`

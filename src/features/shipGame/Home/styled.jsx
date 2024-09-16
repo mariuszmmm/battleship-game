@@ -17,6 +17,10 @@ export const Content = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
+		
+		@media (orientation: landscape) {
+        width: 50%;
+    }
 
 `
 export const Image = styled.img`

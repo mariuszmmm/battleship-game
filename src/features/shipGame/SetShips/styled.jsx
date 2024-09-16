@@ -40,7 +40,7 @@ export const Settings = styled.div`
     gap: 20px;
 
     @media (max-width: 700px) {
-        width: 85vw;
+        //width: 85vw;
 		    gap: 15px
     }
 `;

@@ -5,7 +5,8 @@ export const ShipsBoardWrapper = styled.div`
     grid-template-rows: repeat(10, 10%);
     grid-template-columns: repeat(10, 10%);
     grid-auto-flow: column;
-    width: 450px;
+    //min-width: 300px;
+		width: clamp(300px, 80vw ,450px);
     aspect-ratio: 1/1;
     border: 3px solid #2b2b2b;
     margin-left: 60px;
@@ -19,10 +20,6 @@ export const ShipsBoardWrapper = styled.div`
     @media (max-width: 1200px) {
         margin: 0 30px;
     }
-
-    //@media (max-width: 700px) {
-    //    width: 85vw;
-    //}
 `;
 
 export const BoardCell = styled.div`
@@ -36,15 +33,17 @@ export const BoardCell = styled.div`
     position: relative;
     transition: 0.2s filter;
 
-    ${({$ship}) => !$ship && css`
-        &:hover {
-            filter: brightness(0.9);
 
-            ${({$compVsComp}) => $compVsComp && css`
-                filter: none;
-            `})
-        }
-    `};
+    &:hover {
+
+        ${({$hovered}) => $hovered && css`
+            filter: brightness(0.9);
+        `};
+        ${({$compVsComp}) => $compVsComp && css`
+            filter: none;
+        `})
+    }
+
 
     ${({$targetedLine}) => $targetedLine && css`
         background-color: #eeeeee;
@@ -84,11 +83,12 @@ export const ShipItem = styled.div`
     transition: .3s filter, .3s background-color;
 
     &:hover {
-        filter: brightness(0.6);
-
+        ${({$hovered}) => $hovered && css`
+            filter: brightness(0.8);
+        `});
         ${({$compVsComp}) => $compVsComp && css`
             filter: none;
-        `})
+        `});
     }
 
     ${({$top}) => $top && css`

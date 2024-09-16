@@ -3,7 +3,7 @@ const colorNames = {
 	coconut_1: "rgba(156, 100, 72, 0.3)",
 	white: "#FFFFFF",
 	black: "#000000",
-	malachite: "#22EC22",
+	malachite: "rgba(34, 236, 34, 1)",
 	grey: "#808080",
 	test: "yellow",
 };

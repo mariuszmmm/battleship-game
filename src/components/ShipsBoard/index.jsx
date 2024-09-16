@@ -1,6 +1,7 @@
 import {ShipsBoardWrapper, BoardCell, ColName, RowName, ShipItem, Empty} from "./styled.jsx"
 import {useDispatch, useSelector} from "react-redux";
 import {
+	selectActivePlayer,
 	selectFirstPlayerShotInCell,
 	selectFirstPlayerTarget, selectPlayers,
 	selectState,
@@ -16,6 +17,7 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 	const target = useSelector(selectFirstPlayerTarget);
 	const shotInCell = useSelector(selectFirstPlayerShotInCell)
 	const players = useSelector(selectPlayers);
+	const activePlayer = useSelector(selectActivePlayer);
 
 	const onClickTargetHandler = (cell) => {
 		if ((target && shotInCell) || players === "compVsComp") return;
@@ -27,7 +29,7 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 			{/* eslint-disable-next-line react/prop-types */}
 			{board.map((col, colIndex) =>
 				col.map((cell, cellIndex) =>
-					<BoardCell key={cell.id} $ship={cell.cell === "ship"}
+					<BoardCell key={cell.id}
 					           onClick={() => onClickTargetHandler(cell)}
 					           $targetedLine={state === "playGame" &&
 						           (
@@ -37,6 +39,7 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 					           }
 					           $targeted={state === "playGame" && cell.cellState === "set"}
 					           $compVsComp={players === "compVsComp"}
+					           $hovered={state === "playGame" && activePlayer === player}
 					>
 						{cellIndex === 0 && <ColName>{cell.col.name}</ColName>}
 						{colIndex === 0 && <RowName>{cell.row.name}</RowName>}
@@ -58,6 +61,7 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 							          $selected={state === "setShips" && cell.ship?.selected}
 							          $sunk={cell.shipState === "sunk"}
 							          $compVsComp={players === "compVsComp"}
+							          $hovered={state === "setShips"}
 							/>}
 						{cell.cell !== "ship" &&
 							<Empty key={cell?.id}

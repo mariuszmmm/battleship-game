@@ -27,7 +27,7 @@ export const SettingsHeader = styled.div`
     font-weight: bold;
     letter-spacing: 2px;
     padding: 10px;
-    width: 40%;`;
+    width: 60%;`;
 
 export const SettingsItem = styled.div`
     display: flex;
@@ -41,7 +41,7 @@ export const SettingsItem = styled.div`
     border: 2px solid black;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
     padding: 10px;
-    width: 40%;
+    width: 60%;
 `;
 
 export const Fieldset = styled.fieldset`
@@ -69,7 +69,7 @@ export const ButtonsContainer = styled.div`
 `;
 
 export const AdditionalItemsContainer = styled.div`
-   
+
 `;
 
 export const AdditionalItem = styled.div`
@@ -81,14 +81,26 @@ export const AdditionalItem = styled.div`
 
 export const InputsRadioContainer = styled.div`
     display: flex;
-
+    align-items: center;
     height: 100%;
+    margin-right: 130px;
 
     label {
+        display: flex;
+        align-items: center;
         margin-left: 5px;
+        height: 30px;
     }
 
     input {
         margin-left: 20px;
     }
+
+    @media (max-width: 850px) {
+        margin-right: 5px;
+    }
 `;
+
+export const InputRadio = styled.input`
+    height: 30px;
+`

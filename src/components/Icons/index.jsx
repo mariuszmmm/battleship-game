@@ -33,7 +33,9 @@ export const PlayIcon = styled(Play)`
 `;
 
 export const RandomIcon = styled(Random)`
-    ${iconStyles}
+    ${iconStyles};
+    width: 35px;
+    height: 35px;
 `;
 
 export const RotateRightIcon = styled(RotateRight)`

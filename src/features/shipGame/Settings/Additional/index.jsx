@@ -1,4 +1,4 @@
-import {AdditionalItem, AdditionalItemsContainer, Fieldset, InputsRadioContainer, Label, Legend} from "../styled.jsx";
+import {AdditionalItem, AdditionalItemsContainer, Fieldset, InputsRadioContainer, InputRadio, Legend} from "../styled.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {selectMayTouch, setParameters} from "../../shipGameSlice.jsx";
 
@@ -20,7 +20,7 @@ export const Additional = () => {
 				<AdditionalItem>
 					Statki mogą się stykać :
 					<InputsRadioContainer>
-						<input type="radio"
+						<InputRadio type="radio"
 						       name="contact"
 						       id="yes"
 						       value="yes"
@@ -28,7 +28,7 @@ export const Additional = () => {
 						       onChange={onChangeHandler}
 						/>
 						<label htmlFor="yes">tak</label>
-						<input type="radio"
+						<InputRadio type="radio"
 						       name="contact"
 						       id="no"
 						       value="no"
