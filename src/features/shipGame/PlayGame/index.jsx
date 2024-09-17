@@ -1,5 +1,5 @@
 import {Section} from "../../../components/Section";
-import {Content, Info, PlayGameWrapper, BoardsWrapper, InfoWrapper} from "./styled";
+import {Content, Info, BoardsWrapper, InfoWrapper} from "./styled";
 import {ShipsBoard} from "../../../components/ShipsBoard";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -10,12 +10,14 @@ import {
 	setShot, setActivePlayer,
 	selectSecondPlayerFleet, selectFirstPlayerShotInCell, selectPlayers, setState
 } from "../shipGameSlice.jsx"
-import {Back, Button} from "../../../components/Buttons";
+import {Back, Button, Home} from "../../../components/Buttons";
 import {HomeIcon} from "../../../components/Icons";
 import {FleetInfo} from "../../../components/FleetInfo"
 import {useEffect, useState} from "react";
 import {ConfirmationDialog} from "../../../components/ConfirmationDialog";
 import {ButtonContainer} from "../../../components/ConfirmationDialog/styled.jsx";
+import {Header} from "../../../components/Header/index.jsx";
+import {Wrapper} from "../../../components/Wrapper/index.jsx";
 
 export const PlayGame = () => {
 	const firstPlayerBoard = useSelector(selectFirstPlayerBoard);
@@ -43,8 +45,15 @@ export const PlayGame = () => {
 		<>
 			{overGame && <ConfirmationDialog setOverGame={setOverGame} text="Czy chcesz zakończyć grę ?"/>}
 			<Section>
-				<PlayGameWrapper>
-					<Back onClick={onExitHandler}><HomeIcon/></Back>
+				<Wrapper>
+					<Home onClick={onExitHandler}><HomeIcon/></Home>
+					<Header>
+						{activePlayer === "firstPlayer" ?
+							"Twój ruch"
+							:
+							"Przeciwnik atakuje"
+						}
+					</Header>
 					<Content>
 						<BoardsWrapper>
 							<ShipsBoard board={firstPlayerBoardToShots}
@@ -80,7 +89,7 @@ export const PlayGame = () => {
 							</Info>
 						</InfoWrapper>
 					</Content>
-				</PlayGameWrapper>
+				</Wrapper>
 			</Section>
 		</>
 	)

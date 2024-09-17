@@ -5,21 +5,15 @@ export const ShipsBoardWrapper = styled.div`
     grid-template-rows: repeat(10, 10%);
     grid-template-columns: repeat(10, 10%);
     grid-auto-flow: column;
-    //min-width: 300px;
-		width: clamp(300px, 80vw ,450px);
+    width: clamp(300px, 80vw, 450px);
     aspect-ratio: 1/1;
     border: 3px solid #2b2b2b;
-    margin-left: 60px;
+    margin: 0 40px 0;
     position: relative;
-    margin-top: 25px;
     transition: 1s transform;
     ${({$toLeft}) => $toLeft && css`
-        transform: translateX(-510px);
+        transform: translateX(calc(-100% - 80px));
     `};
-
-    @media (max-width: 1200px) {
-        margin: 0 30px;
-    }
 `;
 
 export const BoardCell = styled.div`
@@ -33,9 +27,7 @@ export const BoardCell = styled.div`
     position: relative;
     transition: 0.2s filter;
 
-
     &:hover {
-
         ${({$hovered}) => $hovered && css`
             filter: brightness(0.9);
         `};
@@ -43,7 +35,6 @@ export const BoardCell = styled.div`
             filter: none;
         `})
     }
-
 
     ${({$targetedLine}) => $targetedLine && css`
         background-color: #eeeeee;

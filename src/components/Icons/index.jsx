@@ -16,14 +16,9 @@ import {ReactComponent as Home} from "../../assets/home.svg";
 
 
 const iconStyles = css`
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
     fill: white;
-
-    @media (max-width: 700px ) {
-        width: 26px;
-        height: 26px;
-    }
 `;
 
 export const PlayIcon = styled(Play)`
@@ -39,27 +34,39 @@ export const RandomIcon = styled(Random)`
 `;
 
 export const RotateRightIcon = styled(RotateRight)`
-    ${iconStyles}
+    ${iconStyles};
+    width: 50px;
+    height: 50px;
 `;
 
 export const ArrowLeftIcon = styled(ArrowLeft)`
-    ${iconStyles}
+    ${iconStyles};
+    width: 50px;
+    height: 50px;
 `;
 
 export const ArrowTopIcon = styled(ArrowTop)`
-    ${iconStyles}
+    ${iconStyles};
+    width: 50px;
+    height: 50px;
 `;
 
 export const ArrowRightIcon = styled(ArrowRight)`
-    ${iconStyles}
+    ${iconStyles};
+    width: 50px;
+    height: 50px;
 `;
 
 export const ArrowDownIcon = styled(ArrowDown)`
-    ${iconStyles}
+    ${iconStyles};
+    width: 50px;
+    height: 50px;
 `;
 
 export const CheckIcon = styled(Check)`
-    ${iconStyles}
+    ${iconStyles};
+    width: 50px;
+    height: 50px;
 `;
 
 export const ArrowBackIcon = styled(ArrowLeftIcon)`

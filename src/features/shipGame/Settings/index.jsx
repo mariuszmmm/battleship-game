@@ -1,4 +1,4 @@
-import {SettingsHeader, SettingsItem, SettingsWrapper} from "./styled.jsx";
+import {SettingsItem} from "./styled.jsx";
 import {GameMode} from "./GameMode/index.jsx";
 import {Ships} from "./Ships/index.jsx";
 import {Shots} from "./Shots/index.jsx";
@@ -9,6 +9,8 @@ import {Section} from "../../../components/Section/index.jsx";
 import {selectPlayers, setState} from "../shipGameSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Difficulty} from "./Difficulty"
+import {Header} from "../../../components/Header/index.jsx";
+import {Wrapper} from "../../../components/Wrapper/index.jsx";
 
 export const Settings = () => {
 	const dispatch = useDispatch();
@@ -16,11 +18,11 @@ export const Settings = () => {
 
 	return (
 		<Section>
-			<SettingsWrapper>
+			<Wrapper>
 				<Back to="/home" onClick={() => dispatch(setState("home"))}><ArrowBackIcon/></Back>
-				<SettingsHeader>
+				<Header>
 					Ustawienia
-				</SettingsHeader>
+				</Header>
 				<SettingsItem>
 					<GameMode/>
 					<Difficulty/>
@@ -32,7 +34,7 @@ export const Settings = () => {
 					to={players === "compVsComp" ? "/playGame" : "/setShips"}
 					onClick={() => dispatch(setState("setShips"))}>
 					Dalej<PlayIcon/></StyledLink>
-			</SettingsWrapper>
+			</Wrapper>
 		</Section>
 	)
 }

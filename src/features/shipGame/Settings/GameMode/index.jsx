@@ -10,19 +10,7 @@ export const GameMode = () => {
 	const dispatch = useDispatch();
 
 	const onChangeHandler = (gameMode) => {
-		switch (gameMode) {
-			case "compVsComp":
-				dispatch(setParameters({players: "compVsComp"}))
-				break;
-			case "compVsPlayer":
-				dispatch(setParameters({players: "compVsPlayer"}))
-				break;
-			case "playerVsPlayer":
-				dispatch(setParameters({players: "playerVsPlayer"}))
-				break;
-			default:
-				return
-		}
+		dispatch(setParameters({players: gameMode}))
 	};
 
 	return (

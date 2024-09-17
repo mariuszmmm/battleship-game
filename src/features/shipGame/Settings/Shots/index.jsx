@@ -4,52 +4,41 @@ import {selectNumberOfShips, selectNumberOfShots, setParameters} from "../../shi
 import {Button} from "../../../../components/Buttons/index.jsx";
 
 export const Shots = () => {
-	const numberOfShots = useSelector(selectNumberOfShots);
-	const numberOfShips = useSelector(selectNumberOfShips);
-	const dispatch = useDispatch();
+		const numberOfShots = useSelector(selectNumberOfShots);
+		const numberOfShips = useSelector(selectNumberOfShips);
+		const dispatch = useDispatch();
 
-	const onClickHandler = (number) => {
-		switch (number) {
-			case 1:
-				dispatch(setParameters({numberOfShots: 1}))
-				break;
-			case 3:
-				dispatch(setParameters({numberOfShots: 3}))
-				break;
-			case numberOfShips:
-				dispatch(setParameters({numberOfShots: numberOfShips}))
-				break;
-			default:
-				return
-		}
-	};
+		const onClickHandler = (number) => {
+			dispatch(setParameters({numberOfShots: number}))
+		};
 
-	return (
-		<Fieldset>
-			<Legend>Strzały</Legend>
-			<ButtonsContainer>
-				<Button
-					$active={numberOfShots === 1}
-					onClick={() => onClickHandler(1)}
-					$setting
-				>
-					1
-				</Button>
-				<Button
-					$active={numberOfShots === 3}
-					onClick={() => onClickHandler(3)}
-					$setting
-				>
-					3
-				</Button>
-				<Button
-					$active={numberOfShots === numberOfShips}
-					onClick={() => onClickHandler(numberOfShips)}
-					$setting
-				>
-					= statki
-				</Button>
-			</ButtonsContainer>
-		</Fieldset>
-	)
-};
+		return (
+			<Fieldset>
+				<Legend>Strzały</Legend>
+				<ButtonsContainer>
+					<Button
+						$active={numberOfShots === 1}
+						onClick={() => onClickHandler(1)}
+						$setting
+					>
+						1
+					</Button>
+					<Button
+						$active={numberOfShots === 3}
+						onClick={() => onClickHandler(3)}
+						$setting
+					>
+						3
+					</Button>
+					<Button
+						$active={numberOfShots === numberOfShips}
+						onClick={() => onClickHandler(numberOfShips)}
+						$setting
+					>
+						= statki
+					</Button>
+				</ButtonsContainer>
+			</Fieldset>
+		)
+	}
+;

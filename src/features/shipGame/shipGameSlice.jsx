@@ -44,7 +44,10 @@ const shipGameSlice = createSlice({
 				state.state = currentState;
 			},
 			setParameters: (state, {payload: parameter}) => {
-				state.parameters = {...state.parameters, ...parameter};
+				state.parameters = {
+					...state.parameters,
+					...parameter,
+				};
 			},
 			setActivePlayer: (state, {payload: activePlayer}) => {
 				state.activePlayer = activePlayer;

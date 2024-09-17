@@ -132,3 +132,13 @@ export const Back = styled(Link)`
         padding: 5px;
     }
 `;
+
+export const Home = styled.button`
+    ${buttonStyles};
+    align-self: flex-start;
+    padding: 10px;
+
+    @media (max-width: 700px ) {
+        padding: 5px;
+    }
+ `;

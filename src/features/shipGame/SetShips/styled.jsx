@@ -1,17 +1,5 @@
 import styled from 'styled-components';
 
-export const SetShipsWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    min-width: 380px;
-    background-color: bisque;
-    padding: 10px 10px 50px;
-    min-height: calc(100vh - 60px);
-`;
-
 export const Content = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -39,8 +27,8 @@ export const Settings = styled.div`
     justify-content: center;
     gap: 20px;
 
-    @media (max-width: 700px) {
-        //width: 85vw;
-		    gap: 15px
-    }
+    //@media (max-width: 700px) {
+    //    //width: 85vw;
+	//	    gap: 15px
+    //}
 `;

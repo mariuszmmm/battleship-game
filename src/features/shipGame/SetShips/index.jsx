@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Back, Button, StyledLink} from "../../../components/Buttons";
 import {Section} from "../../../components/Section";
 import {ShipsBoard} from "../../../components/ShipsBoard";
-import {SetShipsWrapper, Settings, Content} from "./styled";
+import {Settings, Content} from "./styled";
 import {
 	setState,
 	setShipSelectedNumber,
@@ -22,6 +22,7 @@ import {
 	RotateRightIcon,
 	ArrowBackIcon
 } from "../../../components/Icons";
+import {Wrapper} from "../../../components/Wrapper/index.jsx";
 
 export const SetShips = () => {
 	const board = useSelector(selectFirstPlayerBoard);
@@ -33,14 +34,11 @@ export const SetShips = () => {
 
 	return (
 		<Section>
-			<SetShipsWrapper>
+			<Wrapper>
 				<Back to="/settings" onClick={() => dispatch(setState("settings"))}><ArrowBackIcon/></Back>
 				<Content>
 					<ShipsBoard board={board}/>
 					<Settings>
-						<Button $area="random" onClick={() => dispatch(setState("setShips"))}>
-							<RandomIcon/> Random ships
-						</Button>
 						<Button $area="arrow-top"
 						        onClick={() => dispatch(setChangeShipPlace("toTop"))}
 						        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toTop}
@@ -80,6 +78,9 @@ export const SetShips = () => {
 						</Button>
 					</Settings>
 				</Content>
+				<Button $area="random" onClick={() => dispatch(setState("setShips"))}>
+					<RandomIcon/> Random ships
+				</Button>
 				<StyledLink
 					to="/playGame"
 					$disabled={selectedShip.length > 0 || !approvedSetting}
@@ -87,7 +88,7 @@ export const SetShips = () => {
 				>
 					Start <PlayIcon/>
 				</StyledLink>
-			</SetShipsWrapper>
+			</Wrapper>
 		</Section>
 	)
 };
