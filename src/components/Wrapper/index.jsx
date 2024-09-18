@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
     align-items: center;
     width: 100%;
     max-width: 1200px;
-    min-width: 380px;
+    //min-width: 380px;
     background-color: bisque;
     padding: 10px 10px 50px;
     min-height: calc(100vh - 60px);

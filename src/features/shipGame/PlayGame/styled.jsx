@@ -19,13 +19,16 @@ export const BoardsWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     overflow: hidden;
-    width: clamp(360px, 92vw, 510px);
+    width: clamp(310px, 86vw, 510px);
     padding-top: 25px;
+    padding-left: 7%;
+    gap: 80px;
 `;
 
 export const InfoWrapper = styled.div`
-		margin: 20px 40px 0 60px;
-    width: clamp(300px, 80vw, 450px);
+		margin: 20px auto 0 20px;
+    //width: clamp(300px, 80vw, 450px);
+    width: clamp(280px, 86vw, 510px);
 `;
 
 export const Info = styled.div`
