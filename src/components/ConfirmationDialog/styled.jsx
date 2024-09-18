@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 
 export const Overlay = styled.div`
     background-color: ${({theme}) => theme.colors.secondaryColor};
-    width: clamp(300px, 20vw, 500px);
+    width: clamp(300px, 50vw, 500px);
     padding: 20px;
     z-index: 1000;
     color: white;

@@ -12,8 +12,7 @@ const disabledStyles = css`
 `;
 
 const buttonStyles = css`
-    background-color: ${({theme, $shot}) => $shot ?
-            "red" : theme.colors.button.backgroundColor};
+    background-color: ${({theme}) => theme.colors.button.backgroundColor};
     color: ${({theme}) => theme.colors.button.text};
     padding: 10px 15px;
     border: 2px solid ${({theme}) =>
@@ -28,36 +27,14 @@ const buttonStyles = css`
     justify-content: center;
     gap: 10px;
     cursor: pointer;
-    transition: 0.2s background-color, 0.5s color;
+    transition: 0.3s background-color, .6s color;
     box-shadow: ${({theme}) =>
             theme.boxShadow.button};
 
     &:hover {
-        background-color: rgba(146, 90, 62, 1)
+        background-color: rgba(140, 90, 65, 1)
     }
-;
 
-    ${({theme, $shot}) => theme && css`
-        ${$shot ? "transition: 0s background-color, 0s color" :
-                "transition: 0.2s background-color, 0.3s color"
-        }
-        &:hover {
-            ${({theme, $shot}) => theme && $shot && css`
-                background-color: red;
-            `}
-
-        }
-
-    `};
-
-
-    ${({theme}) => theme && css`
-        &:hover {
-            ${({theme, $setting}) => theme && $setting && css`
-                background-color: rgba(34, 236, 34, .3)
-            `};
-        }
-    `}
     &:active {
         box-shadow: ${({theme}) =>
                 theme.boxShadow.activeButton};
@@ -70,32 +47,17 @@ const buttonStyles = css`
 
     &:disabled {
         ${disabledStyles};
+        transform: translate(0px, 0px);
         color: grey;
     }
 
-    ${({$disabled}) => $disabled && css`
-        ${disabledStyles}
-    `};
-
     @media (max-width: 700px ) {
         padding: 10px;
-    }
+    };
 `;
-
 
 export const Button = styled.button`
     ${buttonStyles};
-    ${({$area}) => $area && css`
-        width: 100%;
-        grid-area: ${$area};
-    `};
-    ${({$area}) => $area === "random" && css`
-        margin: 20px 0;
-
-        @media (max-width: 700px ) {
-            margin: 10px 0;
-        }
-    `};
 
     ${({theme, $active}) => theme && $active && css`
         box-shadow: ${({theme}) =>
@@ -109,36 +71,55 @@ export const Button = styled.button`
         &:hover {
             background-color: rgba(0, 255, 0, 1);
         }
-
     `}
+
+    ${({$area}) => $area && css`
+        width: 100%;
+        grid-area: ${$area};
+
+        ${$area === "random" && css`
+            margin: 20px 0;
+            @media (max-width: 700px ) {
+                margin: 10px 0;
+            }
+        `}
+    `};
 
     ${({theme, $setting}) => theme && $setting && css`
         width: 100%;
     `}
 
+    ${({$shot}) => $shot && css`
+        background-color: ${({theme}) =>
+                theme && theme.colors.button.shotButton};
+
+        &:hover {
+            background-color: rgba(255, 0, 0, 1);
+        }
+
+        &:disabled {
+            transition: 0s background-color;
+            background-color: ${({theme}) =>
+                    theme.colors.button.backgroundColor};
+        }
+    `};
 `;
 
 export const StyledLink = styled(Link)`
     ${buttonStyles};
     text-decoration: none;
-`;
-
-export const Back = styled(Link)`
-    ${buttonStyles};
-    align-self: flex-start;
     padding: 10px;
 
-    @media (max-width: 700px ) {
+    ${({$disabled}) => $disabled && css`
+        ${disabledStyles}
+    `};
+`;
+
+export const Back = styled(StyledLink)`
+    align-self: flex-start;
+
+    @media (max-width: 700px) {
         padding: 5px;
     }
 `;
 
-export const Home = styled.button`
-    ${buttonStyles};
-    align-self: flex-start;
-    padding: 10px;
-
-    @media (max-width: 700px ) {
-        padding: 5px;
-    }
- `;

@@ -8,9 +8,9 @@ import {
 	selectFirstPlayerBoardToShots,
 	selectFirstPlayerNumberOfShots, selectFirstPlayerTarget,
 	setShot, setActivePlayer,
-	selectSecondPlayerFleet, selectFirstPlayerShotInCell, selectPlayers, setState
+	selectSecondPlayerFleet, selectFirstPlayerShotInCell, selectPlayers
 } from "../shipGameSlice.jsx"
-import {Back, Button, Home} from "../../../components/Buttons";
+import {Back, Button} from "../../../components/Buttons";
 import {HomeIcon} from "../../../components/Icons";
 import {FleetInfo} from "../../../components/FleetInfo"
 import {useEffect, useState} from "react";
@@ -37,16 +37,13 @@ export const PlayGame = () => {
 	}, [])
 
 	const [overGame, setOverGame] = useState(false)
-	const onExitHandler = () => {
-		setOverGame(true)
-	}
 
 	return (
 		<>
-			{overGame && <ConfirmationDialog setOverGame={setOverGame} text="Czy chcesz zakończyć grę ?"/>}
+			{overGame && <ConfirmationDialog setOverGame={setOverGame} text={"Czy chcesz zakończyć grę ?"}/>}
 			<Section>
 				<Wrapper>
-					<Home onClick={onExitHandler}><HomeIcon/></Home>
+					<Back to={null} onClick={() => setOverGame(true)}><HomeIcon/></Back>
 					<Header>
 						{activePlayer === "firstPlayer" ?
 							"Twój ruch"

@@ -110,6 +110,12 @@ export const UserIcon = styled(User)`
     ${iconStyles};
     width: 30px;
     height: 30px;
+		
+		@media(max-width: 700px) {
+        width: 26px;
+        height: 26px;
+		}
+		
     ${({$active}) => $active && css`
         fill: black;
     `}
@@ -124,6 +130,12 @@ export const DesktopIcon = styled(Desktop)`
     ${iconStyles};
     width: 30px;
     height: 30px;
+
+    @media(max-width: 700px) {
+        width: 26px;
+        height: 26px;
+    }
+		
     ${({$active}) => $active && css`
         fill: black;
     `}

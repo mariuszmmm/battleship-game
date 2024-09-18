@@ -163,7 +163,7 @@ function* setShotHandler() {
 		yield put(setBoardForFirstPlayer(boardAfterShot));
 	}
 
-	yield delay(1500)
+	yield delay(1000)
 	if (numberOfShots <= 0) {
 		yield put(setActivePlayer(forActivePlayer[activePlayer].changeActivePlayer));
 		yield put(clearAfterSwitchActivePlayer())

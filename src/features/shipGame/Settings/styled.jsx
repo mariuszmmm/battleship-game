@@ -17,7 +17,7 @@ export const SettingsItem = styled.div`
 
 export const Fieldset = styled.fieldset`
     width: 100%;
-    padding: 8px;
+    padding: 8px 8px 15px;
 `
 
 export const Legend = styled.legend`
@@ -55,22 +55,29 @@ export const InputsRadioContainer = styled.div`
     align-items: center;
     height: 100%;
     margin-right: 130px;
+    gap: 20px;
 
     label {
         display: flex;
         align-items: center;
         margin-left: 5px;
-        height: 30px;
+        cursor: pointer;
     }
 
     input {
-        margin-left: 20px;
+        cursor: pointer;
     }
 
     @media (max-width: 850px) {
         margin-right: 5px;
     }
 `;
+
+export const InputRadioWrapper = styled.div`
+    display: flex;
+    height: 30px;
+    cursor: pointer;
+`
 
 export const InputRadio = styled.input`
     height: 30px;

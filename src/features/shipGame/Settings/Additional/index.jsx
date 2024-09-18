@@ -4,7 +4,7 @@ import {
 	Fieldset,
 	InputsRadioContainer,
 	InputRadio,
-	Legend
+	Legend, InputRadioWrapper
 } from "../styled.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {selectMayTouch, setParameters} from "../../shipGameSlice.jsx";
@@ -27,22 +27,26 @@ export const Additional = () => {
 				<AdditionalItem>
 					Statki mogą się stykać :
 					<InputsRadioContainer>
-						<InputRadio type="radio"
-						            name="contact"
-						            id="yes"
-						            value="yes"
-						            checked={mayTouch}
-						            onChange={onChangeHandler}
-						/>
-						<label htmlFor="yes">tak</label>
-						<InputRadio type="radio"
-						            name="contact"
-						            id="no"
-						            value="no"
-						            checked={!mayTouch}
-						            onChange={onChangeHandler}
-						/>
-						<label htmlFor="no">nie</label>
+						<InputRadioWrapper>
+							<InputRadio type="radio"
+							            name="contact"
+							            id="yes"
+							            value="yes"
+							            checked={mayTouch}
+							            onChange={onChangeHandler}
+							/>
+							<label htmlFor="yes">tak</label>
+						</InputRadioWrapper>
+						<InputRadioWrapper>
+							<InputRadio type="radio"
+							            name="contact"
+							            id="no"
+							            value="no"
+							            checked={!mayTouch}
+							            onChange={onChangeHandler}
+							/>
+							<label htmlFor="no">nie</label>
+						</InputRadioWrapper>
 					</InputsRadioContainer>
 				</AdditionalItem>
 			</AdditionalItemsContainer>
