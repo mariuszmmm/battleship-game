@@ -3,32 +3,51 @@ import styled from "styled-components";
 export const Content = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    //gap: 50px;
     align-items: start;
     justify-items: center;
-    padding: 50px 10px;
+		align-self: start;
+    padding: 0 10px;
+    //padding: 30px 30px 30px;
 
-    @media (max-width: 1200px) {
+    @media (max-width: 900px) {
         grid-template-columns: 1fr;
         gap: 20px;
-        padding: 20px 10px;
+        align-self: center;
+
     }
 `;
 
 export const BoardsWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 100% 1fr;
     overflow: hidden;
-    width: clamp(310px, 86vw, 510px);
-    padding-top: 25px;
-    padding-left: 7%;
-    gap: 80px;
+		
+
+    width: clamp(320px, 80vw, 500px);
+
+
+
+    //width: clamp(310px, 44vw, 450px);
+		
+    //padding-top: 25px;
+    //padding-left: 7%;
+    //gap: 80px;
 `;
 
 export const InfoWrapper = styled.div`
 		margin: 20px auto 0 20px;
     //width: clamp(300px, 80vw, 450px);
-    width: clamp(280px, 86vw, 510px);
+    //width: clamp(280px, 86vw, 510px);
+
+		display: flex;
+		flex-direction: column;
+		justify-items: center;
+
+
+		
+   
+
 `;
 
 export const Info = styled.div`
@@ -45,14 +64,14 @@ export const Info = styled.div`
     font-weight: bold;
     letter-spacing: 2px;
     padding: 10px;
-    width: 100%;
+    width: 110%;
     text-align: center;
     line-height: 1.5;
     aspect-ratio: 1/1;
 
     li {
         text-align: left;
-        margin-left: clamp(25px, 8vw ,70px);;
+        margin-left: 20px;;
     }
 
     p {

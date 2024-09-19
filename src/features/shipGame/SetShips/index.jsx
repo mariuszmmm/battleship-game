@@ -23,6 +23,8 @@ import {
 	ArrowBackIcon
 } from "../../../components/Icons";
 import {Wrapper} from "../../../components/Wrapper/index.jsx";
+import {Header} from "../../../components/Header/index.jsx";
+import {BoardsWrapper} from "../PlayGame/styled.jsx";
 
 export const SetShips = () => {
 	const board = useSelector(selectFirstPlayerBoard);
@@ -33,11 +35,16 @@ export const SetShips = () => {
 	const dispatch = useDispatch();
 
 	return (
-		<Section>
-			<Wrapper>
+		<Wrapper>
+			<Section>
 				<Back to="/settings" onClick={() => dispatch(setState("settings"))}><ArrowBackIcon/></Back>
+				<Header>
+					Rozmieszczenie statków
+				</Header>
 				<Content>
-					<ShipsBoard board={board}/>
+					<BoardsWrapper>
+						<ShipsBoard board={board}/>
+					</BoardsWrapper>
 					<Settings>
 						<Button $area="arrow-top"
 						        onClick={() => dispatch(setChangeShipPlace("toTop"))}
@@ -88,7 +95,7 @@ export const SetShips = () => {
 				>
 					Start <PlayIcon/>
 				</StyledLink>
-			</Wrapper>
-		</Section>
+			</Section>
+		</Wrapper>
 	)
 };

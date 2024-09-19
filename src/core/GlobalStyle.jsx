@@ -1,12 +1,12 @@
-import { createGlobalStyle } from "styled-components";
+import {createGlobalStyle} from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
     html {
         box-sizing: border-box;
-		    
+
         ::-webkit-scrollbar {
             width: 1vw;
-		        min-width: 6px;
+            min-width: 6px;
         }
 
         ::-webkit-scrollbar-track {
@@ -30,7 +30,9 @@ const GlobalStyle = createGlobalStyle`
     body {
         font-family: "Roboto", sans-serif;
         overflow-y: scroll;
-		    user-select: none;
+        user-select: none;
+        width: 100%;
+        margin: 0 auto;
     }
 `;
 

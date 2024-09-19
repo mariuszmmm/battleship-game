@@ -17,11 +17,11 @@ export const Settings = () => {
 	const players = useSelector(selectPlayers);
 
 	return (
-		<Section>
-			<Wrapper>
+		<Wrapper>
+			<Section>
 				<Back to="/home" onClick={() => dispatch(setState("home"))}><ArrowBackIcon/></Back>
 				<Header>
-					Ustawienia
+					Ustawienia gry
 				</Header>
 				<SettingsItem>
 					<GameMode/>
@@ -34,7 +34,7 @@ export const Settings = () => {
 					to={players === "compVsComp" ? "/playGame" : "/setShips"}
 					onClick={() => dispatch(setState("setShips"))}>
 					Dalej<PlayIcon/></StyledLink>
-			</Wrapper>
-		</Section>
+			</Section>
+		</Wrapper>
 	)
 }

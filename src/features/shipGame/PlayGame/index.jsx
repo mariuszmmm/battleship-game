@@ -41,8 +41,8 @@ export const PlayGame = () => {
 	return (
 		<>
 			{overGame && <ConfirmationDialog setOverGame={setOverGame} text={"Czy chcesz zakończyć grę ?"}/>}
-			<Section>
-				<Wrapper>
+			<Wrapper>
+				<Section>
 					<Back to={null} onClick={() => setOverGame(true)}><HomeIcon/></Back>
 					<Header>
 						{activePlayer === "firstPlayer" ?
@@ -86,8 +86,8 @@ export const PlayGame = () => {
 							</Info>
 						</InfoWrapper>
 					</Content>
-				</Wrapper>
-			</Section>
+				</Section>
+			</Wrapper>
 		</>
 	)
 };

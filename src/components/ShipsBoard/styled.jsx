@@ -5,7 +5,7 @@ export const ShipsBoardWrapper = styled.div`
     grid-template-rows: repeat(10, 10%);
     grid-template-columns: repeat(10, 10%);
     grid-auto-flow: column;
-    width: clamp(280px, 80vw, 450px);
+    width: clamp(280px, 70vw, 450px);
     aspect-ratio: 1/1;
     border: 3px solid #2b2b2b;
     //margin: 0 40px 0;
@@ -13,8 +13,9 @@ export const ShipsBoardWrapper = styled.div`
     position: relative;
     transition: 1s transform;
     ${({$toLeft}) => $toLeft && css`
-        transform: translateX(calc(-100% - 80px));
+        transform: translateX(calc(-100% - 50px));
     `};
+		margin: 30px;
 `;
 
 export const BoardCell = styled.div`
