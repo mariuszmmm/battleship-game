@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import {Section} from "../../../components/Section";
 import {Content, Info, BoardsWrapper, InfoWrapper} from "./styled";
 import {ShipsBoard} from "../../../components/ShipsBoard";
@@ -11,12 +12,11 @@ import {
 	selectSecondPlayerFleet, selectFirstPlayerShotInCell, selectPlayers
 } from "../shipGameSlice.jsx"
 import {Button} from "../../../components/Buttons";
-import {HomeIcon} from "../../../components/Icons";
 import {FleetInfo} from "../../../components/FleetInfo"
-import {useEffect, useState} from "react";
-import {ConfirmationDialog} from "../../../components/ConfirmationDialog";
+import {useEffect} from "react";
 import {Header} from "../../../components/Header/index.jsx";
 import {Wrapper} from "../../../components/Wrapper/index.jsx";
+import {ConfirmationDialog} from "../../../components/ConfirmationDialog/index.jsx";
 
 export const PlayGame = () => {
 	const firstPlayerBoard = useSelector(selectFirstPlayerBoard);
@@ -32,60 +32,63 @@ export const PlayGame = () => {
 	const playersName = ["firstPlayer", "secondPlayer"];
 
 	useEffect(() => {
-		dispatch(setActivePlayer("firstPlayer"))
-	}, [])
+		dispatch(setActivePlayer("firstPlayer"));
 
-	const [overGame, setOverGame] = useState(false)
+		const handleBeforeUnload = (event) => {
+			event.preventDefault();
+		};
+		window.addEventListener('beforeunload', handleBeforeUnload);
+
+		return () => {
+			window.removeEventListener('beforeunload', handleBeforeUnload);
+		};
+	}, []);
 
 	return (
-		<>
-			{overGame && <ConfirmationDialog setOverGame={setOverGame} text={"Czy chcesz zakończyć grę ?"}/>}
-			<Wrapper>
-				<Section>
-					{/*<Back to={null} onClick={() => setOverGame(true)}><HomeIcon/></Back>*/}
-					<Header>
-						{activePlayer === "firstPlayer" ?
-							players === "compVsComp" ? "Ruch komputera pierwszego" : "Twój ruch"
-							:
-							players === "compVsComp" ? "Komputer drugi atakuje" : "Przeciwnik atakuje"
-						}
-					</Header>
-					<Content>
-						<BoardsWrapper>
-							<ShipsBoard board={firstPlayerBoardToShots}
-							            player={playersName[0]}
-							            toLeft={activePlayer === "secondPlayer"}
-							/>
-							<ShipsBoard board={firstPlayerBoard}
-							            toLeft={activePlayer === "secondPlayer"}
-							/>
-						</BoardsWrapper>
-						<InfoWrapper>
-							<Info>
-								<p>Strzały: {firstPlayerNumberOfShots}</p>
-								<p>Statki przeciwnika</p>
-								<FleetInfo fleet={{...secondPlayerFleet}}/>
-								<p>Cel: {firstPlayerTargetInCell}</p>
+		<Wrapper>
+			<Section>
+				<Header>
+					{activePlayer === "firstPlayer" ?
+						players === "compVsComp" ? "Ruch komputera pierwszego" : "Twój ruch"
+						:
+						players === "compVsComp" ? "Komputer drugi atakuje" : "Przeciwnik atakuje"
+					}
+				</Header>
+				<Content>
+					<BoardsWrapper>
+						<ShipsBoard board={firstPlayerBoardToShots}
+						            player={playersName[0]}
+						            toLeft={activePlayer === "secondPlayer"}
+						/>
+						<ShipsBoard board={firstPlayerBoard}
+						            toLeft={activePlayer === "secondPlayer"}
+						/>
+					</BoardsWrapper>
+					<InfoWrapper>
+						<Info>
+							<p>Strzały: {firstPlayerNumberOfShots}</p>
+							<p>Statki przeciwnika</p>
+							<FleetInfo fleet={{...secondPlayerFleet}}/>
+							<p>Cel: {firstPlayerTargetInCell}</p>
 
-							</Info>
-							<Button
-								onClick={() => dispatch(setShot({
-									shotInCell: firstPlayerTargetInCell,
-								}))}
-								disabled={
-									activePlayer !== playersName[0] ||
-									!target ||
-									(target && shotInCell) ||
-									players === "compVsComp"
-								}
-								$shot
-							>
-								STRZAŁ
-							</Button>
-						</InfoWrapper>
-					</Content>
-				</Section>
-			</Wrapper>
-		</>
+						</Info>
+						<Button
+							onClick={() => dispatch(setShot({
+								shotInCell: firstPlayerTargetInCell,
+							}))}
+							disabled={
+								activePlayer !== playersName[0] ||
+								!target ||
+								(target && shotInCell) ||
+								players === "compVsComp"
+							}
+							$shot
+						>
+							STRZAŁ
+						</Button>
+					</InfoWrapper>
+				</Content>
+			</Section>
+		</Wrapper>
 	)
 };

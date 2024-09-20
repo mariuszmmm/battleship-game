@@ -1,20 +1,19 @@
-import {Overlay, Wrapper, ButtonContainer} from "./styled.jsx";
-import {StyledLink} from "../Buttons/index.jsx";
+import {Overlay, Wrapper} from "./styled.jsx";
+import {ButtonsContainer, StyledLink} from "../Buttons/index.jsx";
 import {setState} from "../../features/shipGame/shipGameSlice.jsx";
 import {useDispatch} from "react-redux";
 
-// eslint-disable-next-line
-export const ConfirmationDialog = ({setOverGame, text} ) => {
+export const ConfirmationDialog = () => {
 	const dispatch = useDispatch();
 
 	return (
 		<Wrapper>
 			<Overlay>
-				<p>{text}</p>
-				<ButtonContainer>
+				<p>Czy chcesz wyjść ?</p>
+				<ButtonsContainer>
 					<StyledLink to="/home" onClick={() => dispatch(setState("home"))}>TAK</StyledLink>
-					<StyledLink to="/playGame" onClick={() => setOverGame(false)}>NIE</StyledLink>
-				</ButtonContainer>
+					<StyledLink to="/playGame">NIE</StyledLink>
+				</ButtonsContainer>
 			</Overlay>
 		</Wrapper>
 	)

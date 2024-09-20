@@ -19,9 +19,13 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 	const players = useSelector(selectPlayers);
 	const activePlayer = useSelector(selectActivePlayer);
 
-	const onClickTargetHandler = (cell) => {
+	const onClickHandler = (cell) => {
 		if ((target && shotInCell) || players === "compVsComp") return;
 		dispatch(setTarget({target: cell.id, player}))
+
+		if (cell.cell === "ship") {
+			dispatch(setShipSelectedNumber({number: cell.ship.numberOfShip}))
+		}
 	};
 
 	return (
@@ -30,7 +34,7 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 			{board.map((col, colIndex) =>
 				col.map((cell, cellIndex) =>
 					<BoardCell key={cell.id}
-					           onClick={() => onClickTargetHandler(cell)}
+					           onClick={() => onClickHandler(cell)}
 					           $targetedLine={state === "playGame" &&
 						           (
 							           cell.col.name === target?.charAt(0) ||
@@ -57,11 +61,9 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 							          $bottom={(cell.ship?.neighbors.bottom && cell.target !== "hit"
 									          && cell.target !== null) ||
 								          (cell.ship?.neighbors.bottom && cell.shipState === "sunk")}
-							          onClick={() => dispatch(setShipSelectedNumber({number: cell.ship.numberOfShip}))}
 							          $selected={state === "setShips" && cell.ship?.selected}
 							          $sunk={cell.shipState === "sunk"}
 							          $compVsComp={players === "compVsComp"}
-							          $hovered={state === "setShips"}
 							/>}
 						{cell.cell !== "ship" &&
 							<Empty key={cell?.id}

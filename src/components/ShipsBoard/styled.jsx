@@ -5,17 +5,16 @@ export const ShipsBoardWrapper = styled.div`
     grid-template-rows: repeat(10, 10%);
     grid-template-columns: repeat(10, 10%);
     grid-auto-flow: column;
-    width: clamp(280px, 70vw, 450px);
+    width: clamp(280px, 72vw, 450px);
     aspect-ratio: 1/1;
     border: 3px solid #2b2b2b;
-    //margin: 0 40px 0;
-		margin-left: 0;
     position: relative;
     transition: 1s transform;
+    margin: 30px 0 30px 30px;
+
     ${({$toLeft}) => $toLeft && css`
         transform: translateX(calc(-100% - 50px));
     `};
-		margin: 30px;
 `;
 
 export const BoardCell = styled.div`
@@ -76,9 +75,6 @@ export const ShipItem = styled.div`
     transition: .3s filter, .3s background-color;
 
     &:hover {
-        ${({$hovered}) => $hovered && css`
-            filter: brightness(0.8);
-        `});
         ${({$compVsComp}) => $compVsComp && css`
             filter: none;
         `});

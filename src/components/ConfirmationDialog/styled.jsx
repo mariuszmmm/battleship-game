@@ -31,11 +31,3 @@ export const Overlay = styled.div`
         font-size: 1.5rem;
     }
 `
-
-export const ButtonContainer = styled.div`
-    //display: flex;
-    //width: 100%;
-    //justify-content: center;
-    //margin: 10px;
-    //gap: 20px;
-`

@@ -105,6 +105,7 @@ export const Button = styled.button`
     ${({$shot}) => $shot && css`
         background-color: ${({theme}) =>
                 theme && theme.colors.button.shotButton};
+        transition: 0s background-color;
 
         &:hover {
             background-color: rgba(255, 0, 0, 1);

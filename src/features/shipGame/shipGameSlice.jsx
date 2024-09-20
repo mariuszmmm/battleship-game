@@ -12,7 +12,6 @@ const defaultState = {
 	activePlayer: null,
 	firstPlayer: {
 		board: boardSchemat(),
-		boardGameStarted: null,
 		boardToShots: boardSchemat(),
 		fleet: [],
 		target: null,
@@ -21,7 +20,6 @@ const defaultState = {
 	},
 	secondPlayer: {
 		board: boardSchemat(),
-		boardGameStarted: null,
 		boardToShots: boardSchemat(),
 		fleet: [],
 		target: null,

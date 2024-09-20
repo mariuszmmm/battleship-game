@@ -8,12 +8,11 @@ export const Header = styled.header`
     display: flex;
     justify-content: center;
     align-items: center;
-    //margin: 10px 0 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
     font-size: 1.3rem;
     font-weight: bold;
     letter-spacing: 2px;
     padding: 10px;
-		width: 600px;
+    width: 600px;
     max-width: 90%;
 `;
