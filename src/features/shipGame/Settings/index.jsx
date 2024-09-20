@@ -3,8 +3,11 @@ import {GameMode} from "./GameMode/index.jsx";
 import {Ships} from "./Ships/index.jsx";
 import {Shots} from "./Shots/index.jsx";
 import {Additional} from "./Additional/index.jsx";
-import {ArrowBackIcon, PlayIcon} from "../../../components/Icons/index.jsx";
-import {Back, StyledLink} from "../../../components/Buttons/index.jsx";
+import {
+	ArrowBackIcon,
+	ArrowForwardIcon
+} from "../../../components/Icons/index.jsx";
+import {ButtonsContainer, StyledLink} from "../../../components/Buttons/index.jsx";
 import {Section} from "../../../components/Section/index.jsx";
 import {selectPlayers, setState} from "../shipGameSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
@@ -19,7 +22,6 @@ export const Settings = () => {
 	return (
 		<Wrapper>
 			<Section>
-				<Back to="/home" onClick={() => dispatch(setState("home"))}><ArrowBackIcon/></Back>
 				<Header>
 					Ustawienia gry
 				</Header>
@@ -30,10 +32,13 @@ export const Settings = () => {
 					<Shots/>
 					<Additional/>
 				</SettingsItem>
-				<StyledLink
-					to={players === "compVsComp" ? "/playGame" : "/setShips"}
-					onClick={() => dispatch(setState("setShips"))}>
-					Dalej<PlayIcon/></StyledLink>
+				<ButtonsContainer>
+					<StyledLink to="/home" onClick={() => dispatch(setState("home"))}><ArrowBackIcon/>Wstecz</StyledLink>
+					<StyledLink
+						to={players === "compVsComp" ? "/playGame" : "/setShips"}
+						onClick={() => dispatch(setState("setShips"))}>
+						Dalej<ArrowForwardIcon/></StyledLink>
+				</ButtonsContainer>
 			</Section>
 		</Wrapper>
 	)

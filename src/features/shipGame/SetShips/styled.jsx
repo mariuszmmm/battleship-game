@@ -6,12 +6,12 @@ export const Content = styled.div`
     //gap: 20px;
     align-items: start;
     justify-items: center;
-    align-self: start;
+    align-self: center;
     padding: 0 10px;
 
     @media (max-width: 900px) {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 10px;
         align-self: center;
     }
 `;
@@ -19,17 +19,19 @@ export const Content = styled.div`
 export const Settings = styled.div`
     display: grid;
     width: 100%;
-    grid-template-areas: 
-        "random random random"
-        ". arrow-top ."
+    grid-template-areas:
+				    ". arrow-top ."
         "arrow-left rotate arrow-right"
-        ". arrow-down check-on";
+        ". arrow-down check-on"
+				"random random random"
+				"navigation navigation navigation";
     justify-items: center;
     justify-content: center;
     gap: 20px;
+    margin-top: 30px;
 
-    //@media (max-width: 700px) {
-    //    //width: 85vw;
-	//	    gap: 15px
-    //}
+    @media (max-width: 900px) {
+        margin: 0;
+
+    }
 `;

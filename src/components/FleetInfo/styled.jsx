@@ -4,7 +4,7 @@ export const Item = styled.li`
     list-style: none;
 		display: flex;
 		justify-content: space-between;
-		width: 100%;
+		width: 103%;
 `;
 
 export const List = styled.ul`

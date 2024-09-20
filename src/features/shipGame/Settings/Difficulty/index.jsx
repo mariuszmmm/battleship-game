@@ -1,5 +1,5 @@
-import {ButtonsContainer, Fieldset, Legend} from "../styled.jsx";
-import {Button} from "../../../../components/Buttons/index.jsx";
+import {Fieldset, Legend} from "../styled.jsx";
+import {Button, ButtonsContainer} from "../../../../components/Buttons/index.jsx";
 
 export const Difficulty = () => {
 

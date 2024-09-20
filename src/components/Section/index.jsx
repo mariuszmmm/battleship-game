@@ -7,7 +7,7 @@ export const Section = styled.section`
     width: 100%;
     max-width: 1200px;
     background-color: bisque;
-    padding: 10px 10px 50px;
+    padding: 40px 10px;
     min-height: calc(100vh - clamp(10px, 4vw, 40px));
     gap: 40px;
 `;

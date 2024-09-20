@@ -1,7 +1,7 @@
-import {ButtonsContainer, Fieldset, Legend} from "../styled.jsx";
+import {Fieldset, Legend} from "../styled.jsx";
 import {selectPlayers, setParameters} from "../../shipGameSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {Button} from "../../../../components/Buttons/index.jsx";
+import {Button, ButtonsContainer} from "../../../../components/Buttons/index.jsx";
 import {UserIcon, DesktopIcon} from "../../../../components/Icons/index.jsx";
 
 

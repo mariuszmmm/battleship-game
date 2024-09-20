@@ -33,9 +33,9 @@ export const Overlay = styled.div`
 `
 
 export const ButtonContainer = styled.div`
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    margin: 10px;
-    gap: 20px;
+    //display: flex;
+    //width: 100%;
+    //justify-content: center;
+    //margin: 10px;
+    //gap: 20px;
 `

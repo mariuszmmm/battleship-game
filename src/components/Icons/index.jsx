@@ -29,8 +29,8 @@ export const PlayIcon = styled(Play)`
 
 export const RandomIcon = styled(Random)`
     ${iconStyles};
-    width: 35px;
-    height: 35px;
+    width: 26px;
+    height: 26px;
 `;
 
 export const RotateRightIcon = styled(RotateRight)`
@@ -63,6 +63,7 @@ export const ArrowDownIcon = styled(ArrowDown)`
     height: 50px;
 `;
 
+
 export const CheckIcon = styled(Check)`
     ${iconStyles};
     width: 50px;
@@ -70,6 +71,12 @@ export const CheckIcon = styled(Check)`
 `;
 
 export const ArrowBackIcon = styled(ArrowLeftIcon)`
+    ${iconStyles};
+    width: 26px;
+    height: 26px;
+`;
+
+export const ArrowForwardIcon = styled(ArrowRightIcon)`
     ${iconStyles};
     width: 26px;
     height: 26px;

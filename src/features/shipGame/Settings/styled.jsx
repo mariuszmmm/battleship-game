@@ -32,12 +32,6 @@ export const Label = styled.label`
     ${({$disabled}) => $disabled && css`
         color: lightgrey
     `}
-`
-export const ButtonsContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 0 5px 0 5px;
 `;
 
 export const AdditionalItemsContainer = styled.div`

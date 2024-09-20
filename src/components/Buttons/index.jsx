@@ -1,6 +1,18 @@
 import styled, {css} from "styled-components";
 import {Link} from 'react-router-dom';
 
+export const ButtonsContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 0 5px;
+
+    ${({$area}) => $area && css`
+        grid-area: ${$area};
+    `};
+`;
+
 const disabledStyles = css`
     background-color: ${({theme}) =>
             theme.colors.button.disabledBackgroundColor};
@@ -30,6 +42,19 @@ const buttonStyles = css`
     transition: 0.3s background-color, .6s color;
     box-shadow: ${({theme}) =>
             theme.boxShadow.button};
+
+    ${({$area}) => $area && css`
+        width: 100%;
+        grid-area: ${$area};
+
+        ${$area === "random" && css`
+            margin: 15px 0;
+            max-width: 270px;
+            @media (max-width: 700px ) {
+                margin: 10px 0;
+            }
+        `}
+    `};
 
     &:hover {
         background-color: rgba(140, 90, 65, 1)
@@ -73,18 +98,6 @@ export const Button = styled.button`
         }
     `}
 
-    ${({$area}) => $area && css`
-        width: 100%;
-        grid-area: ${$area};
-
-        ${$area === "random" && css`
-            margin: 20px 0;
-            @media (max-width: 700px ) {
-                margin: 10px 0;
-            }
-        `}
-    `};
-
     ${({theme, $setting}) => theme && $setting && css`
         width: 100%;
     `}
@@ -109,17 +122,18 @@ export const StyledLink = styled(Link)`
     ${buttonStyles};
     text-decoration: none;
     padding: 10px;
+    width: 130px;
 
     ${({$disabled}) => $disabled && css`
         ${disabledStyles}
     `};
 `;
 
-export const Back = styled(StyledLink)`
-    align-self: flex-start;
-
-    @media (max-width: 700px) {
-        padding: 5px;
-    }
-`;
+// export const Back = styled(StyledLink)`
+//     align-self: flex-start;
+//
+//     @media (max-width: 700px) {
+//         padding: 5px;
+//     }
+// `;
 

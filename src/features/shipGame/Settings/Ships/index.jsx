@@ -1,7 +1,7 @@
-import {ButtonsContainer, Fieldset, Legend} from "../styled.jsx";
+import {Fieldset, Legend} from "../styled.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {selectNumberOfShips, selectNumberOfShots, setParameters} from "../../shipGameSlice.jsx";
-import {Button} from "../../../../components/Buttons/index.jsx";
+import {Button, ButtonsContainer} from "../../../../components/Buttons/index.jsx";
 
 export const Ships = () => {
 	const numberOfShips = useSelector(selectNumberOfShips);

@@ -10,12 +10,11 @@ import {
 	setShot, setActivePlayer,
 	selectSecondPlayerFleet, selectFirstPlayerShotInCell, selectPlayers
 } from "../shipGameSlice.jsx"
-import {Back, Button} from "../../../components/Buttons";
+import {Button} from "../../../components/Buttons";
 import {HomeIcon} from "../../../components/Icons";
 import {FleetInfo} from "../../../components/FleetInfo"
 import {useEffect, useState} from "react";
 import {ConfirmationDialog} from "../../../components/ConfirmationDialog";
-import {ButtonContainer} from "../../../components/ConfirmationDialog/styled.jsx";
 import {Header} from "../../../components/Header/index.jsx";
 import {Wrapper} from "../../../components/Wrapper/index.jsx";
 
@@ -43,12 +42,12 @@ export const PlayGame = () => {
 			{overGame && <ConfirmationDialog setOverGame={setOverGame} text={"Czy chcesz zakończyć grę ?"}/>}
 			<Wrapper>
 				<Section>
-					<Back to={null} onClick={() => setOverGame(true)}><HomeIcon/></Back>
+					{/*<Back to={null} onClick={() => setOverGame(true)}><HomeIcon/></Back>*/}
 					<Header>
 						{activePlayer === "firstPlayer" ?
-							"Twój ruch"
+							players === "compVsComp" ? "Ruch komputera pierwszego" : "Twój ruch"
 							:
-							"Przeciwnik atakuje"
+							players === "compVsComp" ? "Komputer drugi atakuje" : "Przeciwnik atakuje"
 						}
 					</Header>
 					<Content>
@@ -67,23 +66,22 @@ export const PlayGame = () => {
 								<p>Statki przeciwnika</p>
 								<FleetInfo fleet={{...secondPlayerFleet}}/>
 								<p>Cel: {firstPlayerTargetInCell}</p>
-								<ButtonContainer>
-									<Button
-										onClick={() => dispatch(setShot({
-											shotInCell: firstPlayerTargetInCell,
-										}))}
-										disabled={
-											activePlayer !== playersName[0] ||
-											!target ||
-											(target && shotInCell) ||
-											players === "compVsComp"
-										}
-										$shot
-									>
-										STRZAŁ
-									</Button>
-								</ButtonContainer>
+
 							</Info>
+							<Button
+								onClick={() => dispatch(setShot({
+									shotInCell: firstPlayerTargetInCell,
+								}))}
+								disabled={
+									activePlayer !== playersName[0] ||
+									!target ||
+									(target && shotInCell) ||
+									players === "compVsComp"
+								}
+								$shot
+							>
+								STRZAŁ
+							</Button>
 						</InfoWrapper>
 					</Content>
 				</Section>
