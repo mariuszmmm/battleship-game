@@ -14,21 +14,17 @@ export const ButtonsContainer = styled.div`
 `;
 
 const disabledStyles = css`
-    background-color: ${({theme}) =>
-            theme.colors.button.disabledBackgroundColor};
-    box-shadow: ${({theme}) =>
-            theme.boxShadow.disabledButton};
+    background-color: ${({theme}) => theme.colors.button.disabledBackgroundColor};
+    box-shadow: ${({theme}) => theme.boxShadow.disabledButton};
+    border-color: ${({theme}) => theme.colors.button.disabled};
     cursor: auto;
-    border-color: ${({theme}) =>
-            theme.colors.button.disabled};
 `;
 
 const buttonStyles = css`
     background-color: ${({theme}) => theme.colors.button.backgroundColor};
     color: ${({theme}) => theme.colors.button.text};
+    border: 2px solid ${({theme}) => theme.colors.button.borderColor};
     padding: 10px 15px;
-    border: 2px solid ${({theme}) =>
-            theme.colors.button.borderColor};
     border-radius: 10px;
     min-width: max-content;
     max-width: 120px;
@@ -40,17 +36,16 @@ const buttonStyles = css`
     gap: 10px;
     cursor: pointer;
     transition: 0.3s background-color, .6s color;
-    box-shadow: ${({theme}) =>
-            theme.boxShadow.button};
+    box-shadow: ${({theme}) =>            theme.boxShadow.button};
 
     ${({$area}) => $area && css`
-        width: 100%;
         grid-area: ${$area};
+        width: 100%;
 
         ${$area === "random" && css`
             margin: 15px 0;
             max-width: 270px;
-            @media (max-width: 700px ) {
+            @media (max-width: ${({theme}) => theme && theme.breakpoint.medium}) {
                 margin: 10px 0;
             }
         `}

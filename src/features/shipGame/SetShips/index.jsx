@@ -10,7 +10,7 @@ import {
 	selectSelectedShip,
 	selectWrongSettingOfShips,
 	selectLockedMoves,
-	selectFirstPlayerBoard, selectApprovedSetting, selectState,
+	selectFirstPlayerBoard, selectApprovedSetting, selectState, selectSound,
 } from "../shipGameSlice";
 import {
 	ArrowDownIcon,
@@ -25,15 +25,41 @@ import {Wrapper} from "../../../components/Wrapper/index.jsx";
 import {Header} from "../../../components/Header/index.jsx";
 import {BoardsWrapper} from "../PlayGame/styled.jsx";
 import {ConfirmationDialog} from "../../../components/ConfirmationDialog/index.jsx";
+import seaWaves from "../../../assets/Audio/seaWaves.mp3";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 export const SetShips = () => {
 	const board = useSelector(selectFirstPlayerBoard);
 	const selectedShip = useSelector(selectSelectedShip);
 	const wrongSettingOfShips = useSelector(selectWrongSettingOfShips);
 	const lockedMoves = useSelector(selectLockedMoves);
-	const approvedSetting = useSelector(selectApprovedSetting)
-	const state = useSelector(selectState)
+	const approvedSetting = useSelector(selectApprovedSetting);
+	const state = useSelector(selectState);
+	const sound = useSelector(selectSound);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	const onPlayGame = () => {
+		dispatch(setState("playGame"));
+	}
+
+	useEffect(() => {
+		const handleBeforeUnload = (event) => {
+			event.preventDefault();
+		};
+
+		window.addEventListener('beforeunload', (event) => event.preventDefault());
+
+		if (state === "home") {
+			navigate("/home");
+			dispatch(setState("home"))
+		}
+
+		return () => {
+			window.removeEventListener('beforeunload', handleBeforeUnload);
+		};
+	}, []);
 
 	return (
 		<>
@@ -96,7 +122,7 @@ export const SetShips = () => {
 									<StyledLink
 										to="/playGame"
 										$disabled={selectedShip.length > 0 || !approvedSetting}
-										onClick={() => dispatch(setState("playGame"))}
+										onClick={onPlayGame}
 									>
 										Start<ArrowForwardIcon/>
 									</StyledLink>

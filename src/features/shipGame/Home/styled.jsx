@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import background from "../../../assets/background.jpg"
+import background from "../../../assets/Images/background.jpg"
 
 export const HomeWrapper = styled.div`
     display: flex;

@@ -14,5 +14,5 @@ createRoot(document.getElementById('root')).render(
 			<GlobalStyle/>
 			<App/>
 		</ThemeProvider>
-	</Provider>,
+	</Provider>
 );

@@ -5,7 +5,6 @@ import {Settings} from "../../features/shipGame/Settings";
 import {SetShips} from "../../features/shipGame/SetShips";
 import {PlayGame} from "../../features/shipGame/PlayGame";
 
-
 const App = () => {
 	return (
 		<HashRouter>

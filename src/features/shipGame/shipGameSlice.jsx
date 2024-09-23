@@ -1,30 +1,38 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {boardSchemat} from "./SetShips/boardSchemat.jsx";
+import {getLocalStorage, setLocalStorage} from "../../utils/localStorage.jsx"
 
-const defaultState = {
+const parameters = {
+	players: "compVsPlayer",
+	difficultyLevel: "easy",
+	numberOfShips: 5,
+	numberOfShots: 1,
+	shotsEqualShips: false,
+	mayTouch: false,
+	sound: true,
+};
+
+const getInitialState = () => ({
 	state: "home",
-	parameters: {
-		players: "compVsPlayer",
-		numberOfShips: 5,
-		numberOfShots: 1,
-		mayTouch: false,
-	},
+	parameters: getLocalStorage("parameters") || parameters,
 	activePlayer: null,
 	firstPlayer: {
 		board: boardSchemat(),
 		boardToShots: boardSchemat(),
 		fleet: [],
+		numberOfShips: null,
+		numberOfShots: null,
 		target: null,
 		shotInCell: null,
-		numberOfShots: 0,
 	},
 	secondPlayer: {
 		board: boardSchemat(),
 		boardToShots: boardSchemat(),
 		fleet: [],
+		numberOfShips: null,
+		numberOfShots: null,
 		target: null,
 		shotInCell: null,
-		numberOfShots: 0,
 	},
 	settingShips: {
 		selectedShip: {number: null, ship: []},
@@ -33,11 +41,12 @@ const defaultState = {
 		wrongSettingOfShips: false,
 		approvedSetting: false,
 	},
-};
+	winner: null,
+});
 
 const shipGameSlice = createSlice({
 	name: "shipGame",
-	initialState: defaultState,
+	initialState: getInitialState(),
 	reducers:
 		{
 			setState: (state, {payload: currentState}) => {
@@ -48,6 +57,7 @@ const shipGameSlice = createSlice({
 					...state.parameters,
 					...parameter,
 				};
+				setLocalStorage("parameters", state.parameters);
 			},
 			setActivePlayer: (state, {payload: activePlayer}) => {
 				state.activePlayer = activePlayer;
@@ -67,11 +77,27 @@ const shipGameSlice = createSlice({
 			setFleetForSecondPlayer: (state, {payload: fleet}) => {
 				state.secondPlayer.fleet = fleet
 			},
+			setNumberOfShips: (state, {payload: number}) => {
+				if (state.activePlayer === "firstPlayer") state["secondPlayer"].numberOfShips = number;
+				if (state.activePlayer === "secondPlayer") state["firstPlayer"].numberOfShips = number;
+			},
+			getParameters: (state) => {
+				const numberOfShots = state.parameters.numberOfShots === "ships" ?
+					state.parameters.numberOfShips : state.parameters.numberOfShots;
+				const numberOfShips = state.parameters.numberOfShips;
+				state.firstPlayer = {
+					...state.firstPlayer, numberOfShips, numberOfShots
+				};
+				state.secondPlayer = {
+					...state.secondPlayer, numberOfShips, numberOfShots
+				};
+			},
 			setTarget: (state, {payload: {target, player}}) => {
 				if (player !== state.activePlayer) return;
 				state[state.activePlayer].target = target
 			},
-			setShot: (state, {payload: {shotInCell}}) => {
+			setShot: (state, {payload: {shotInCell, player}}) => {
+				if (player !== state.activePlayer) return;
 				state[state.activePlayer].shotInCell = shotInCell
 			},
 			subtractShot: (state) => {
@@ -79,7 +105,11 @@ const shipGameSlice = createSlice({
 				if (player.numberOfShots > 0) player.numberOfShots--;
 			},
 			setNumberOfShots: (state) => {
-				state[state.activePlayer].numberOfShots = state.parameters.numberOfShots;
+				if (state.parameters.shotsEqualShips) {
+					state[state.activePlayer].numberOfShots = state[state.activePlayer].numberOfShips;
+				} else {
+					state[state.activePlayer].numberOfShots = state.parameters.numberOfShots;
+				}
 			},
 			setShipSelectedNumber:
 				(state, {payload: number}) => {
@@ -100,12 +130,29 @@ const shipGameSlice = createSlice({
 			setApprovedSetting: (state, {payload: boolean}) => {
 				state.settingShips.approvedSetting = boolean;
 			},
-			setClearBoard: () => defaultState,
+			setClearBoard: () => {
+				console.log("setClearBoard")
+
+				return getInitialState()
+			},
 			clearAfterSwitchActivePlayer: (state) => {
 				state.firstPlayer.target = null;
 				state.firstPlayer.shotInCell = null;
 				state.secondPlayer.target = null;
 				state.secondPlayer.shotInCell = null;
+			},
+			setWinner: (state, {payload: winner}) => {
+				state.winner = winner;
+				if (state.parameters.players === "compVsComp") return;
+				const results = getLocalStorage("results");
+				if (winner === "firstPlayer") setLocalStorage("results", results?.wygrana ? {
+					...results,
+					wygrana: ++results.wygrana
+				} : {...results, wygrana: 1});
+				if (winner === "secondPlayer") setLocalStorage("results", results?.przegrana ? {
+					...results,
+					przegrana: ++results.przegrana
+				} : {...results, przegrana: 1});
 			},
 		}
 });
@@ -119,6 +166,8 @@ export const {
 	setBoardForPlayerShots,
 	setFleetForFirstPlayer,
 	setFleetForSecondPlayer,
+	setNumberOfShips,
+	getParameters,
 	setTarget,
 	setShot,
 	subtractShot,
@@ -131,6 +180,7 @@ export const {
 	setApprovedSetting,
 	setClearBoard,
 	clearAfterSwitchActivePlayer,
+	setWinner,
 }
 	= shipGameSlice.actions;
 
@@ -139,10 +189,13 @@ const selectPlayState = (state) => state.shipGame;
 export const selectState = (state) => selectPlayState(state).state;
 
 export const selectParameters = (state) => selectPlayState(state).parameters;
-export const selectPlayers = (state) => selectParameters(state).players
-export const selectNumberOfShips = (state) => selectParameters(state).numberOfShips
-export const selectNumberOfShots = (state) => selectParameters(state).numberOfShots
-export const selectMayTouch = (state) => selectParameters(state).mayTouch
+export const selectPlayers = (state) => selectParameters(state).players;
+export const selectDifficultyLevel = (state) => selectParameters(state).difficultyLevel;
+export const selectNumberOfShips = (state) => selectParameters(state).numberOfShips;
+export const selectNumberOfShots = (state) => selectParameters(state).numberOfShots;
+export const selectMayTouch = (state) => selectParameters(state).mayTouch;
+export const selectShotsEqualShips = (state) => selectParameters(state).shotsEqualShips;
+export const selectSound = (state) => selectParameters(state).sound;
 
 export const selectActivePlayer = (state) => selectPlayState(state).activePlayer;
 
@@ -152,6 +205,7 @@ export const selectFirstPlayerBoardToShots = (state) => selectFirstPlayer(state)
 export const selectFirstPlayerTarget = (state) => selectFirstPlayer(state).target;
 export const selectFirstPlayerShotInCell = (state) => selectFirstPlayer(state).shotInCell;
 export const selectFirstPlayerFleet = (state) => selectFirstPlayer(state).fleet;
+export const selectFirstPlayerNumberOfShips = (state) => selectFirstPlayer(state).numberOfShips;
 export const selectFirstPlayerNumberOfShots = (state) => selectFirstPlayer(state).numberOfShots;
 
 export const selectSecondPlayer = (state) => selectPlayState(state).secondPlayer;
@@ -160,6 +214,7 @@ export const selectSecondPlayerBoardToShots = (state) => selectSecondPlayer(stat
 export const selectSecondPlayerTarget = (state) => selectSecondPlayer(state).target;
 export const selectSecondPlayerShotInCell = (state) => selectSecondPlayer(state).shotInCell;
 export const selectSecondPlayerFleet = (state) => selectSecondPlayer(state).fleet;
+export const selectSecondPlayerNumberOfShips = (state) => selectSecondPlayer(state).numberOfShips;
 export const selectSecondPlayerNumberOfShots = (state) => selectSecondPlayer(state).numberOfShots;
 
 export const selectSettingShips = (state) => selectPlayState(state).settingShips;
@@ -169,6 +224,8 @@ export const selectChangeShipPlace = (state) => selectSettingShips(state).change
 export const selectLockedMoves = (state) => selectSettingShips(state).lockedMoves;
 export const selectWrongSettingOfShips = (state) => selectSettingShips(state).wrongSettingOfShips;
 export const selectApprovedSetting = (state) => selectSettingShips(state).approvedSetting;
+
+export const selectWinner = (state) => selectPlayState(state).winner;
 
 export default shipGameSlice.reducer;
 

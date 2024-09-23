@@ -13,7 +13,7 @@ export const SettingsItem = styled.div`
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
     padding: 10px;
     width: 600px;
-    max-width: 100%;
+    max-width: 95%;
 `;
 
 export const Fieldset = styled.fieldset`
@@ -37,8 +37,9 @@ export const Label = styled.label`
 export const AdditionalItemsContainer = styled.div`
     display: flex;
     flex-direction: column;
-		width: 100%;
-		align-items: center;
+    width: 100%;
+    align-items: center;
+    gap: 5px;
 `;
 
 export const AdditionalItem = styled.div`

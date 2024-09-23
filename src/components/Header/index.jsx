@@ -14,5 +14,9 @@ export const Header = styled.header`
     letter-spacing: 2px;
     padding: 10px;
     width: 600px;
-    max-width: 90%;
+    max-width: 95%;
+		
+    @media (max-width: 900px) {
+        font-size: 1.2rem;
+    };
 `;

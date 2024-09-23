@@ -1,32 +1,25 @@
 import {takeLatest, select, call, put, delay} from "redux-saga/effects";
 import {
-	selectParameters,
-	selectFirstPlayerBoard,
-	selectSelectedShip,
-	selectMayTouch,
-	setBoardForFirstPlayer,
-	setState,
-	setShipSelectedNumber,
-	setChangeShipPlace,
-	setSelectedShip,
-	setLockedMoves,
-	setWrongSettingOfShips,
-	setApprovedSetting,
-	setTarget,
-	setBoardForPlayerShots,
-	setBoardForSecondPlayer,
-	selectFirstPlayerBoardToShots,
-	selectSecondPlayerBoard,
-	selectSecondPlayerBoardToShots,
-	setNumberOfShots,
-	setShot, setActivePlayer, selectFirstPlayerNumberOfShots,
-	selectSecondPlayerNumberOfShots, subtractShot,
-	selectFirstPlayerShotInCell, selectSecondPlayerShotInCell,
 	selectActivePlayer, selectPlayers,
+	selectParameters, selectMayTouch, selectDifficultyLevel,
+	selectFirstPlayerBoard, selectFirstPlayerBoardToShots,
+	selectSecondPlayerBoard, selectSecondPlayerBoardToShots,
+	selectFirstPlayerFleet, selectSecondPlayerFleet,
+	selectFirstPlayerNumberOfShots, selectSecondPlayerNumberOfShots,
+	selectFirstPlayerShotInCell, selectSecondPlayerShotInCell,
+	selectSelectedShip, selectChangeShipPlace,
+	selectWinner, selectSecondPlayerNumberOfShips,
+	setState, setActivePlayer,
+	setBoardForFirstPlayer, setBoardForPlayerShots,
+	setBoardForSecondPlayer,
 	setFleetForFirstPlayer, setFleetForSecondPlayer,
-	selectFirstPlayerFleet, selectSecondPlayerFleet, selectChangeShipPlace,
-	setClearBoard,
-	clearAfterSwitchActivePlayer
+	setNumberOfShips,
+	setSelectedShip, setShipSelectedNumber, setChangeShipPlace,
+	setLockedMoves, setWrongSettingOfShips, setApprovedSetting,
+	setTarget, setShot, subtractShot, setNumberOfShots,
+	setClearBoard, clearAfterSwitchActivePlayer,
+	setWinner, selectFirstPlayerNumberOfShips, selectShotsEqualShips,
+	selectSound, selectState,
 } from "./shipGameSlice.jsx";
 import {addRandomShips} from "./SetShips/addRandomShips.jsx"
 import {changeSelectedShip} from "./SetShips/changeSelectedShip.jsx";
@@ -36,8 +29,14 @@ import {moveShip} from "./SetShips/moveShip.jsx";
 import {getTarget} from "./PlayGame/getTarget.jsx";
 import {getShot} from "./PlayGame/getShot.jsx";
 import {computerChooses} from "./PlayGame/computerChooses.jsx"
+import {isWinner} from "./PlayGame/isWinner.jsx";
+import shotSound from "../../assets/Audio/shot.mp3";
+import sunk from "../../assets/Audio/sunk.mp3";
+import siren from "../../assets/Audio/siren.mp3";
+import hit from "../../assets/Audio/hit.mp3";
 
 function* setShipsHandler({payload: currentState}) {
+	console.log("setShipsHandler")
 	if (currentState === "home") yield put(setClearBoard());
 	if (currentState !== "setShips") return;
 
@@ -101,6 +100,12 @@ function* setChangeShipPlaceHandler() {
 }
 
 function* setTargetHandler({payload: {target, player}}) {
+	console.log("setTargetHandler")
+	const state = yield select(selectState);
+	if (state !== "playGame") {
+		yield put(setClearBoard())
+		return;
+	}
 	const activePlayer = yield select(selectActivePlayer)
 	if (player !== activePlayer) return;
 
@@ -119,6 +124,15 @@ function* setTargetHandler({payload: {target, player}}) {
 }
 
 function* setShotHandler() {
+	console.log("setShotHandler")
+	const state = yield select(selectState);
+	if (state !== "playGame") {
+		yield put(setClearBoard())
+		return;
+	}
+	const gameOver = yield select(selectWinner);
+	if (gameOver) return;
+
 	const forActivePlayer = {
 		firstPlayer: {
 			selectShotInCell: selectFirstPlayerShotInCell,
@@ -142,19 +156,29 @@ function* setShotHandler() {
 	const shotInCell = yield select(forActivePlayer[activePlayer].selectShotInCell)
 	const board = yield select(forActivePlayer[activePlayer].selectBoard)
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots)
-	const fleet = yield select(forActivePlayer[activePlayer].selectEnemyFleet)
-	const {boardToShotsAfterShot, boardAfterShot, newFleet} = yield call(getShot, {
+	const fleet = yield select(forActivePlayer[activePlayer].selectEnemyFleet);
+	const {boardToShotsAfterShot, boardAfterShot, newFleet, shipsNumber, isSunkShip, hitShip} = yield call(getShot, {
 		boardToShots,
 		board,
 		shotInCell,
 		fleet
 	});
+
+	const sound = yield select(selectSound);
+
+	if (sound && (isSunkShip || hitShip)) {
+		const sunkSound = new Audio(sunk);
+		const hitSound = new Audio(hit);
+		isSunkShip ? sunkSound.play() : hitSound.play();
+	}
+
 	yield put(subtractShot());
 	const numberOfShots = yield select(forActivePlayer[activePlayer].selectNumberOfShots)
 	yield put(setBoardForPlayerShots(boardToShotsAfterShot));
+	yield put(setNumberOfShips(shipsNumber))
 
 	if (activePlayer === "firstPlayer") {
-		yield put(setFleetForSecondPlayer(newFleet))
+		yield put(setFleetForSecondPlayer(newFleet));
 		yield put(setBoardForSecondPlayer(boardAfterShot));
 	}
 
@@ -163,40 +187,105 @@ function* setShotHandler() {
 		yield put(setBoardForFirstPlayer(boardAfterShot));
 	}
 
-	yield delay(1000)
+	const winner = yield call(isWinner, {fleet: newFleet, activePlayer});
+	if (winner) {
+		yield delay(2000);
+		yield put(setWinner(winner))
+		return;
+	}
+
+	yield put(clearAfterSwitchActivePlayer())
+
 	if (numberOfShots <= 0) {
+		yield delay(1500);
+		if (sound) {
+			const audio = new Audio(siren);
+			audio.play();
+		}
 		yield put(setActivePlayer(forActivePlayer[activePlayer].changeActivePlayer));
-		yield put(clearAfterSwitchActivePlayer())
 	}
 }
 
-function* setActivePlayerHandler({payload: activePlayer}) {
+function* setActivePlayerHandler() {
+	console.log("setActivePlayerHandler")
+
 	yield put(setNumberOfShots());
 	const players = yield select(selectPlayers);
+	const mayTouch = yield select(selectMayTouch);
+	const difficultyLevel = yield select(selectDifficultyLevel);
+	const winner = yield select(selectWinner);
+	const activePlayer = yield select(selectActivePlayer);
+	const sound = yield select(selectSound);
+	const state = yield select(selectState);
 	const player1 = "firstPlayer";
-	const player2 = "secondPlayer"
+	const player2 = "secondPlayer";
 
 	if (activePlayer === player1 && players === "compVsComp") {
-		const numberOfShots = yield select(selectFirstPlayerNumberOfShots)
-		for (let number = numberOfShots; number > 0; number--) {
-			const boardToShots = yield select(selectFirstPlayerBoardToShots)
-			const target = yield call(computerChooses);
-			yield delay(700);
-			yield put(setTarget({target, boardToShots, player: player1}))
+		const shotsEqualShips = yield select(selectShotsEqualShips);
+		const firstPlayerShips = yield select(selectFirstPlayerNumberOfShips)
+		const firstPlayerNumberOfShots = yield select(selectFirstPlayerNumberOfShots);
+		const shots = (shotsEqualShips ? firstPlayerShips : firstPlayerNumberOfShots);
+
+		yield delay(1000);
+		let number;
+		for (number = shots; number > 0; number--) {
+			if (state !== "playGame") {
+				yield put(setClearBoard());
+				number = 0;
+				return;
+			}
+			console.log("test",state, number)
+			yield delay(1000);
+			const boardToShots = yield select(selectFirstPlayerBoardToShots);
+			const target = yield call(computerChooses, {difficultyLevel, boardToShots, mayTouch});
+
+			if (target === undefined || winner) {
+				number = 0;
+				return;
+			}
+
+			yield put(setTarget({target, player: player1}));
 			yield delay(500);
-			yield put(setShot({shotInCell: target}));
+			yield put(setShot({shotInCell: target, player: player1}));
+			if (sound) {
+				const audio = new Audio(shotSound);
+				audio.play();
+			}
+			yield delay(500);
 		}
 	}
 
 	if (activePlayer === player2 && (players === "compVsPlayer" || players === "compVsComp")) {
-		const numberOfShots = yield select(selectSecondPlayerNumberOfShots)
-		for (let number = numberOfShots; number > 0; number--) {
-			const boardToShots = yield select(selectSecondPlayerBoardToShots)
-			const target = yield call(computerChooses)
-			yield delay(700)
-			yield put(setTarget({target, boardToShots, player: player2}))
+		const shotsEqualShips = yield select(selectShotsEqualShips);
+		const secondPlayerShips = yield select(selectSecondPlayerNumberOfShips)
+		const secondPlayerNumberOfShots = yield select(selectSecondPlayerNumberOfShots);
+		const shots = (shotsEqualShips ? secondPlayerShips : secondPlayerNumberOfShots);
+
+		yield delay(1000);
+		let number;
+		for ( number = shots; number > 0; number--) {
+			if (state !== "playGame") {
+				yield put(setClearBoard())
+				number = 0;
+				return;
+			}
+			yield delay(1000);
+			const boardToShots = yield select(selectSecondPlayerBoardToShots);
+			const target = yield call(computerChooses, {difficultyLevel, boardToShots, mayTouch});
+
+			if (target === undefined || winner) {
+				number = 0;
+				return;
+			}
+
+			yield put(setTarget({target, player: player2}));
 			yield delay(500);
-			yield put(setShot({shotInCell: target}));
+			yield put(setShot({shotInCell: target, player: player2}));
+			if (sound) {
+				const audio = new Audio(shotSound);
+				audio.play();
+			}
+			yield delay(500);
 		}
 	}
 }

@@ -13,7 +13,7 @@ const colorNames = {
 export const theme = {
 	breakpoint: {
 		// small: "480px",
-		// medium: "767px",
+		medium: "700px",
 		// large: "1024px",
 	},
 	fontWeight: {

@@ -1,7 +1,7 @@
-import {coordinatesAround} from "../../../utils/coordinatesAround.jsx"
+import {coordinatesAround} from "../../../utils/coordinates.jsx"
 
-export const setPlacesAroundCell = (tempBoard, cell, value) => (
-	tempBoard.map((col) => col.map((row) => (
+export const setPlacesAroundCell = (board, cell, value) => (
+	board.map((col) => col.map((row) => (
 			coordinatesAround.some((coordinate) =>
 				(row.col.number === cell.col.number + coordinate[0]) &&
 				(row.row.number === cell.row.number + coordinate[1])
@@ -13,12 +13,12 @@ export const setPlacesAroundCell = (tempBoard, cell, value) => (
 		))
 	));
 
-export const warningsAroundCell = (allShip, tempBoard) => {
+export const warningsAroundCell = (allShip, board) => {
 	let warningsForShipNumbers = [];
 
 	allShip.forEach((ship) => {
-		tempBoard.forEach((col) => col.forEach((cell) => {
-			if (coordinatesAround.some((coordinate) =>
+		board.forEach((col) => col.forEach((cell) => {
+			if (coordinates.some((coordinate) =>
 				(ship.place.col === cell.col.number + coordinate[0]) &&
 				(ship.place.row === cell.row.number + coordinate[1]) &&
 				cell.cell === "ship" &&

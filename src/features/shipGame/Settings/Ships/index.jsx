@@ -9,9 +9,9 @@ export const Ships = () => {
 	const dispatch = useDispatch();
 
 	const onClickHandler = (number) => {
-		if (numberOfShots === numberOfShips) {
-			dispatch(setParameters({numberOfShots: number}))
-		}
+		// if (numberOfShots === numberOfShips) {
+		// 	dispatch(setParameters({numberOfShots: number}))
+		// }
 		dispatch(setParameters({numberOfShips: number}));
 	};
 

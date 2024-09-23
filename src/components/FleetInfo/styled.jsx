@@ -10,4 +10,8 @@ export const Item = styled.li`
 export const List = styled.ul`
     margin: -20px 0 20px 20px;
     padding: 0;
+	
+    @media (max-width: 900px) {
+        margin-left: 55px;
+    }
 `;

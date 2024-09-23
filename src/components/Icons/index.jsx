@@ -1,18 +1,18 @@
 import styled, {css} from "styled-components";
-import {ReactComponent as Play} from "../../assets/play.svg";
-import {ReactComponent as Random} from "../../assets/arrows-spin.svg";
-import {ReactComponent as ArrowLeft} from "../../assets/arrow-left.svg";
-import {ReactComponent as ArrowTop} from "../../assets/arrow-top.svg";
-import {ReactComponent as ArrowRight} from "../../assets/arrow-right.svg";
-import {ReactComponent as ArrowDown} from "../../assets/arrow-down.svg";
-import {ReactComponent as Check} from "../../assets/check.svg";
-import {ReactComponent as RotateRight} from "../../assets/arrow-rotate-right.svg";
-import {ReactComponent as X_mark} from "../../assets/xmark.svg";
-import {ReactComponent as CrossHairs} from "../../assets/crosshairs.svg";
-import {ReactComponent as Fire} from "../../assets/fire.svg";
-import {ReactComponent as User} from "../../assets/user.svg";
-import {ReactComponent as Desktop} from "../../assets/desktop.svg";
-import {ReactComponent as Home} from "../../assets/home.svg";
+import {ReactComponent as Play} from "../../assets/Images/play.svg";
+import {ReactComponent as Random} from "../../assets/Images/arrows-spin.svg";
+import {ReactComponent as ArrowLeft} from "../../assets/Images/arrow-left.svg";
+import {ReactComponent as ArrowTop} from "../../assets/Images/arrow-top.svg";
+import {ReactComponent as ArrowRight} from "../../assets/Images/arrow-right.svg";
+import {ReactComponent as ArrowDown} from "../../assets/Images/arrow-down.svg";
+import {ReactComponent as Check} from "../../assets/Images/check.svg";
+import {ReactComponent as RotateRight} from "../../assets/Images/arrow-rotate-right.svg";
+import {ReactComponent as X_mark} from "../../assets/Images/xmark.svg";
+import {ReactComponent as CrossHairs} from "../../assets/Images/crosshairs.svg";
+import {ReactComponent as Fire} from "../../assets/Images/fire.svg";
+import {ReactComponent as User} from "../../assets/Images/user.svg";
+import {ReactComponent as Desktop} from "../../assets/Images/desktop.svg";
+import {ReactComponent as Home} from "../../assets/Images/home.svg";
 
 
 const iconStyles = css`

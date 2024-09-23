@@ -6,7 +6,7 @@ import {
 	selectFirstPlayerTarget, selectPlayers,
 	selectState,
 	setShipSelectedNumber,
-	setTarget
+	setTarget, selectFirstPlayerNumberOfShots, selectSecondPlayerNumberOfShots
 } from "../../features/shipGame/shipGameSlice.jsx"
 import {CrossHairsIcon, X_markIcon, FireIcon} from "../Icons/index.jsx";
 
@@ -18,9 +18,13 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 	const shotInCell = useSelector(selectFirstPlayerShotInCell)
 	const players = useSelector(selectPlayers);
 	const activePlayer = useSelector(selectActivePlayer);
+	const firstPlayerNumberOfShots = useSelector(selectFirstPlayerNumberOfShots);
+	const secondPlayerNumberOfShots = useSelector(selectSecondPlayerNumberOfShots);
 
 	const onClickHandler = (cell) => {
-		if ((target && shotInCell) || players === "compVsComp") return;
+		const numberOfShots = (activePlayer === "firstPlayer" ?
+			firstPlayerNumberOfShots : secondPlayerNumberOfShots);
+		if ((target && shotInCell) || players === "compVsComp" || !numberOfShots) return;
 		dispatch(setTarget({target: cell.id, player}))
 
 		if (cell.cell === "ship") {
