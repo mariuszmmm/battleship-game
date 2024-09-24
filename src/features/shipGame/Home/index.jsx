@@ -9,6 +9,7 @@ export const Home = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		console.log("Home")
 		dispatch(setClearBoard());
 	}, []);
 

@@ -1,16 +1,16 @@
+import {useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {Overlay, Wrapper} from "./styled.jsx";
 import {ButtonsContainer, StyledLink} from "../Buttons/index.jsx";
 import {selectPlayers, selectWinner, setState} from "../../features/shipGame/shipGameSlice.jsx";
-import {useDispatch, useSelector} from "react-redux";
-import {useState, useEffect} from "react";
 import {getLocalStorage} from "../../utils/localStorage.jsx";
 
 export const GameResult = () => {
 	const winner = useSelector(selectWinner);
 	const players = useSelector(selectPlayers);
 	const dispatch = useDispatch();
-	const [text, setText] = useState(null);
 	const results = getLocalStorage("results");
+	const [text, setText] = useState(null);
 
 	const isWinner = () => {
 		switch (winner) {
@@ -52,7 +52,9 @@ export const GameResult = () => {
 					</tbody>}
 				</table>
 				<ButtonsContainer>
-					<StyledLink to="/home" onClick={() => dispatch(setState("home"))}>OK</StyledLink>
+					<StyledLink to="/home" onClick={() => dispatch(setState("home"))}>
+						Zamknij
+					</StyledLink>
 				</ButtonsContainer>
 			</Overlay>
 		</Wrapper>

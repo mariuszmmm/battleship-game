@@ -18,7 +18,7 @@ export const warningsAroundCell = (allShip, board) => {
 
 	allShip.forEach((ship) => {
 		board.forEach((col) => col.forEach((cell) => {
-			if (coordinates.some((coordinate) =>
+			if (coordinatesAround.some((coordinate) =>
 				(ship.place.col === cell.col.number + coordinate[0]) &&
 				(ship.place.row === cell.row.number + coordinate[1]) &&
 				cell.cell === "ship" &&

@@ -9,12 +9,12 @@ export const ConfirmationDialog = () => {
 	return (
 		<Wrapper>
 			<Overlay>
-				<p>Czy chcesz wyjść ?</p>
+				<p>Chcesz wyjść ?</p>
 				<ButtonsContainer>
 					<StyledLink to="/home" onClick={() => dispatch(setState("home"))}>TAK</StyledLink>
 					<StyledLink to="/playGame">NIE</StyledLink>
 				</ButtonsContainer>
 			</Overlay>
 		</Wrapper>
-	)
-}
+	);
+};

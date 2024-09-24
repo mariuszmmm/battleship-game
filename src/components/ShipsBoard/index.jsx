@@ -8,7 +8,7 @@ import {
 	setShipSelectedNumber,
 	setTarget, selectFirstPlayerNumberOfShots, selectSecondPlayerNumberOfShots
 } from "../../features/shipGame/shipGameSlice.jsx"
-import {CrossHairsIcon, X_markIcon, FireIcon} from "../Icons/index.jsx";
+import {CrossHairsIcon, XMarkIcon, FireIcon} from "../Icons/index.jsx";
 
 // eslint-disable-next-line react/prop-types
 export const ShipsBoard = ({board, player, toLeft}) => {
@@ -77,7 +77,7 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 						{cell.cellState === "set" && <CrossHairsIcon/>}
 						{(cell.target === "hit" || cell.shipState === "hit") && cell.shipState !== "sunk"
 							&& <FireIcon/>}
-						{(cell.target === "missed" || cell.shipState === "sunk") && <X_markIcon $board/>}
+						{(cell.target === "missed" || cell.shipState === "sunk") && <XMarkIcon/>}
 					</BoardCell>))}
 		</ShipsBoardWrapper>
 	)

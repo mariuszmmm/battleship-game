@@ -17,7 +17,7 @@ import {
 	setSelectedShip, setShipSelectedNumber, setChangeShipPlace,
 	setLockedMoves, setWrongSettingOfShips, setApprovedSetting,
 	setTarget, setShot, subtractShot, setNumberOfShots,
-	setClearBoard, clearAfterSwitchActivePlayer,
+	setClearBoard, clearAfterShot,
 	setWinner, selectFirstPlayerNumberOfShips, selectShotsEqualShips,
 	selectSound, selectState,
 } from "./shipGameSlice.jsx";
@@ -37,9 +37,9 @@ import hit from "../../assets/Audio/hit.mp3";
 
 function* setShipsHandler({payload: currentState}) {
 	console.log("setShipsHandler")
-	if (currentState === "home") yield put(setClearBoard());
+	// if (currentState === "home") yield put(setClearBoard());
 	if (currentState !== "setShips") return;
-
+	console.log("make Ships")
 	const {mayTouch, numberOfShips} = yield select(selectParameters);
 	const board = yield call(boardSchemat);
 
@@ -101,11 +101,7 @@ function* setChangeShipPlaceHandler() {
 
 function* setTargetHandler({payload: {target, player}}) {
 	console.log("setTargetHandler")
-	const state = yield select(selectState);
-	if (state !== "playGame") {
-		yield put(setClearBoard())
-		return;
-	}
+
 	const activePlayer = yield select(selectActivePlayer)
 	if (player !== activePlayer) return;
 
@@ -127,7 +123,7 @@ function* setShotHandler() {
 	console.log("setShotHandler")
 	const state = yield select(selectState);
 	if (state !== "playGame") {
-		yield put(setClearBoard())
+		// yield put(setClearBoard())
 		return;
 	}
 	const gameOver = yield select(selectWinner);
@@ -165,7 +161,6 @@ function* setShotHandler() {
 	});
 
 	const sound = yield select(selectSound);
-
 	if (sound && (isSunkShip || hitShip)) {
 		const sunkSound = new Audio(sunk);
 		const hitSound = new Audio(hit);
@@ -173,7 +168,6 @@ function* setShotHandler() {
 	}
 
 	yield put(subtractShot());
-	const numberOfShots = yield select(forActivePlayer[activePlayer].selectNumberOfShots)
 	yield put(setBoardForPlayerShots(boardToShotsAfterShot));
 	yield put(setNumberOfShips(shipsNumber))
 
@@ -194,8 +188,9 @@ function* setShotHandler() {
 		return;
 	}
 
-	yield put(clearAfterSwitchActivePlayer())
+	yield put(clearAfterShot());
 
+	const numberOfShots = yield select(forActivePlayer[activePlayer].selectNumberOfShots)
 	if (numberOfShots <= 0) {
 		yield delay(1500);
 		if (sound) {
@@ -216,7 +211,6 @@ function* setActivePlayerHandler() {
 	const winner = yield select(selectWinner);
 	const activePlayer = yield select(selectActivePlayer);
 	const sound = yield select(selectSound);
-	const state = yield select(selectState);
 	const player1 = "firstPlayer";
 	const player2 = "secondPlayer";
 
@@ -229,8 +223,9 @@ function* setActivePlayerHandler() {
 		yield delay(1000);
 		let number;
 		for (number = shots; number > 0; number--) {
+			const state = yield select(selectState);
 			if (state !== "playGame") {
-				yield put(setClearBoard());
+				// yield put(setClearBoard());
 				number = 0;
 				return;
 			}
@@ -264,8 +259,9 @@ function* setActivePlayerHandler() {
 		yield delay(1000);
 		let number;
 		for ( number = shots; number > 0; number--) {
+			const state = yield select(selectState);
 			if (state !== "playGame") {
-				yield put(setClearBoard())
+				// yield put(setClearBoard())
 				number = 0;
 				return;
 			}

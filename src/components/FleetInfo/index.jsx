@@ -1,6 +1,8 @@
 import {Item, List} from "./styled.jsx";
+import {useSelector} from "react-redux";
+import {selectSecondPlayerFleet} from "../../features/shipGame/shipGameSlice.jsx";
 
-export const FleetInfo = ({fleet}) => {
+export const FleetInfo = () => {
 	const info = {
 		size5: "pięciomasztowce",
 		size4: "czteromasztowce",
@@ -8,13 +10,16 @@ export const FleetInfo = ({fleet}) => {
 		size2: "dwumasztowce",
 		size1: "jednomasztowce",
 	};
-
-	const shipSizes = Object.entries(fleet)
+	const secondPlayerFleet = useSelector(selectSecondPlayerFleet);
+	const shipSizes = Object.entries(secondPlayerFleet)
 
 	return (
 		<List>
-			{shipSizes.map((size) =>
-				<Item key={size[0]}>{<span>{info[size[0]]}:</span>}{<span>{size[1].length}</span>}</Item>
+			{shipSizes.map(([key, shipNumbers]) =>
+				<Item key={key}>
+					{<span>{info[key]}:</span>}
+					{<span>{shipNumbers.length}</span>}
+				</Item>
 			)}
 		</List>
 	)

@@ -52,6 +52,7 @@ export const SetShips = () => {
 		window.addEventListener('beforeunload', (event) => event.preventDefault());
 
 		if (state === "home") {
+			console.log("SetShips")
 			navigate("/home");
 			dispatch(setState("home"))
 		}

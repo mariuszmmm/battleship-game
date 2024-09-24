@@ -12,14 +12,12 @@ import {
 } from "../shipGameSlice.jsx"
 import {Button} from "../../../components/Buttons";
 import {FleetInfo} from "../../../components/FleetInfo"
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {Header} from "../../../components/Header/index.jsx";
 import {Wrapper} from "../../../components/Wrapper/index.jsx";
 import {GameResult} from "../../../components/GameResult/index.jsx";
 import shotSound from "../../../assets/Audio/shot.mp3"
 import seaWaves from "../../../assets/Audio/seaWaves.mp3"
-import {ConfirmationDialog} from "../../../components/ConfirmationDialog/index.jsx";
-import {Home} from "../Home/index.jsx";
 import {useNavigate, useLocation} from "react-router-dom";
 
 export const PlayGame = () => {
@@ -113,7 +111,7 @@ export const PlayGame = () => {
 							<Info>
 								<p>Strzały: {firstPlayerNumberOfShots}</p>
 								<p>Statki przeciwnika</p>
-								<FleetInfo fleet={{...secondPlayerFleet}}/>
+								<FleetInfo />
 								<p>Cel: {firstPlayerTargetInCell}</p>
 							</Info>
 							<Button

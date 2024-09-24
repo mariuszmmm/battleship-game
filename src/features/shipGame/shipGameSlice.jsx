@@ -135,7 +135,7 @@ const shipGameSlice = createSlice({
 
 				return getInitialState()
 			},
-			clearAfterSwitchActivePlayer: (state) => {
+			clearAfterShot: (state) => {
 				state.firstPlayer.target = null;
 				state.firstPlayer.shotInCell = null;
 				state.secondPlayer.target = null;
@@ -179,7 +179,7 @@ export const {
 	setWrongSettingOfShips,
 	setApprovedSetting,
 	setClearBoard,
-	clearAfterSwitchActivePlayer,
+	clearAfterShot,
 	setWinner,
 }
 	= shipGameSlice.actions;
