@@ -19,6 +19,12 @@ export const Shots = () => {
 					{shotsEqualShips: false, numberOfShots: shots}
 				));
 			}
+
+			if (shots !== 1) {
+				dispatch(setParameters(
+					{bonus: false}
+				));
+			}
 		};
 
 		return (

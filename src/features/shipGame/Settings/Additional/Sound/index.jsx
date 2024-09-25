@@ -6,37 +6,29 @@ export const Sound = () => {
 	const sound = useSelector(selectSound);
 	const dispatch = useDispatch();
 
-	const onChangeHandler = ({target}) => {
-		const soundValue = target.value;
-		if (soundValue) {
-			dispatch(setParameters({sound: !sound}));
-		}
-	};
-
 	return (
 		<AdditionalItem>
-
 			Dźwięk :
 			<InputsRadioContainer>
 				<InputRadioWrapper>
 					<InputRadio type="radio"
 					            name="sound"
-					            id="yes"
+					            id="yesSound"
 					            value="yes"
 					            checked={sound}
-					            onChange={onChangeHandler}
+					            onChange={() => dispatch(setParameters({sound: !sound}))}
 					/>
-					<label htmlFor="yes">tak</label>
+					<label htmlFor="yesSound">tak</label>
 				</InputRadioWrapper>
 				<InputRadioWrapper>
 					<InputRadio type="radio"
 					            name="sound"
-					            id="no"
+					            id="noSound"
 					            value="no"
 					            checked={!sound}
-					            onChange={onChangeHandler}
+					            onChange={() => dispatch(setParameters({sound: !sound}))}
 					/>
-					<label htmlFor="no">nie</label>
+					<label htmlFor="noSound">nie</label>
 				</InputRadioWrapper>
 			</InputsRadioContainer>
 		</AdditionalItem>

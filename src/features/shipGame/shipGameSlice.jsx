@@ -9,6 +9,7 @@ const parameters = {
 	numberOfShots: 1,
 	shotsEqualShips: false,
 	mayTouch: false,
+	bonus: false,
 	sound: true,
 };
 
@@ -194,6 +195,7 @@ export const selectDifficultyLevel = (state) => selectParameters(state).difficul
 export const selectNumberOfShips = (state) => selectParameters(state).numberOfShips;
 export const selectNumberOfShots = (state) => selectParameters(state).numberOfShots;
 export const selectMayTouch = (state) => selectParameters(state).mayTouch;
+export const selectBonus = (state) => selectParameters(state).bonus;
 export const selectShotsEqualShips = (state) => selectParameters(state).shotsEqualShips;
 export const selectSound = (state) => selectParameters(state).sound;
 

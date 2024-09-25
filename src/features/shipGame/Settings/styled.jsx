@@ -49,34 +49,41 @@ export const AdditionalItem = styled.div`
     padding: 0 5px;
     width: 100%;
     max-width: 400px;
+    ${({disabled}) => disabled && css`
+        color: grey;
+    `}
 `;
 
 export const InputsRadioContainer = styled.div`
-    display: flex;
-    align-items: center;
-    height: 100%;
-    margin-right: 5px;
-    gap: 20px;
+display: flex;
+align-items: center;
+height: 100%;
+margin-right: 5px;
+gap: 20px;
 
-    label {
-        display: flex;
-        align-items: center;
-        margin-left: 5px;
-        cursor: pointer;
-    }
+label {
+				display: flex;
+				align-items: center;
+				margin-left: 5px;
+				cursor: pointer;
+}
 
-    input {
-        cursor: pointer;
-    }
-		
-`;
+input {
+				cursor: pointer;
+}
 
-export const InputRadioWrapper = styled.div`
-    display: flex;
-    height: 30px;
-    cursor: pointer;
+`
+;
+
+export const InputRadioWrapper = styled.div
+`
+display: flex;
+height: 30px;
+cursor: pointer;
 `
 
-export const InputRadio = styled.input`
-    height: 30px;
+
+export const InputRadio = styled.input
+`
+height: 30px;
 `

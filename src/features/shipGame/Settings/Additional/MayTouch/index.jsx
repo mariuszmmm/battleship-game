@@ -6,13 +6,6 @@ export const MayTouch = () => {
 	const mayTouch = useSelector(selectMayTouch);
 	const dispatch = useDispatch();
 
-	const onChangeHandler = ({target}) => {
-		const mayTouchValue = target.value;
-		if (mayTouchValue) {
-			dispatch(setParameters({mayTouch: !mayTouch}));
-		}
-	};
-
 	return (
 		<AdditionalItem>
 			Statki mogą się stykać :
@@ -20,22 +13,22 @@ export const MayTouch = () => {
 				<InputRadioWrapper>
 					<InputRadio type="radio"
 					            name="contact"
-					            id="yes"
+					            id="yesContact"
 					            value="yes"
 					            checked={mayTouch}
-					            onChange={onChangeHandler}
+					            onChange={() => dispatch(setParameters({mayTouch: !mayTouch}))}
 					/>
-					<label htmlFor="yes">tak</label>
+					<label htmlFor="yesContact">tak</label>
 				</InputRadioWrapper>
 				<InputRadioWrapper>
 					<InputRadio type="radio"
 					            name="contact"
-					            id="no"
+					            id="noContact"
 					            value="no"
 					            checked={!mayTouch}
-					            onChange={onChangeHandler}
+					            onChange={() => dispatch(setParameters({mayTouch: !mayTouch}))}
 					/>
-					<label htmlFor="no">nie</label>
+					<label htmlFor="noContact">nie</label>
 				</InputRadioWrapper>
 			</InputsRadioContainer>
 		</AdditionalItem>
