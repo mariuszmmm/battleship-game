@@ -40,7 +40,7 @@ export const PlayGame = () => {
 	const audioRef = useRef(null);
 
 	useEffect(() => {
-		dispatch(setActivePlayer("firstPlayer"));
+		if (activePlayer === null) dispatch(setActivePlayer("firstPlayer"));
 
 		const handleBeforeUnload = (event) => {
 			event.preventDefault();
@@ -48,7 +48,7 @@ export const PlayGame = () => {
 
 		window.addEventListener('beforeunload', handleBeforeUnload);
 
-		if(state !== "playGame") {
+		if (state !== "playGame") {
 			dispatch(setState("home"));
 			navigate("/home");
 		}
@@ -57,7 +57,7 @@ export const PlayGame = () => {
 		if (sound) {
 			audioRef.current.play();
 			audioRef.current.loop = true;
-			audioRef.current.volume= 0.3;
+			audioRef.current.volume = 0.3;
 		}
 
 		return () => {
@@ -77,7 +77,7 @@ export const PlayGame = () => {
 	}
 
 	useEffect(() => {
-		if(pathname !== "/playGame") {
+		if (pathname !== "/playGame") {
 			console.log("/playGame")
 			dispatch(setState("home"));
 			navigate("/home");
@@ -111,7 +111,7 @@ export const PlayGame = () => {
 							<Info>
 								<p>Strzały: {firstPlayerNumberOfShots}</p>
 								<p>Statki przeciwnika</p>
-								<FleetInfo />
+								<FleetInfo/>
 								<p>Cel: {firstPlayerTargetInCell}</p>
 							</Info>
 							<Button
