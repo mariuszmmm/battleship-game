@@ -121,13 +121,10 @@ function* setTargetHandler({payload: {target, player}}) {
 
 function* setShotHandler() {
 	console.log("setShotHandler")
+
 	const state = yield select(selectState);
-	if (state !== "playGame") {
-		// yield put(setClearBoard())
-		return;
-	}
 	const gameOver = yield select(selectWinner);
-	if (gameOver) return;
+	if (state !== "playGame" || gameOver) return;
 
 	const forActivePlayer = {
 		firstPlayer: {
@@ -153,18 +150,21 @@ function* setShotHandler() {
 	const board = yield select(forActivePlayer[activePlayer].selectBoard)
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots)
 	const fleet = yield select(forActivePlayer[activePlayer].selectEnemyFleet);
+	const mayTouch = yield select(selectMayTouch);
 	const {boardToShotsAfterShot, boardAfterShot, newFleet, shipsNumber, isSunkShip, hitShip} = yield call(getShot, {
 		boardToShots,
 		board,
 		shotInCell,
-		fleet
+		fleet,
+		mayTouch
 	});
 
 	const sound = yield select(selectSound);
 	if (sound && (isSunkShip || hitShip)) {
 		const sunkSound = new Audio(sunk);
 		const hitSound = new Audio(hit);
-		isSunkShip ? sunkSound.play() : hitSound.play();
+		hitShip && hitSound.play();
+		isSunkShip && sunkSound.play()
 	}
 
 	yield put(subtractShot());
@@ -225,12 +225,11 @@ function* setActivePlayerHandler() {
 		for (number = shots; number > 0; number--) {
 			const state = yield select(selectState);
 			if (state !== "playGame") {
-				// yield put(setClearBoard());
 				number = 0;
 				return;
 			}
-			console.log("test",state, number)
-			yield delay(1000);
+			console.log("test", state, number)
+
 			const boardToShots = yield select(selectFirstPlayerBoardToShots);
 			const target = yield call(computerChooses, {difficultyLevel, boardToShots, mayTouch});
 
@@ -246,7 +245,7 @@ function* setActivePlayerHandler() {
 				const audio = new Audio(shotSound);
 				audio.play();
 			}
-			yield delay(500);
+			yield delay(200);
 		}
 	}
 
@@ -258,17 +257,15 @@ function* setActivePlayerHandler() {
 
 		yield delay(1000);
 		let number;
-		for ( number = shots; number > 0; number--) {
+		for (number = shots; number > 0; number--) {
 			const state = yield select(selectState);
 			if (state !== "playGame") {
-				// yield put(setClearBoard())
 				number = 0;
 				return;
 			}
-			yield delay(1000);
+
 			const boardToShots = yield select(selectSecondPlayerBoardToShots);
 			const target = yield call(computerChooses, {difficultyLevel, boardToShots, mayTouch});
-
 			if (target === undefined || winner) {
 				number = 0;
 				return;
@@ -281,7 +278,7 @@ function* setActivePlayerHandler() {
 				const audio = new Audio(shotSound);
 				audio.play();
 			}
-			yield delay(500);
+			yield delay(200);
 		}
 	}
 }

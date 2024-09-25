@@ -84,11 +84,11 @@ export const CrossHairsIcon = styled(CrossHairs)`
 
 export const FireIcon = styled(Fire)`
     ${iconStyles};
-    width: 45px;
-    height: 45px;
+    width: 110%;
+    height:110%;
     z-index: 1;
     position: absolute;
-    padding-bottom: 5px;
+    padding-bottom: 3px;
 `;
 
 export const UserIcon = styled(User)`

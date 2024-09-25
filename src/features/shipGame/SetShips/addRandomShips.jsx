@@ -1,7 +1,7 @@
 import {randomMinMax} from "../../../utils/randomMinMax.jsx";
 import {rotateShip} from "./rotateShip.jsx";
 import {itemHasNeighbor} from "./itemHasNeighbor.jsx";
-import {setPlacesAroundCell} from "./changesOnBoard.jsx";
+import {setPlacesAroundCell} from "../../../utils/setPlacesAroundCell.jsx";
 
 export const addRandomShips = ({board, mayTouch, ships}) => {
 	let newBoard = board.map(row => row.map(cell => ({...cell})));
@@ -22,12 +22,8 @@ export const addRandomShips = ({board, mayTouch, ships}) => {
 			shipRandomRotated.forEach((shipItem) => {
 				const newItem = {
 					place: {
-						col: colRandom + shipItem.y,
-						row: rowRandom + shipItem.x,
-					},
-					numberOfShip: index + 1,
-					size: shipRandomRotated.length,
-					selected: false
+						col: colRandom + shipItem.y, row: rowRandom + shipItem.x,
+					}, numberOfShip: index + 1, size: shipRandomRotated.length, selected: false
 				}
 				newShip = [...newShip, newItem];
 			});
@@ -36,17 +32,11 @@ export const addRandomShips = ({board, mayTouch, ships}) => {
 			let tempBoard = [...newBoard];
 			newShip.forEach((newShipItem) => {
 				const boardWithItems = tempBoard.map((col) => col.map((cell) => {
-					if (
-						cell.col.number === newShipItem.place.col &&
-						cell.row.number === newShipItem.place.row &&
-						cell.cell === "empty"
-					) {
+					if (cell.col.number === newShipItem.place.col && cell.row.number === newShipItem.place.row && cell.cell === "empty") {
 						placeForShip = ++placeForShip
 
 						return {
-							...cell,
-							ship: {...newShipItem},
-							cell: "ship",
+							...cell, ship: {...newShipItem}, cell: "ship",
 						}
 					} else {
 						return {...cell};
@@ -61,7 +51,7 @@ export const addRandomShips = ({board, mayTouch, ships}) => {
 					} else {
 						tempBoard.forEach((col) => col.forEach((cell) => {
 							if (cell.cell === "ship") {
-								const boardWithReserved = setPlacesAroundCell(tempBoard, cell, "reserved");
+								const boardWithReserved = setPlacesAroundCell(tempBoard, cell, "cell", "reserved");
 								tempBoard = [...boardWithReserved]
 								newBoard = [...boardWithReserved]
 							}
@@ -71,13 +61,7 @@ export const addRandomShips = ({board, mayTouch, ships}) => {
 			});
 		}
 	})
-	newBoard = newBoard.map((col) => col.map((cell) => (
-		(cell.cell !== "ship")
-			?
-			{...cell, cell: "empty"}
-			:
-			{...cell}
-	)));
+	newBoard = newBoard.map((col) => col.map((cell) => ((cell.cell !== "ship") ? {...cell, cell: "empty"} : {...cell})));
 
 	const fleet = allShips.reduce((acc, cur) => {
 		const key = "size" + cur[0].size;

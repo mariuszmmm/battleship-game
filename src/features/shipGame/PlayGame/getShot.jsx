@@ -1,4 +1,6 @@
-export const getShot = ({boardToShots, board, shotInCell, fleet}) => {
+import {setPlacesAroundCell} from "../../../utils/setPlacesAroundCell.jsx";
+
+export const getShot = ({boardToShots, board, shotInCell, fleet, mayTouch}) => {
 	let hitCell = {};
 	let newFleet = {...fleet};
 	let shipsNumber = 0;
@@ -51,6 +53,13 @@ export const getShot = ({boardToShots, board, shotInCell, fleet}) => {
 			}
 		}));
 
+		if (!mayTouch) {
+			boardAfterShot.forEach((col) => col.forEach((cell) => {
+				if (cell.shipState === "sunk") {
+					boardAfterShot = setPlacesAroundCell(boardAfterShot, cell, "target", "missed")
+				}
+			}))
+		}
 	}
 
 	let boardToShotsAfterShot = boardToShots.map((col) => col.map((cell) =>
@@ -72,6 +81,14 @@ export const getShot = ({boardToShots, board, shotInCell, fleet}) => {
 				:
 				{...cell})
 		)
+
+		if (!mayTouch) {
+			boardToShotsAfterShot.forEach((col) => col.forEach((cell) => {
+				if (cell.shipState === "sunk") {
+					boardToShotsAfterShot = setPlacesAroundCell(boardToShotsAfterShot, cell, "target", "missed")
+				}
+			}))
+		}
 	}
 
 	for (const size in newFleet) {

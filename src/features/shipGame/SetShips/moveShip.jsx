@@ -1,5 +1,6 @@
 import {changesShip} from "./changesShip.jsx";
-import {setPlacesAroundCell, warningsAroundCell} from "./changesOnBoard.jsx";
+import {setPlacesAroundCell} from "../../../utils/setPlacesAroundCell.jsx"
+import {warningsAroundCell} from "./warningsAroundCell.jsx";
 import {setLockedMoves} from "./setLockedMoves.jsx";
 
 export const moveShip = ({board, change, mayTouch, selectedShip}) => {
@@ -57,7 +58,7 @@ export const moveShip = ({board, change, mayTouch, selectedShip}) => {
 
 			tempBoard.forEach((col) => col.forEach((cell) => {
 				if (cell.cell !== "ship") return
-				const boardWithReserved = setPlacesAroundCell(tempBoard, cell, "reserved");
+				const boardWithReserved = setPlacesAroundCell(tempBoard, cell, "cell", "reserved");
 				tempBoard = [...boardWithReserved]
 			}))
 
@@ -65,7 +66,7 @@ export const moveShip = ({board, change, mayTouch, selectedShip}) => {
 			let boardWithReserved = []
 			tempBoard.forEach((col) => col.forEach((cell) => {
 				if (cell.cell !== "ship" || !warningsForShipNumbers.includes(cell.ship.numberOfShip)) return
-				boardWithReserved = setPlacesAroundCell(tempBoard, cell, "warning")
+				boardWithReserved = setPlacesAroundCell(tempBoard, cell, "cell", "warning")
 				tempBoard = [...boardWithReserved];
 			}))
 			boardWithMoved = [...tempBoard]

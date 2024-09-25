@@ -23,8 +23,8 @@ export const Settings = styled.div`
 				    ". arrow-top ."
         "arrow-left rotate arrow-right"
         ". arrow-down check-on"
-				"random random random"
-				"navigation navigation navigation";
+								"random random random"
+								"navigation navigation navigation";
     justify-items: center;
     justify-content: center;
     gap: 20px;

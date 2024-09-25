@@ -1,18 +1,5 @@
 import {coordinatesAround} from "../../../utils/coordinates.jsx"
 
-export const setPlacesAroundCell = (board, cell, value) => (
-	board.map((col) => col.map((row) => (
-			coordinatesAround.some((coordinate) =>
-				(row.col.number === cell.col.number + coordinate[0]) &&
-				(row.row.number === cell.row.number + coordinate[1])
-			) && row.cell !== "ship"
-				?
-				{...row, cell: value}
-				:
-				{...row}
-		))
-	));
-
 export const warningsAroundCell = (allShip, board) => {
 	let warningsForShipNumbers = [];
 
