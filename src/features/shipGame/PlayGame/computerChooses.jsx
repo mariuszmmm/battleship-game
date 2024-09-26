@@ -17,7 +17,7 @@ export const computerChooses = ({difficultyLevel, boardToShots, mayTouch}) => {
 					&& row.cell === "empty" && row.target !== "hit" &&
 					row.target !== "missed" && row.shipState !== "sunk"
 				) {
-					neighbors = [...neighbors, row.id]
+					neighbors = [...neighbors, row.id];
 				}
 			})
 		)));

@@ -1,4 +1,5 @@
 import styled, {css} from "styled-components";
+import {rgba} from "polished";
 
 export const ShipsBoardWrapper = styled.div`
     display: grid;
@@ -7,10 +8,10 @@ export const ShipsBoardWrapper = styled.div`
     grid-auto-flow: column;
     width: clamp(280px, 72vw, 450px);
     aspect-ratio: 1/1;
-    border: 3px solid #2b2b2b;
+    border: 3px solid ${({theme}) => theme.colors.primaryColor};
     position: relative;
     transition: 1s transform;
-    margin: 30px 0 30px 30px;
+    margin: 30px 0 10px 30px;
 
     ${({$toLeft}) => $toLeft && css`
         transform: translateX(calc(-100% - 50px));
@@ -18,15 +19,15 @@ export const ShipsBoardWrapper = styled.div`
 `;
 
 export const BoardCell = styled.div`
+    background-color: ${({theme}) => theme.colors.textColor};
+    border: 1px solid ${({theme}) => theme.colors.semiTransparent};
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
-    border: 1px solid #c6c6c6;
     border-collapse: collapse;
     aspect-ratio: 1/1;
     position: relative;
-    transition: 0.2s filter;
+    transition: .2s filter;
 
     &:hover {
         ${({$hovered}) => $hovered && css`
@@ -38,40 +39,39 @@ export const BoardCell = styled.div`
     }
 
     ${({$targetedLine}) => $targetedLine && css`
-        background-color: #eeeeee;
+        filter: brightness(0.95);
     `};
 
     ${({$targeted}) => $targeted && css`
-        background-color: #bbbbbb;
+        filter: brightness(0.8);
     `};
-`
+`;
 
 export const ColName = styled.div`
+    color: ${({theme}) => theme.colors.primaryColor};
     position: absolute;
-    top: calc(-1.2rem - 8px);
+    top: calc(-1.2rem - 10px);
     font-size: 1.2rem;
-    color: black;
     text-align: center;
     width: 100%;
 `;
 
 export const RowName = styled.div`
+    color: ${({theme}) => theme.colors.primaryColor};
     position: absolute;
-    left: calc(-100% - 8px);
+    left: calc(-100% - 10px);
     font-size: 1.2rem;
-    color: black;
     width: 100%;
     text-align: right;
 `;
 
 export const ShipItem = styled.div`
+    outline: 1px solid ${({theme}) => theme.colors.primaryColor};
+    border: 1px solid ${({theme}) => theme.colors.primaryColor};
     width: 100%;
     height: 100%;
     position: absolute;
-    outline: 1px solid black;
-    border-radius: 45%;
-    margin: 20px;
-    border: 2px solid black;
+    border-radius: 35%;
     transition: .3s filter, .3s background-color;
 
     &:hover {
@@ -84,33 +84,33 @@ export const ShipItem = styled.div`
         border-top-right-radius: 0;
         border-top-left-radius: 0;
         border-top: 0;
-    `}
+    `};
     ${({$right}) => $right && css`
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         border-right: 0;
-    `}
+    `};
     ${({$bottom}) => $bottom && css`
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
         border-bottom: 0;
-    `}
+    `};
     ${({$left}) => $left && css`
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-left: 0;
-    `}
+    `};
 
     ${({$selected, theme}) => theme && css`
         background-color: ${$selected ?
-                theme.colors.specialColor : "#2424fe"}
+                theme.colors.specialColor : theme.colors.tertiaryColor}
     `};
 
     ${({$sunk}) => $sunk && css`
         filter: brightness(.5);
-        opacity: 0.5;
-    `}
-`
+        opacity: 0.3;
+    `};
+`;
 
 export const Empty = styled.div`
     width: 100%;
@@ -119,10 +119,10 @@ export const Empty = styled.div`
     transition: .3s background-color;
 
     ${({$reserved}) => $reserved && css`
-        background-color: #d6f4ff;
+        background-color: ${({theme}) => rgba(theme.colors.tertiaryColor, 0.1)};
     `};
 
     ${({$warning}) => $warning && css`
-        background-color: #f8c2c2;
+        background-color: ${({theme}) => rgba(theme.colors.specialColor_2, 0.15)};
     `};
-`
+`;

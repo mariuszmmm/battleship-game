@@ -6,7 +6,7 @@ import svgr from '@svgr/rollup';
 export default defineConfig({
 	plugins: [
 		react(),
-		svgr(), // Dodanie wtyczki SVGR
+		svgr(),
 	],
-	base: '/ships/', // Ustaw nazwę repozytorium, np. '/my-app/'
+	base: '/ships/',
 });

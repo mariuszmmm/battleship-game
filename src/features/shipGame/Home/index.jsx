@@ -9,16 +9,20 @@ export const Home = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		console.log("Home")
 		dispatch(setClearBoard());
 	}, []);
 
 	return (
 		<HomeWrapper>
 			<Content>
-				<Image src={shipsImage}/>
-				<StyledLink to="/settings" onClick={() => dispatch(setState("settings"))}> Rozpocznij </StyledLink>
+				<Image src={shipsImage} alt="logo"/>
+				<StyledLink
+					to="/settings" onClick={() => dispatch(setState("settings"))}
+					$animation
+				>
+					Rozpocznij
+				</StyledLink>
 			</Content>
 		</HomeWrapper>
-	)
+	);
 };

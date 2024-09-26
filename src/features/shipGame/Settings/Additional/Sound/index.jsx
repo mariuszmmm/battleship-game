@@ -1,4 +1,7 @@
-import {AdditionalItem, InputRadio, InputRadioWrapper, InputsRadioContainer} from "../../styled.jsx";
+import {
+	AdditionalItem, InputRadio, InputRadioWrapper,
+	InputsRadioContainer, LabelInput
+} from "../../styled.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {selectSound, setParameters} from "../../../shipGameSlice.jsx";
 
@@ -18,7 +21,7 @@ export const Sound = () => {
 					            checked={sound}
 					            onChange={() => dispatch(setParameters({sound: !sound}))}
 					/>
-					<label htmlFor="yesSound">tak</label>
+					<LabelInput htmlFor="yesSound">Tak</LabelInput>
 				</InputRadioWrapper>
 				<InputRadioWrapper>
 					<InputRadio type="radio"
@@ -28,9 +31,9 @@ export const Sound = () => {
 					            checked={!sound}
 					            onChange={() => dispatch(setParameters({sound: !sound}))}
 					/>
-					<label htmlFor="noSound">nie</label>
+					<LabelInput htmlFor="noSound">Nie</LabelInput>
 				</InputRadioWrapper>
 			</InputsRadioContainer>
 		</AdditionalItem>
-	)
-}
+	);
+};

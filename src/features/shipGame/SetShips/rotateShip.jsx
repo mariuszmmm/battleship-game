@@ -23,5 +23,5 @@ export const rotateShip = (shipCoordinates, step = 1) => {
 		return ship;
 	};
 
-	return rotatedShip(shipCoordinates)
+	return rotatedShip(shipCoordinates);
 };

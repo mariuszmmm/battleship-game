@@ -15,8 +15,8 @@ export const warningsAroundCell = (allShip, board) => {
 					warningsForShipNumbers = [...warningsForShipNumbers, ship.numberOfShip];
 				}
 			}
-		}))
-	})
+		}));
+	});
 
 	return warningsForShipNumbers;
 };

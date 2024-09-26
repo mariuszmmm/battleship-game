@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-    min-width: 380px;
-    background-color: darkgray;
+    background-color: ${({theme}) => theme.colors.backgroundColor};
+    min-width: ${({theme}) => theme.breakpoints.small};
     padding: clamp(5px, 2vw, 20px);
     display: flex;
     flex-direction: column;

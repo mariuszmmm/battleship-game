@@ -5,36 +5,30 @@ import {getLocalStorage, setLocalStorage} from "../../utils/localStorage.jsx"
 const parameters = {
 	players: "compVsPlayer",
 	difficultyLevel: "easy",
-	numberOfShips: 5,
-	numberOfShots: 1,
+	numberOfShips: "5",
+	numberOfShots: "1",
 	shotsEqualShips: false,
 	mayTouch: false,
 	bonus: false,
 	sound: true,
 };
 
+const stateOfPlayers = {
+	board: boardSchemat(),
+	boardToShots: boardSchemat(),
+	fleet: [],
+	numberOfShips: null,
+	numberOfShots: null,
+	target: null,
+	shotInCell: null,
+};
+
 const getInitialState = () => ({
 	state: "home",
-	parameters: getLocalStorage("parameters") || parameters,
+	parameters: getLocalStorage("parameters") || {...parameters},
 	activePlayer: null,
-	firstPlayer: {
-		board: boardSchemat(),
-		boardToShots: boardSchemat(),
-		fleet: [],
-		numberOfShips: null,
-		numberOfShots: null,
-		target: null,
-		shotInCell: null,
-	},
-	secondPlayer: {
-		board: boardSchemat(),
-		boardToShots: boardSchemat(),
-		fleet: [],
-		numberOfShips: null,
-		numberOfShots: null,
-		target: null,
-		shotInCell: null,
-	},
+	firstPlayer: {...stateOfPlayers},
+	secondPlayer: {...stateOfPlayers},
 	settingShips: {
 		selectedShip: {number: null, ship: []},
 		changeShipPlace: null,
@@ -131,11 +125,7 @@ const shipGameSlice = createSlice({
 			setApprovedSetting: (state, {payload: boolean}) => {
 				state.settingShips.approvedSetting = boolean;
 			},
-			setClearBoard: () => {
-				console.log("setClearBoard")
-
-				return getInitialState()
-			},
+			setClearBoard: () => getInitialState(),
 			clearAfterShot: (state) => {
 				state.firstPlayer.target = null;
 				state.firstPlayer.shotInCell = null;
@@ -146,14 +136,14 @@ const shipGameSlice = createSlice({
 				state.winner = winner;
 				if (state.parameters.players === "compVsComp") return;
 				const results = getLocalStorage("results");
-				if (winner === "firstPlayer") setLocalStorage("results", results?.wygrana ? {
-					...results,
-					wygrana: ++results.wygrana
-				} : {...results, wygrana: 1});
-				if (winner === "secondPlayer") setLocalStorage("results", results?.przegrana ? {
-					...results,
-					przegrana: ++results.przegrana
-				} : {...results, przegrana: 1});
+				if (winner === "firstPlayer") setLocalStorage("results", results?.wygrana ?
+					{...results, wygrana: ++results.wygrana}
+					:
+					{...results, wygrana: 1});
+				if (winner === "secondPlayer") setLocalStorage("results", results?.przegrana ?
+					{...results, przegrana: ++results.przegrana}
+					:
+					{...results, przegrana: 1});
 			},
 		}
 });
@@ -213,7 +203,6 @@ export const selectFirstPlayerNumberOfShots = (state) => selectFirstPlayer(state
 export const selectSecondPlayer = (state) => selectPlayState(state).secondPlayer;
 export const selectSecondPlayerBoard = (state) => selectSecondPlayer(state).board;
 export const selectSecondPlayerBoardToShots = (state) => selectSecondPlayer(state).boardToShots;
-export const selectSecondPlayerTarget = (state) => selectSecondPlayer(state).target;
 export const selectSecondPlayerShotInCell = (state) => selectSecondPlayer(state).shotInCell;
 export const selectSecondPlayerFleet = (state) => selectSecondPlayer(state).fleet;
 export const selectSecondPlayerNumberOfShips = (state) => selectSecondPlayer(state).numberOfShips;

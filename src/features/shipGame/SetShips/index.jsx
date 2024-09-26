@@ -10,7 +10,7 @@ import {
 	selectSelectedShip,
 	selectWrongSettingOfShips,
 	selectLockedMoves,
-	selectFirstPlayerBoard, selectApprovedSetting, selectState, selectSound,
+	selectFirstPlayerBoard, selectApprovedSetting, selectState, setClearBoard, setActivePlayer
 } from "../shipGameSlice";
 import {
 	ArrowDownIcon,
@@ -25,7 +25,6 @@ import {Wrapper} from "../../../components/Wrapper/index.jsx";
 import {Header} from "../../../components/Header/index.jsx";
 import {BoardsWrapper} from "../PlayGame/styled.jsx";
 import {ConfirmationDialog} from "../../../components/ConfirmationDialog/index.jsx";
-import seaWaves from "../../../assets/Audio/seaWaves.mp3";
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
@@ -36,11 +35,22 @@ export const SetShips = () => {
 	const lockedMoves = useSelector(selectLockedMoves);
 	const approvedSetting = useSelector(selectApprovedSetting);
 	const state = useSelector(selectState);
-	const sound = useSelector(selectSound);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const onPlayGame = () => {
+	const onRandomHandler = () => {
+		dispatch(setShipSelectedNumber({approvedSetting: true}));
+		dispatch(setState("setShips"));
+	};
+
+	const onSettingsHandler = () => {
+		dispatch(setShipSelectedNumber({approvedSetting: false}));
+		dispatch(setState("settings"))
+	};
+
+	const onPlayGameHandler = () => {
+		if (selectedShip.length > 0 || !approvedSetting) return;
+		dispatch(setActivePlayer("firstPlayer"));
 		dispatch(setState("playGame"));
 	}
 
@@ -52,9 +62,8 @@ export const SetShips = () => {
 		window.addEventListener('beforeunload', (event) => event.preventDefault());
 
 		if (state === "home") {
-			console.log("SetShips")
-			navigate("/home");
-			dispatch(setState("home"))
+			dispatch(setClearBoard());
+			navigate("/home", {replace: true});
 		}
 
 		return () => {
@@ -78,52 +87,58 @@ export const SetShips = () => {
 							<Settings>
 								<Button $area="arrow-top"
 								        onClick={() => dispatch(setChangeShipPlace("toTop"))}
-								        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toTop}
+								        disabled={selectedShip.length === 0 ||
+									        lockedMoves[selectedShip[0].numberOfShip]?.toTop}
 								>
 									<ArrowTopIcon/>
 								</Button>
 								<Button $area="arrow-left"
 								        onClick={() => dispatch(setChangeShipPlace("toLeft"))}
-								        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toLeft}
+								        disabled={selectedShip.length === 0 ||
+									        lockedMoves[selectedShip[0].numberOfShip]?.toLeft}
 								>
 									<ArrowLeftIcon/>
 								</Button>
 								<Button $area="rotate"
 								        onClick={() => dispatch(setChangeShipPlace("rotate"))}
-								        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toRotate}
+								        disabled={selectedShip.length === 0 ||
+									        lockedMoves[selectedShip[0].numberOfShip]?.toRotate}
 								>
 									<RotateRightIcon/>
 								</Button>
 								<Button $area="arrow-right"
 								        onClick={() => dispatch(setChangeShipPlace("toRight"))}
-								        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toRight}
+								        disabled={selectedShip.length === 0 ||
+									        lockedMoves[selectedShip[0].numberOfShip]?.toRight}
 								>
-
 									<ArrowRightIcon/>
 								</Button>
 								<Button $area="arrow-down"
 								        onClick={() => dispatch(setChangeShipPlace("toDown"))}
-								        disabled={selectedShip.length === 0 || lockedMoves[selectedShip[0].numberOfShip]?.toDown}
+								        disabled={selectedShip.length === 0 ||
+									        lockedMoves[selectedShip[0].numberOfShip]?.toDown}
 								>
 									<ArrowDownIcon/>
 								</Button>
 								<Button $area="check-on"
 								        onClick={() => dispatch(setShipSelectedNumber({approvedSetting: true}))}
 								        disabled={selectedShip.length === 0 || wrongSettingOfShips}
+								        $animation={selectedShip.length > 0 && !wrongSettingOfShips}
 								>
 									<CheckIcon/>
 								</Button>
-								<Button $area="random" onClick={() => dispatch(setState("setShips"))}>
+								<Button $area="random" onClick={onRandomHandler}>
 									<RandomIcon/> Random ships
 								</Button>
 								<ButtonsContainer $area="navigation">
-									<StyledLink to="/settings" onClick={() => dispatch(setState("settings"))}>
+									<StyledLink to="/settings" onClick={onSettingsHandler}>
 										<ArrowBackIcon/>Wstecz
 									</StyledLink>
 									<StyledLink
 										to="/playGame"
 										$disabled={selectedShip.length > 0 || !approvedSetting}
-										onClick={onPlayGame}
+										onClick={onPlayGameHandler}
+										$animation={selectedShip.length === 0 && approvedSetting}
 									>
 										Start<ArrowForwardIcon/>
 									</StyledLink>
@@ -134,5 +149,5 @@ export const SetShips = () => {
 				</Wrapper>
 			}
 		</>
-	)
+	);
 };

@@ -10,21 +10,16 @@ export const Shots = () => {
 		const dispatch = useDispatch();
 
 		const onClickHandler = (shots) => {
-			if (shots === "ships") {
+			shots === "ships" ?
 				dispatch(setParameters(
 					{shotsEqualShips: true, numberOfShots: numberOfShips}
-				));
-			} else {
+				))
+				:
 				dispatch(setParameters(
 					{shotsEqualShips: false, numberOfShots: shots}
 				));
-			}
 
-			if (shots !== 1) {
-				dispatch(setParameters(
-					{bonus: false}
-				));
-			}
+			shots !== "1" && dispatch(setParameters({bonus: false}));
 		};
 
 		return (
@@ -32,15 +27,15 @@ export const Shots = () => {
 				<Legend>Strzały</Legend>
 				<ButtonsContainer>
 					<Button
-						$active={numberOfShots === 1}
-						onClick={() => onClickHandler(1)}
+						$active={numberOfShots === "1"}
+						onClick={() => onClickHandler("1")}
 						$setting
 					>
 						1
 					</Button>
 					<Button
-						$active={numberOfShots === 3}
-						onClick={() => onClickHandler(3)}
+						$active={numberOfShots === "3"}
+						onClick={() => onClickHandler("3")}
 						$setting
 					>
 						3

@@ -12,6 +12,10 @@ import {ReactComponent as Desktop} from "../../assets/Images/desktop.svg";
 
 const iconStyles = css`
     fill: ${({theme}) => theme.colors.textColor};
+
+    ${({$disabled}) => $disabled && css`
+        fill: ${({theme}) => theme.colors.button.disabled}
+    `}
 `;
 
 export const ArrowLeftIcon = styled(ArrowLeft)`
@@ -85,14 +89,14 @@ export const CrossHairsIcon = styled(CrossHairs)`
     width: 100%;
     height: 100%;
     position: absolute;
-    fill: red;   // tu skończyłem zamieniać kolory
+    fill: ${({theme}) => theme.colors.specialColor_2};
     z-index: 2;
 `;
 
 export const FireIcon = styled(Fire)`
     ${iconStyles};
     width: 110%;
-    height:110%;
+    height: 110%;
     z-index: 1;
     position: absolute;
     padding-bottom: 3px;
@@ -103,18 +107,13 @@ export const UserIcon = styled(User)`
     width: 30px;
     height: 30px;
 
-    @media (max-width: 700px) {
+    @media (max-width: ${({theme}) => theme.breakpoints.medium}) {
         width: 26px;
         height: 26px;
     }
 
     ${({$active}) => $active && css`
-        fill: black;
-    `}
-
-    ${({theme, $disabled}) => $disabled && theme && css`
-        fill: ${({theme}) =>
-                theme.colors.button.disabled}
+        fill: ${({theme}) => theme.colors.primaryColor};
     `}
 `;
 
@@ -123,12 +122,12 @@ export const DesktopIcon = styled(Desktop)`
     width: 30px;
     height: 30px;
 
-    @media (max-width: 700px) {
+    @media (max-width: ${({theme}) => theme.breakpoints.medium}) {
         width: 26px;
         height: 26px;
     }
 
     ${({$active}) => $active && css`
-        fill: black;
+        fill: ${({theme}) => theme.colors.primaryColor};
     `}
 `;

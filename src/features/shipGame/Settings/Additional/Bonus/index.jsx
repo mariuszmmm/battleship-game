@@ -1,9 +1,12 @@
 import {useDispatch, useSelector} from "react-redux";
 import {selectBonus, selectNumberOfShots, setParameters} from "../../../shipGameSlice.jsx";
-import {AdditionalItem, InputRadio, InputRadioWrapper, InputsRadioContainer} from "../../styled.jsx";
+import {
+	AdditionalItem, InputRadio, InputRadioWrapper,
+	InputsRadioContainer, LabelInput
+} from "../../styled.jsx";
 
 export const Bonus = () => {
-	const numberOfShots = useSelector(selectNumberOfShots)
+	const numberOfShots = useSelector(selectNumberOfShots);
 	const bonus = useSelector(selectBonus);
 	const dispatch = useDispatch();
 
@@ -12,7 +15,7 @@ export const Bonus = () => {
 		>
 			Strzelasz, aż nie trafisz:
 			<InputsRadioContainer>
-				<InputRadioWrapper>
+				<InputRadioWrapper disabled={numberOfShots !== 1}>
 					<InputRadio type="radio"
 					            name="bonus"
 					            id="yesBonus"
@@ -21,9 +24,11 @@ export const Bonus = () => {
 					            onChange={() => dispatch(setParameters({bonus: !bonus}))}
 					            disabled={numberOfShots !== 1}
 					/>
-					<label htmlFor="yesBonus">tak</label>
+					<LabelInput htmlFor="yesBonus" disabled={numberOfShots !== 1}>
+						Tak
+					</LabelInput>
 				</InputRadioWrapper>
-				<InputRadioWrapper>
+				<InputRadioWrapper disabled={numberOfShots !== 1}>
 					<InputRadio type="radio"
 					            name="bonus"
 					            id="noBonus"
@@ -32,9 +37,11 @@ export const Bonus = () => {
 					            onChange={() => dispatch(setParameters({bonus: !bonus}))}
 					            disabled={numberOfShots !== 1}
 					/>
-					<label htmlFor="noBonus">nie</label>
+					<LabelInput htmlFor="noBonus" disabled={numberOfShots !== 1}>
+						Nie
+					</LabelInput>
 				</InputRadioWrapper>
 			</InputsRadioContainer>
 		</AdditionalItem>
-	)
-}
+	);
+};

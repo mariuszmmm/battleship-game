@@ -8,7 +8,7 @@ export const Content = styled.div`
     align-self: center;
     padding: 0 10px;
 
-    @media (max-width: 900px) {
+    @media (max-width: ${({theme}) => theme.breakpoints.big}) {
         grid-template-columns: 1fr;
         gap: 10px;
         align-self: center;
@@ -33,23 +33,22 @@ export const InfoWrapper = styled.div`
     width: 89%;
     margin: 30px 0 30px 30px;
 
-    @media (max-width: 900px) {
+    @media (max-width: ${({theme}) => theme.breakpoints.big}) {
         margin: 0 0 30px 30px;
-    }
+    };
 `;
 
 export const Info = styled.div`
-    background-color: #9c6448;
-    color: white;
-    border: 2px solid black;
+    box-shadow: ${({theme}) => theme.boxShadow.container};
+    background-color: ${({theme}) => theme.colors.secondaryColor};
+    color: ${({theme}) => theme.colors.textColor};
+    border: 2px solid ${({theme}) => theme.colors.primaryColor};
+    font-weight: ${({theme}) => theme.fontWeight.medium};
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
     align-items: flex-start;
-    //margin: 10px 0 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
     font-size: clamp(1rem, 4vw, 1.3rem);
-    font-weight: bold;
     letter-spacing: 2px;
     padding: 10px;
     width: 100%;
@@ -63,5 +62,20 @@ export const Info = styled.div`
 
     p {
         margin: 0 0 20px;
+    }
+`;
+
+export const InfoMain = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: start;
+    gap: 55px;
+    width: 100%;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid ${({theme}) => theme.colors.textColor};
+
+    span {
+        width: max-content;
     }
 `;

@@ -14,41 +14,41 @@
     <style>
         @keyframes pulse {
         0% {
-        transform: scale(1.1) translate( -10px,-80px);
+        transform: scale(1.1) translate( -10px,-70px);
         opacity: 1;
         rotate: 0deg;
         }
         50% {
-        transform: scale(1.3) translate(-25px,-170px) ;
-        opacity: 0.8;
-        rotate: 5deg;
+        transform: scale(1.5) translate(-30px,-220px) ;
+        opacity: 0.5;
+        rotate: 12deg;
         }
         100% {
-        transform: scale(1.1) translate(-10px,-80px);
+        transform: scale(1.1) translate(-10px,-70px);
         opacity: 1;
         rotate: 0deg;
         }
         }
         @keyframes moveAndMorph {
         0% {
-        transform: translate(0,-5px) scale(1);
+        transform: translate(0px,-20px) scale(1);
         rotate: 0deg;
         }
         50% {
-        transform: translate(-15px,-20px) scale(1.02);
-        rotate: -3deg;
+        transform: translate(-20px,20px) scale(0.95);
+        rotate: -5deg;
         }
         100% {
-        transform: translate(0,-5px) scale(1);
+        transform: translate(00px,-20px) scale(1);
         rotate: 0deg;
         }
         }
         .outer-path {
-        animation: moveAndMorph 2s infinite ease-in-out;
+        animation: moveAndMorph 0.4s infinite ease-in-out;
         transform: translateY(51.14px);
         }
         .gradient-path {
-        animation: pulse 2s infinite ease-in-out;
+        animation: pulse 0.35s infinite ease-in-out;
         transform: translateY(-51.14px);
         }
     </style>

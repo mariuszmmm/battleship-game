@@ -1,9 +1,6 @@
 export const itemHasNeighbor = (newShip) => (
 	newShip.map((item) => {
-		let top = false;
-		let right = false;
-		let bottom = false;
-		let left = false;
+		let top, right, bottom, left = false;
 
 		if (newShip.some((i) =>
 			item.place.col === i.place.col && item.place.row === i.place.row + 1)) {
@@ -24,7 +21,7 @@ export const itemHasNeighbor = (newShip) => (
 
 		return {
 			...item,
-			neighbors: {top, right, bottom, left,}
+			neighbors: {top, right, bottom, left}
 		}
 	})
 );

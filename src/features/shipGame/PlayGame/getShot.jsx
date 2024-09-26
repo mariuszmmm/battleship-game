@@ -15,15 +15,15 @@ export const getShot = ({boardToShots, board, shotInCell, fleet, mayTouch}) => {
 				newFleet[size] = [...fleet[size]];
 			}
 		}
-	}
+	};
 
 	let boardAfterShot = board.map((col) => col.map((cell) => {
 			if (cell.id === shotInCell && cell.shipState !== "sunk") {
 				if (cell.cell === "ship") {
 					hitCell = {...cell}
-					return {...cell, shipState: "hit"}
+					return {...cell, shipState: "hit"};
 				} else {
-					return {...cell, target: "missed"}
+					return {...cell, target: "missed"};
 				}
 			} else {
 				return {...cell}
@@ -33,11 +33,11 @@ export const getShot = ({boardToShots, board, shotInCell, fleet, mayTouch}) => {
 
 	const {ship: hitShip} = hitCell;
 
-	let numberOfSunkElements = 0
+	let numberOfSunkElements = 0;
 	boardAfterShot.forEach((col) => col.forEach((cell) => {
 		if (cell.cell !== "ship") return;
 		if (cell.ship.numberOfShip === hitShip?.numberOfShip && cell.shipState === "hit") {
-			++numberOfSunkElements
+			++numberOfSunkElements;
 		}
 	}));
 
@@ -47,16 +47,16 @@ export const getShot = ({boardToShots, board, shotInCell, fleet, mayTouch}) => {
 		deleteItemFromFleet(hitShip?.numberOfShip);
 		boardAfterShot = boardAfterShot.map((col) => col.map((cell) => {
 			if (cell.cell === "ship" && cell.ship?.numberOfShip === hitShip?.numberOfShip) {
-				return {...cell, shipState: "sunk"}
+				return {...cell, shipState: "sunk"};
 			} else {
-				return {...cell}
+				return {...cell};
 			}
 		}));
 
 		if (!mayTouch) {
 			boardAfterShot.forEach((col) => col.forEach((cell) => {
 				if (cell.shipState === "sunk") {
-					boardAfterShot = setPlacesAroundCell(boardAfterShot, cell, "target", "missed")
+					boardAfterShot = setPlacesAroundCell(boardAfterShot, cell, "target", "missed");
 				}
 			}))
 		}
@@ -95,5 +95,5 @@ export const getShot = ({boardToShots, board, shotInCell, fleet, mayTouch}) => {
 		shipsNumber = shipsNumber + newFleet[size].length
 	}
 
-	return {boardAfterShot, boardToShotsAfterShot, newFleet, shipsNumber, isSunkShip, hitShip}
+	return {boardAfterShot, boardToShotsAfterShot, newFleet, shipsNumber, isSunkShip, hitShip};
 };

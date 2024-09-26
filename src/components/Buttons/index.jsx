@@ -1,5 +1,28 @@
 import styled, {css} from "styled-components";
+import {keyframes} from "styled-components";
 import {Link} from 'react-router-dom';
+
+const shine = keyframes`
+    0% {
+        opacity: 0;
+    }
+    59% {
+        opacity: 0
+    }
+    60% {
+        background-position: -500px 0;
+        opacity: 1
+    }
+    75% {
+        background-position: 500px 0;
+    }
+    76% {
+        opacity: 0
+    }
+    100% {
+        opacity: 0
+    }
+`;
 
 export const ButtonsContainer = styled.div`
     display: flex;
@@ -36,6 +59,29 @@ const buttonStyles = css`
     gap: 10px;
     cursor: pointer;
     transition: .3s background-color, .6s color;
+    position: relative;
+    overflow: hidden;
+
+    ${({$animation}) => $animation && css`
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -280px;
+            width: 800px;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            z-index: 1;
+            transform: skewX(-20deg);
+            animation: ${shine} 3.2s ease-in-out infinite;
+        }
+
+        &:hover:before {
+            background: ${({theme}) => theme.colors.button.hoveredBackgroundColor};
+            animation: none;
+            z-index: -1;
+        }
+    `};
 
     &:hover {
         background-color: ${({theme}) => theme.colors.button.hoveredBackgroundColor};
@@ -101,13 +147,14 @@ export const Button = styled.button`
 `;
 
 export const StyledLink = styled(Link)`
-    ${buttonStyles};
+        // ${buttonStyles};
     text-decoration: none;
     padding: 10px;
     width: 130px;
 
     ${({$disabled}) => $disabled && css`
-        ${disabledStyles}
+        ${disabledStyles};
+        pointer-events: none;
     `};
 `;
 

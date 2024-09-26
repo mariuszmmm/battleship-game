@@ -3,13 +3,13 @@ import {GameMode} from "./GameMode/index.jsx";
 import {Ships} from "./Ships/index.jsx";
 import {Shots} from "./Shots/index.jsx";
 import {Additional} from "./Additional/index.jsx";
-import {
-	ArrowBackIcon,
-	ArrowForwardIcon
-} from "../../../components/Icons/index.jsx";
+import {ArrowBackIcon, ArrowForwardIcon} from "../../../components/Icons/index.jsx";
 import {ButtonsContainer, StyledLink} from "../../../components/Buttons/index.jsx";
 import {Section} from "../../../components/Section/index.jsx";
-import {selectPlayers, selectState, setState, getParameters, selectSound, setActivePlayer} from "../shipGameSlice.jsx";
+import {
+	selectPlayers, selectState,
+	setState, getParameters, setShipSelectedNumber, setActivePlayer
+} from "../shipGameSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Difficulty} from "./Difficulty"
 import {Header} from "../../../components/Header/index.jsx";
@@ -22,9 +22,11 @@ export const Settings = () => {
 	const players = useSelector(selectPlayers);
 
 	const onClickHandler = () => {
-		dispatch(getParameters())
+		dispatch(getParameters());
+		dispatch(setShipSelectedNumber({number: null}));
+		dispatch(setActivePlayer("firstPlayer"));
 		dispatch(setState("setShips"));
-	}
+	};
 
 	return (
 		<>
@@ -46,12 +48,14 @@ export const Settings = () => {
 							<StyledLink to="/home" onClick={() => dispatch(setState("home"))}><ArrowBackIcon/>Wstecz</StyledLink>
 							<StyledLink
 								to={players === "compVsComp" ? "/playGame" : "/setShips"}
-								onClick={onClickHandler}>
+								onClick={onClickHandler}
+								$animation
+							>
 								Dalej<ArrowForwardIcon/></StyledLink>
 						</ButtonsContainer>
 					</Section>
 				</Wrapper>
-			}
+			};
 		</>
-	)
-}
+	);
+};

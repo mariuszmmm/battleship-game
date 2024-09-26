@@ -31,26 +31,28 @@ export const setLockedMoves = ({ship, placesOtherShips}) => {
 	if (ship.some((item) => item.place.col >= 10 ||
 		placesOtherShips.some((places) => (places.row === item.place.row) && (places.col === item.place.col + 1))
 	)) {
-		lockedMoves = {...lockedMoves, toRight: true}
+		lockedMoves = {...lockedMoves, toRight: true};
 	}
 
 	const coordinateShip = () => {
 		return ship.map((item) => {
 			return {x: item.place.col, y: item.place.row}
-		})
+		});
 	};
+
 	const coordinateRotatedShip = rotateShip(coordinateShip());
 	const collision = placesOtherShips.some((placeOtherShip) => (
 		coordinateRotatedShip.some((item) => (
 			placeOtherShip.row === item.y && placeOtherShip.col === item.x
 		))
-	))
+	));
+
 	const isOnBorder = (coordinateRotatedShip.some((item) =>
 		item.y > 10 || item.y < 1 ||
 		item.x > 10 || item.x < 1));
 
 	if (collision || isOnBorder) {
-		lockedMoves = {...lockedMoves, toRotate: true}
+		lockedMoves = {...lockedMoves, toRotate: true};
 	}
 
 	return {[shipNumber]: lockedMoves};

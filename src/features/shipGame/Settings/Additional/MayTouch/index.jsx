@@ -1,4 +1,7 @@
-import {AdditionalItem, InputRadio, InputRadioWrapper, InputsRadioContainer} from "../../styled.jsx";
+import {
+	AdditionalItem, InputRadio, InputRadioWrapper,
+	InputsRadioContainer, LabelInput
+} from "../../styled.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {selectMayTouch, setParameters} from "../../../shipGameSlice.jsx";
 
@@ -18,7 +21,7 @@ export const MayTouch = () => {
 					            checked={mayTouch}
 					            onChange={() => dispatch(setParameters({mayTouch: !mayTouch}))}
 					/>
-					<label htmlFor="yesContact">tak</label>
+					<LabelInput htmlFor="yesContact">Tak</LabelInput>
 				</InputRadioWrapper>
 				<InputRadioWrapper>
 					<InputRadio type="radio"
@@ -28,9 +31,9 @@ export const MayTouch = () => {
 					            checked={!mayTouch}
 					            onChange={() => dispatch(setParameters({mayTouch: !mayTouch}))}
 					/>
-					<label htmlFor="noContact">nie</label>
+					<LabelInput htmlFor="noContact">Nie</LabelInput>
 				</InputRadioWrapper>
 			</InputsRadioContainer>
 		</AdditionalItem>
-	)
-}
+	);
+};

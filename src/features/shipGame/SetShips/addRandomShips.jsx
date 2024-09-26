@@ -32,12 +32,12 @@ export const addRandomShips = ({board, mayTouch, ships}) => {
 			let tempBoard = [...newBoard];
 			newShip.forEach((newShipItem) => {
 				const boardWithItems = tempBoard.map((col) => col.map((cell) => {
-					if (cell.col.number === newShipItem.place.col && cell.row.number === newShipItem.place.row && cell.cell === "empty") {
+					if (cell.col.number === newShipItem.place.col &&
+						cell.row.number === newShipItem.place.row &&
+						cell.cell === "empty") {
 						placeForShip = ++placeForShip
 
-						return {
-							...cell, ship: {...newShipItem}, cell: "ship",
-						}
+						return {...cell, ship: {...newShipItem}, cell: "ship",}
 					} else {
 						return {...cell};
 					}

@@ -26,28 +26,28 @@ export const shipsAvailable = {
 		[{x: 1, y: 1}, {x: 2, y: 1}, {x: 2, y: 2}, {x: 3, y: 2}, {x: 3, y: 3}],
 		[{x: 1, y: 1}, {x: 1, y: 2}, {x: 1, y: 3}, {x: 2, y: 1}, {x: 2, y: 3}],
 		[{x: 1, y: 2}, {x: 2, y: 1}, {x: 2, y: 2}, {x: 3, y: 2}, {x: 3, y: 3}],
-	]
+	],
 };
 
 export const ver_1 = {
-	fifthTypeShips: 1,
-	fourthTypeShips: 1,
-	thirdTypeShips: 1,
-	secondTypeShips: 1,
 	firstTypeShips: 1,
+	secondTypeShips: 1,
+	thirdTypeShips: 1,
+	fourthTypeShips: 1,
+	fifthTypeShips: 1,
 };
 
 export const ver_2 = {
-	fifthTypeShips: 1,
-	fourthTypeShips: 1,
-	thirdTypeShips: 1,
-	secondTypeShips: 2,
 	firstTypeShips: 2,
+	secondTypeShips: 2,
+	thirdTypeShips: 1,
+	fourthTypeShips: 1,
+	fifthTypeShips: 1,
 };
 
 export const ver_3 = {
-	fourthTypeShips: 1,
-	thirdTypeShips: 2,
+	firstTypeShips: 4,
 	secondTypeShips: 3,
-	firstTypeShips: 4
+	thirdTypeShips: 2,
+	fourthTypeShips: 1,
 };
