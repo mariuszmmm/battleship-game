@@ -8,5 +8,5 @@ export default defineConfig({
 		react(),
 		svgr(),
 	],
-	base: '/ships/',
+	base: '/Battleship_Game/',
 });
