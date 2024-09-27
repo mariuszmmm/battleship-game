@@ -17,7 +17,7 @@ import {
 } from "../shipGameSlice.jsx"
 import {Button} from "../../../components/Buttons";
 import {FleetInfo} from "../../../components/FleetInfo"
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Header} from "../../../components/Header/index.jsx";
 import {Wrapper} from "../../../components/Wrapper/index.jsx";
 import {GameResult} from "../../../components/GameResult/index.jsx";
@@ -28,8 +28,7 @@ import {useNavigate} from "react-router-dom";
 export const PlayGame = () => {
 	const firstPlayerBoard = useSelector(selectFirstPlayerBoard);
 	const firstPlayerBoardToShots = useSelector(selectFirstPlayerBoardToShots);
-	const firstPlayerTargetInCell = useSelector(selectFirstPlayerTarget);
-	const firstPlayerNumberOfShots = useSelector(selectFirstPlayerNumberOfShots);
+	const numberOfShots = useSelector(selectFirstPlayerNumberOfShots);
 	const activePlayer = useSelector(selectActivePlayer);
 	const target = useSelector(selectFirstPlayerTarget);
 	const shotInCell = useSelector(selectFirstPlayerShotInCell);
@@ -41,6 +40,8 @@ export const PlayGame = () => {
 	const audioRef = useRef(null);
 	const navigate = useNavigate();
 	const state = useSelector(selectState);
+	const [targetInfo, setTargetInfo] = useState(target);
+	console.log(target, shotInCell)
 
 	useEffect(() => {
 		const handleBeforeUnload = (event) => {
@@ -60,16 +61,21 @@ export const PlayGame = () => {
 			audioRef.current.loop = true;
 			audioRef.current.volume = 0.3;
 		}
-
+		console.log(target, shotInCell)
 		return () => {
 			window.removeEventListener('beforeunload', handleBeforeUnload);
 			sound && audioRef.current.pause();
 		};
 	}, [state]);
 
+	useEffect(() => {
+		if (activePlayer !== "firstPlayer") setTargetInfo("")
+	}, [activePlayer]);
+
 	const onShot = () => {
+		if (!shotInCell) setTargetInfo(target);
 		dispatch(setShot({
-			shotInCell: firstPlayerTargetInCell, player: activePlayer
+			shotInCell: target, player: activePlayer
 		}));
 		if (sound) {
 			const audio = new Audio(shotSound)
@@ -97,8 +103,8 @@ export const PlayGame = () => {
 					<InfoWrapper>
 						<Info>
 							<InfoMain>
-								<span>Strzały: {firstPlayerNumberOfShots}</span>
-								<span>Cel: {firstPlayerTargetInCell}</span>
+								<span>Strzały: {numberOfShots}</span>
+								<span>Cel: {target || activePlayer !== "firstPlayer" ? target : targetInfo}</span>
 							</InfoMain>
 							<p>Statki przeciwnika</p>
 							<FleetInfo/>

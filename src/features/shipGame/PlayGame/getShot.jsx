@@ -63,14 +63,15 @@ export const getShot = ({boardToShots, board, shotInCell, fleet, mayTouch}) => {
 	}
 
 	let boardToShotsAfterShot = boardToShots.map((col) => col.map((cell) =>
-		cell.id === shotInCell
+		cell.id === shotInCell && cell.shipState !== "sunk"
 			?
 			(hitShip ?
-				{...hitCell, target: "hit", cellState: null}
-				:
-				{...cell, target: "missed", cellState: null})
+					{...hitCell, target: "hit", cellState: null}
+					:
+					{...cell, target: "missed", cellState: null}
+			)
 			:
-			{...cell}
+			{...cell, cellState: null}
 	));
 
 	if (hitShip && isSunkShip) {

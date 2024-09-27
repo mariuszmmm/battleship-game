@@ -15,20 +15,20 @@ export const Ships = () => {
 		<Fieldset>
 			<Legend>Ilość statków</Legend>
 			<ButtonsContainer>
-				<Button $active={numberOfShips === "5"}
-				        onClick={() => onClickHandler("5")}
+				<Button $active={numberOfShips === 5}
+				        onClick={() => onClickHandler(5)}
 				        $setting
 				>
 					5
 				</Button>
-				<Button $active={numberOfShips === "7"}
-				        onClick={() => onClickHandler("7")}
+				<Button $active={numberOfShips === 7}
+				        onClick={() => onClickHandler(7)}
 				        $setting
 				>
 					7
 				</Button>
-				<Button $active={numberOfShips === "10"}
-				        onClick={() => onClickHandler("10")}
+				<Button $active={numberOfShips === 10}
+				        onClick={() => onClickHandler(10)}
 				        $setting
 				>
 					10
