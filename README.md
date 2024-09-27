@@ -1,6 +1,6 @@
 # Battleship Game
 
-![Battleship Game](path/to/screenshot.png) <!-- Update the path to your game screenshot -->
+![Battleship Game](presentation/presentation.gif) <!-- Update the path to your game screenshot -->
 
 ## Description
 
