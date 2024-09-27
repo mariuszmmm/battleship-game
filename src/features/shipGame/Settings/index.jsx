@@ -55,7 +55,7 @@ export const Settings = () => {
 						</ButtonsContainer>
 					</Section>
 				</Wrapper>
-			};
+			}
 		</>
 	);
 };
