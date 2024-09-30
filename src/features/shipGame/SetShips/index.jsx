@@ -4,29 +4,21 @@ import {Section} from "../../../components/Section";
 import {ShipsBoard} from "../../../components/ShipsBoard";
 import {Settings, Content} from "./styled";
 import {
-	setState,
-	setShipSelectedNumber,
-	setChangeShipPlace,
-	selectSelectedShip,
-	selectWrongSettingOfShips,
-	selectLockedMoves,
-	selectFirstPlayerBoard, selectApprovedSetting, selectState, setClearBoard, setActivePlayer
+	setState, setShipSelectedNumber,
+	setChangeShipPlace, setActivePlayer,
+	selectSelectedShip, selectWrongSettingOfShips,
+	selectLockedMoves, selectFirstPlayerBoard,
+	selectApprovedSetting, selectState
 } from "../shipGameSlice";
 import {
-	ArrowDownIcon,
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	ArrowTopIcon, CheckIcon,
-	RandomIcon,
-	RotateRightIcon,
-	ArrowBackIcon, ArrowForwardIcon
+	ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon,
+	ArrowTopIcon, CheckIcon, RandomIcon,
+	RotateRightIcon, ArrowBackIcon, ArrowForwardIcon
 } from "../../../components/Icons";
 import {Wrapper} from "../../../components/Wrapper/index.jsx";
 import {Header} from "../../../components/Header/index.jsx";
 import {BoardsWrapper} from "../PlayGame/styled.jsx";
 import {ConfirmationDialog} from "../../../components/ConfirmationDialog/index.jsx";
-import {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
 
 export const SetShips = () => {
 	const board = useSelector(selectFirstPlayerBoard);
@@ -36,40 +28,20 @@ export const SetShips = () => {
 	const approvedSetting = useSelector(selectApprovedSetting);
 	const state = useSelector(selectState);
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const onRandomHandler = () => {
 		dispatch(setShipSelectedNumber({approvedSetting: true}));
-		dispatch(setState("setShips"));
 	};
 
 	const onSettingsHandler = () => {
 		dispatch(setShipSelectedNumber({approvedSetting: false}));
-		dispatch(setState("settings"))
 	};
 
 	const onPlayGameHandler = () => {
 		if (selectedShip.length > 0 || !approvedSetting) return;
-		dispatch(setActivePlayer("firstPlayer"));
 		dispatch(setState("playGame"));
+		dispatch(setActivePlayer("firstPlayer"));
 	}
-
-	useEffect(() => {
-		const handleBeforeUnload = (event) => {
-			event.preventDefault();
-		};
-
-		window.addEventListener('beforeunload', (event) => event.preventDefault());
-
-		if (state === "home") {
-			dispatch(setClearBoard());
-			navigate("/home", {replace: true});
-		}
-
-		return () => {
-			window.removeEventListener('beforeunload', handleBeforeUnload);
-		};
-	}, []);
 
 	return (
 		<>

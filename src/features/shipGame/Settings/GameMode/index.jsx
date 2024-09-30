@@ -1,43 +1,43 @@
 import {Fieldset, Legend} from "../styled.jsx";
-import {selectPlayers, setParameters} from "../../shipGameSlice.jsx";
+import {selectGameMode, setParameters} from "../../shipGameSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Button, ButtonsContainer} from "../../../../components/Buttons/index.jsx";
 import {UserIcon, DesktopIcon} from "../../../../components/Icons/index.jsx";
 
 
 export const GameMode = () => {
-	const players = useSelector(selectPlayers);
+	const gameMode = useSelector(selectGameMode);
 	const dispatch = useDispatch();
 
 	const onChangeHandler = (gameMode) => {
-		dispatch(setParameters({players: gameMode}))
+		dispatch(setParameters({gameMode: gameMode}))
 	};
 
 	return (
 		<Fieldset>
 			<Legend>Tryb gry</Legend>
 			<ButtonsContainer>
-				<Button $active={players === "compVsPlayer"}
+				<Button $active={gameMode === "compVsPlayer"}
 				        onClick={() => onChangeHandler("compVsPlayer")}
 				        $setting
 				>
-					<DesktopIcon $active={players === "compVsPlayer"}/>
-					<UserIcon $active={players === "compVsPlayer"}/>
+					<DesktopIcon $active={gameMode === "compVsPlayer"}/>
+					<UserIcon $active={gameMode === "compVsPlayer"}/>
 				</Button>
-				<Button $active={players === "compVsComp"}
+				<Button $active={gameMode === "compVsComp"}
 				        onClick={() => onChangeHandler("compVsComp")}
 				        $setting
 				>
-					<DesktopIcon $active={players === "compVsComp"}/>
-					<DesktopIcon $active={players === "compVsComp"}/>
+					<DesktopIcon $active={gameMode === "compVsComp"}/>
+					<DesktopIcon $active={gameMode === "compVsComp"}/>
 				</Button>
-				<Button $active={players === "playerVsPlayer"}
+				<Button $active={gameMode === "playerVsPlayer"}
 				        onClick={() => onChangeHandler("playerVsPlayer")}
 				        $setting
 				        disabled
 				>
-					<UserIcon $active={players === "playerVsPlayer"} $disabled/>
-					<UserIcon $active={players === "playerVsPlayer"} $disabled/>
+					<UserIcon $active={gameMode === "playerVsPlayer"} $disabled/>
+					<UserIcon $active={gameMode === "playerVsPlayer"} $disabled/>
 				</Button>
 			</ButtonsContainer>
 		</Fieldset>

@@ -2,12 +2,14 @@ import {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Overlay, Wrapper} from "./styled.jsx";
 import {ButtonsContainer, StyledLink} from "../Buttons/index.jsx";
-import {selectPlayers, selectWinner, setState} from "../../features/shipGame/shipGameSlice.jsx";
+import {
+	selectGameMode, selectWinner, setClearBoard
+} from "../../features/shipGame/shipGameSlice.jsx";
 import {getLocalStorage} from "../../utils/localStorage.jsx";
 
 export const GameResult = () => {
 	const winner = useSelector(selectWinner);
-	const players = useSelector(selectPlayers);
+	const gameMode = useSelector(selectGameMode);
 	const dispatch = useDispatch();
 	const results = getLocalStorage("results");
 	const [text, setText] = useState(null);
@@ -15,16 +17,10 @@ export const GameResult = () => {
 	const isWinner = () => {
 		switch (winner) {
 			case "firstPlayer" :
-				setText(players === "compVsComp" ?
-					"Wygrał pierwszy komputer 💻"
-					:
-					"🏆 Brawo wygrałeś ! 😀");
+				setText(gameMode === "compVsComp" ? "Wygrał pierwszy komputer 💻" : "🏆 Brawo wygrałeś ! 😀");
 				break;
 			case  "secondPlayer":
-				setText(players === "compVsComp" ?
-					"Wygrał drugi komputer 💻"
-					:
-					"Tym razem przegrałeś 🙁");
+				setText(gameMode === "compVsComp" ? "Wygrał drugi komputer 💻" : "Tym razem przegrałeś 🙁");
 				break;
 			default:
 				break;
@@ -40,7 +36,7 @@ export const GameResult = () => {
 			<Overlay>
 				<table>
 					<caption>{text}</caption>
-					{players !== "compVsComp" && <tbody>
+					{gameMode !== "compVsComp" && <tbody>
 					<tr>
 						<td>wygrane:</td>
 						<td>{results.wygrana || 0}</td>
@@ -52,7 +48,7 @@ export const GameResult = () => {
 					</tbody>}
 				</table>
 				<ButtonsContainer>
-					<StyledLink to="/home" onClick={() => dispatch(setState("home"))}>
+					<StyledLink to="/home" replace={true} onClick={() => dispatch(setClearBoard())}>
 						Zamknij
 					</StyledLink>
 				</ButtonsContainer>

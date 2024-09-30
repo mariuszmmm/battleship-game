@@ -7,8 +7,8 @@ import {ArrowBackIcon, ArrowForwardIcon} from "../../../components/Icons/index.j
 import {ButtonsContainer, StyledLink} from "../../../components/Buttons/index.jsx";
 import {Section} from "../../../components/Section/index.jsx";
 import {
-	selectPlayers, selectState,
-	setState, getParameters, setShipSelectedNumber, setActivePlayer
+	selectGameMode, selectActivePlayer,
+	setState, setActivePlayer, setShips
 } from "../shipGameSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Difficulty} from "./Difficulty"
@@ -18,20 +18,22 @@ import {ConfirmationDialog} from "../../../components/ConfirmationDialog/index.j
 
 export const Settings = () => {
 	const dispatch = useDispatch();
-	const state = useSelector(selectState);
-	const players = useSelector(selectPlayers);
+	const gameMode = useSelector(selectGameMode);
+	const activePlayer = useSelector(selectActivePlayer);
 
 	const onClickHandler = () => {
-		dispatch(getParameters());
-		dispatch(setShipSelectedNumber({number: null}));
-		dispatch(setActivePlayer("firstPlayer"));
-		dispatch(setState("setShips"));
+		dispatch(setShips());
+
+		if (gameMode === "compVsComp") {
+			dispatch(setState("playGame"));
+			dispatch(setActivePlayer("firstPlayer"));
+		}
 	};
 
 	return (
 		<>
-			{state === "playGame" && <ConfirmationDialog/>}
-			{state !== "playGame" &&
+			{activePlayer && <ConfirmationDialog/>}
+			{!activePlayer &&
 				<Wrapper>
 					<Section>
 						<Header>
@@ -47,7 +49,7 @@ export const Settings = () => {
 						<ButtonsContainer>
 							<StyledLink to="/home" onClick={() => dispatch(setState("home"))}><ArrowBackIcon/>Wstecz</StyledLink>
 							<StyledLink
-								to={players === "compVsComp" ? "/playGame" : "/setShips"}
+								to={gameMode === "compVsComp" ? "/playGame" : "/setShips"}
 								onClick={onClickHandler}
 								$animation
 							>

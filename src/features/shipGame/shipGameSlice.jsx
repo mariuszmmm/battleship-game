@@ -3,10 +3,10 @@ import {boardSchemat} from "./SetShips/boardSchemat.jsx";
 import {getLocalStorage, setLocalStorage} from "../../utils/localStorage.jsx"
 
 const parameters = {
-	players: "compVsPlayer",
+	gameMode: "compVsPlayer",
 	difficultyLevel: "easy",
-	numberOfShips: "5",
-	numberOfShots: "1",
+	numberOfShips: 5,
+	numberOfShots: 1,
 	shotsEqualShips: false,
 	mayTouch: false,
 	bonus: false,
@@ -16,7 +16,7 @@ const parameters = {
 const stateOfPlayers = {
 	board: boardSchemat(),
 	boardToShots: boardSchemat(),
-	fleet: [],
+	fleet: {},
 	numberOfShips: null,
 	numberOfShots: null,
 	target: null,
@@ -34,7 +34,7 @@ const getInitialState = () => ({
 		changeShipPlace: null,
 		lockedMoves: {},
 		wrongSettingOfShips: false,
-		approvedSetting: false,
+		approvedSetting: true,
 	},
 	winner: null,
 });
@@ -53,6 +53,15 @@ const shipGameSlice = createSlice({
 					...parameter,
 				};
 				setLocalStorage("parameters", state.parameters);
+			},
+			setShips: (state) => {
+				const numberOfShips = state.parameters.numberOfShips;
+				state.firstPlayer = {
+					...state.firstPlayer, numberOfShips
+				};
+				state.secondPlayer = {
+					...state.secondPlayer, numberOfShips
+				};
 			},
 			setActivePlayer: (state, {payload: activePlayer}) => {
 				state.activePlayer = activePlayer;
@@ -75,17 +84,6 @@ const shipGameSlice = createSlice({
 			setNumberOfShips: (state, {payload: number}) => {
 				if (state.activePlayer === "firstPlayer") state["secondPlayer"].numberOfShips = number;
 				if (state.activePlayer === "secondPlayer") state["firstPlayer"].numberOfShips = number;
-			},
-			getParameters: (state) => {
-				const numberOfShots = state.parameters.numberOfShots === "ships" ?
-					state.parameters.numberOfShips : state.parameters.numberOfShots;
-				const numberOfShips = state.parameters.numberOfShips;
-				state.firstPlayer = {
-					...state.firstPlayer, numberOfShips, numberOfShots
-				};
-				state.secondPlayer = {
-					...state.secondPlayer, numberOfShips, numberOfShots
-				};
 			},
 			setTarget: (state, {payload: {target, player}}) => {
 				if (player !== state.activePlayer) return;
@@ -134,7 +132,7 @@ const shipGameSlice = createSlice({
 			},
 			setWinner: (state, {payload: winner}) => {
 				state.winner = winner;
-				if (state.parameters.players === "compVsComp") return;
+				if (state.parameters.gameMode === "compVsComp") return;
 				const results = getLocalStorage("results");
 				if (winner === "firstPlayer") setLocalStorage("results", results?.wygrana ?
 					{...results, wygrana: ++results.wygrana}
@@ -158,7 +156,7 @@ export const {
 	setFleetForFirstPlayer,
 	setFleetForSecondPlayer,
 	setNumberOfShips,
-	getParameters,
+	setShips,
 	setTarget,
 	setShot,
 	subtractShot,
@@ -180,7 +178,7 @@ const selectPlayState = (state) => state.shipGame;
 export const selectState = (state) => selectPlayState(state).state;
 
 export const selectParameters = (state) => selectPlayState(state).parameters;
-export const selectPlayers = (state) => selectParameters(state).players;
+export const selectGameMode = (state) => selectParameters(state).gameMode;
 export const selectDifficultyLevel = (state) => selectParameters(state).difficultyLevel;
 export const selectNumberOfShips = (state) => selectParameters(state).numberOfShips;
 export const selectNumberOfShots = (state) => selectParameters(state).numberOfShots;

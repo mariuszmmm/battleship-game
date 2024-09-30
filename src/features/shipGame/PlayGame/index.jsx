@@ -10,10 +10,9 @@ import {
 	selectFirstPlayerTarget,
 	setShot,
 	selectFirstPlayerShotInCell,
-	selectPlayers,
+	selectGameMode,
 	selectWinner,
 	selectSound,
-	selectState, setClearBoard
 } from "../shipGameSlice.jsx"
 import {Button} from "../../../components/Buttons";
 import {FleetInfo} from "../../../components/FleetInfo"
@@ -23,7 +22,6 @@ import {Wrapper} from "../../../components/Wrapper/index.jsx";
 import {GameResult} from "../../../components/GameResult/index.jsx";
 import shotSound from "../../../assets/Audio/shot.mp3"
 import seaWaves from "../../../assets/Audio/seaWaves.mp3"
-import {useNavigate} from "react-router-dom";
 
 export const PlayGame = () => {
 	const firstPlayerBoard = useSelector(selectFirstPlayerBoard);
@@ -32,41 +30,24 @@ export const PlayGame = () => {
 	const activePlayer = useSelector(selectActivePlayer);
 	const target = useSelector(selectFirstPlayerTarget);
 	const shotInCell = useSelector(selectFirstPlayerShotInCell);
-	const players = useSelector(selectPlayers);
+	const gameMode = useSelector(selectGameMode);
 	const winner = useSelector(selectWinner);
 	const dispatch = useDispatch();
 	const sound = useSelector(selectSound);
 	const playersName = ["firstPlayer", "secondPlayer"];
 	const audioRef = useRef(null);
-	const navigate = useNavigate();
-	const state = useSelector(selectState);
 	const [targetInfo, setTargetInfo] = useState(target);
-	console.log(target, shotInCell)
 
 	useEffect(() => {
-		const handleBeforeUnload = (event) => {
-			event.preventDefault();
-		};
-
-		window.addEventListener('beforeunload', handleBeforeUnload);
-
-		if (state !== "playGame") {
-			dispatch(setClearBoard());
-			navigate("/home", {replace: true});
-		}
-
 		audioRef.current = new Audio(seaWaves);
 		if (sound) {
 			audioRef.current.play();
 			audioRef.current.loop = true;
 			audioRef.current.volume = 0.3;
 		}
-		console.log(target, shotInCell)
-		return () => {
-			window.removeEventListener('beforeunload', handleBeforeUnload);
-			sound && audioRef.current.pause();
-		};
-	}, [state]);
+
+		return () => sound && audioRef.current.pause();
+	}, []);
 
 	useEffect(() => {
 		if (activePlayer !== "firstPlayer") setTargetInfo("")
@@ -85,41 +66,43 @@ export const PlayGame = () => {
 
 	return (<>
 		{winner && <GameResult/>}
-		<Wrapper>
-			<Section>
-				<Header>
-					{activePlayer === "firstPlayer" ? players === "compVsComp" ? "Ruch pierwszego komputera" : "Twój ruch" : players === "compVsComp" ? "Ruch drugiego komputera" : "Ruch drugiego gracza"}
-				</Header>
-				<Content>
-					<BoardsWrapper>
-						<ShipsBoard board={firstPlayerBoardToShots}
-						            player={playersName[0]}
-						            toLeft={activePlayer === "secondPlayer"}
-						/>
-						<ShipsBoard board={firstPlayerBoard}
-						            toLeft={activePlayer === "secondPlayer"}
-						/>
-					</BoardsWrapper>
-					<InfoWrapper>
-						<Info>
-							<InfoMain>
-								<span>Strzały: {numberOfShots}</span>
-								<span>Cel: {target || activePlayer !== "firstPlayer" ? target : targetInfo}</span>
-							</InfoMain>
-							<p>Statki przeciwnika</p>
-							<FleetInfo/>
-						</Info>
-						<Button
-							onClick={onShot}
-							disabled={activePlayer !== playersName[0] || !target || (target && shotInCell) || players === "compVsComp"}
-							$shot
-							$animation={target}
-						>
-							STRZAŁ
-						</Button>
-					</InfoWrapper>
-				</Content>
-			</Section>
-		</Wrapper>
+		{activePlayer &&
+			<Wrapper>
+				<Section>
+					<Header>
+						{activePlayer === "firstPlayer" ? gameMode === "compVsComp" ? "Ruch pierwszego komputera" : "Twój ruch" : gameMode === "compVsComp" ? "Ruch drugiego komputera" : "Ruch drugiego gracza"}
+					</Header>
+					<Content>
+						<BoardsWrapper>
+							<ShipsBoard board={firstPlayerBoardToShots}
+							            player={playersName[0]}
+							            toLeft={activePlayer === "secondPlayer"}
+							/>
+							<ShipsBoard board={firstPlayerBoard}
+							            toLeft={activePlayer === "secondPlayer"}
+							/>
+						</BoardsWrapper>
+						<InfoWrapper>
+							<Info>
+								<InfoMain>
+									<span>Strzały: {numberOfShots}</span>
+									<span>Cel: {target || activePlayer !== "firstPlayer" ? target : targetInfo}</span>
+								</InfoMain>
+								<p>Statki przeciwnika</p>
+								<FleetInfo/>
+							</Info>
+							<Button
+								onClick={onShot}
+								disabled={activePlayer !== playersName[0] || !target || (target && shotInCell) || gameMode === "compVsComp"}
+								$shot
+								$animation={target}
+							>
+								STRZAŁ
+							</Button>
+						</InfoWrapper>
+					</Content>
+				</Section>
+			</Wrapper>
+		}
 	</>);
 };
