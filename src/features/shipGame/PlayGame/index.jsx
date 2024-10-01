@@ -24,6 +24,8 @@ import shotSound from "../../../assets/Audio/shot.mp3"
 import seaWaves from "../../../assets/Audio/seaWaves.mp3"
 import {useNavigate} from "react-router-dom";
 import {useHandleBeforeUnload} from "../../../utils/useHandleBeforeUnload.jsx";
+import {useHandleRotateScreen} from "../../../utils/useHandleRotateScreen.jsx";
+import {RotateScreenInfo} from "../../../components/RotateScreenInfo/index.jsx";
 
 export const PlayGame = () => {
 	const firstPlayerBoard = useSelector(selectFirstPlayerBoard);
@@ -37,20 +39,23 @@ export const PlayGame = () => {
 	const dispatch = useDispatch();
 	const sound = useSelector(selectSound);
 	const playersName = ["firstPlayer", "secondPlayer"];
-	const audioRef = useRef(null);
-	const [targetInfo, setTargetInfo] = useState(target);
 	const navigate = useNavigate();
+	const audioRef = useRef(new Audio(seaWaves));
+	const [targetInfo, setTargetInfo] = useState(target);
 
 	useEffect(() => {
-		audioRef.current = new Audio(seaWaves);
-		if (sound) {
-			audioRef.current.play();
-			audioRef.current.loop = true;
-			audioRef.current.volume = 0.3;
-		}
-
 		const storage = sessionStorage.getItem("playGame");
-		if (!storage) navigate("/", {replace: true});
+		if (!storage) {
+			navigate("/", {replace: true});
+		} else {
+			if (sound) {
+				audioRef.current.play().catch(error => {
+					console.error('Error trying to play audio:', error);
+				});
+				audioRef.current.loop = true;
+				audioRef.current.volume = 0.3;
+			}
+		}
 
 		return () => sound && audioRef.current.pause();
 	}, []);
@@ -61,53 +66,56 @@ export const PlayGame = () => {
 
 	const onShot = () => {
 		if (!shotInCell) setTargetInfo(target);
-		dispatch(setShot({shotInCell: target, player: activePlayer}));
 		if (sound) {
-			const audio = new Audio(shotSound)
+			const audio = new Audio(shotSound);
 			audio.play();
 		}
+		dispatch(setShot({shotInCell: target, player: activePlayer}));
 	};
 
 	useHandleBeforeUnload();
+	const turn = useHandleRotateScreen();
 
 	return (<>
 		{winner && <GameResult/>}
 		{activePlayer &&
 			<Wrapper>
-				<Section>
-					<Header>
-						{activePlayer === "firstPlayer" ? gameMode === "compVsComp" ? "Ruch pierwszego komputera" : "Twój ruch" : gameMode === "compVsComp" ? "Ruch drugiego komputera" : "Ruch drugiego gracza"}
-					</Header>
-					<Content>
-						<BoardsWrapper>
-							<ShipsBoard board={firstPlayerBoardToShots}
-							            player={playersName[0]}
-							            toLeft={activePlayer === "secondPlayer"}
-							/>
-							<ShipsBoard board={firstPlayerBoard}
-							            toLeft={activePlayer === "secondPlayer"}
-							/>
-						</BoardsWrapper>
-						<InfoWrapper>
-							<Info>
-								<InfoMain>
-									<span>Strzały: {numberOfShots}</span>
-									<span>Cel: {target || activePlayer !== "firstPlayer" ? target : targetInfo}</span>
-								</InfoMain>
-								<p>Statki przeciwnika</p>
-								<FleetInfo/>
-							</Info>
-							<Button
-								onClick={onShot}
-								disabled={activePlayer !== playersName[0] || !target || (target && shotInCell) || gameMode === "compVsComp"}
-								$shot
-								$animation={target}
-							>
-								STRZAŁ
-							</Button>
-						</InfoWrapper>
-					</Content>
-				</Section>
+				{turn ? <RotateScreenInfo/> :
+					<Section>
+						<Header>
+							{activePlayer === "firstPlayer" ? gameMode === "compVsComp" ? "Ruch pierwszego komputera" : "Twój ruch" : gameMode === "compVsComp" ? "Ruch drugiego komputera" : "Ruch drugiego gracza"}
+						</Header>
+						<Content>
+							<BoardsWrapper>
+								<ShipsBoard board={firstPlayerBoardToShots}
+								            player={playersName[0]}
+								            toLeft={activePlayer === "secondPlayer"}
+								/>
+								<ShipsBoard board={firstPlayerBoard}
+								            toLeft={activePlayer === "secondPlayer"}
+								/>
+							</BoardsWrapper>
+							<InfoWrapper>
+								<Info>
+									<InfoMain>
+										<span>Strzały: {numberOfShots}</span>
+										<span>Cel: {target || activePlayer !== "firstPlayer" ? target : targetInfo}</span>
+									</InfoMain>
+									<p>Statki przeciwnika</p>
+									<FleetInfo/>
+								</Info>
+								<Button
+									onClick={onShot}
+									disabled={activePlayer !== playersName[0] || !target || (target && shotInCell) || gameMode === "compVsComp"}
+									$shot
+									$animation={target}
+								>
+									STRZAŁ
+								</Button>
+							</InfoWrapper>
+						</Content>
+					</Section>
+				}
 			</Wrapper>
 		}
 	</>);

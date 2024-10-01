@@ -27,7 +27,7 @@ export const ShipsBoard = ({board, player, toLeft}) => {
 	const onClickHandler = (cell) => {
 		const numberOfShots = (activePlayer === "firstPlayer" ? firstPlayerNumberOfShots : secondPlayerNumberOfShots);
 		if ((target && shotInCell) || gameMode === "compVsComp" || (!numberOfShots && activePlayer && pathname === "/playGame")) return;
-		dispatch(setTarget({target: cell.id, player}))
+		dispatch(setTarget({target: cell.id, player}));
 		if (cell.cell === "ship") {
 			dispatch(setShipSelectedNumber({number: cell.ship.numberOfShip}))
 		}

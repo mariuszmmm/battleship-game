@@ -197,16 +197,16 @@ function* setActivePlayerHandler() {
 			if (target === undefined || winner) return;
 
 			yield put(setTarget({target, player: player1}));
-			yield delay(500);
+			yield delay(700);
 
 			const state = yield select(selectState);
 			if (state !== "playGame") return;
-			yield put(setShot({shotInCell: target, player: player1}));
-
 			if (sound) {
 				const audio = new Audio(shotSound);
 				audio.play();
 			}
+			yield delay(500);
+			yield put(setShot({shotInCell: target, player: player1}));
 
 			yield delay(200);
 			number = yield select(selectFirstPlayerNumberOfShots);
@@ -226,15 +226,16 @@ function* setActivePlayerHandler() {
 			if (target === undefined || winner) return;
 
 			yield put(setTarget({target, player: player2}));
-			yield delay(500);
+			yield delay(700);
 
 			const state = yield select(selectState);
 			if (state !== "playGame") return;
-			yield put(setShot({shotInCell: target, player: player2}));
 			if (sound) {
 				const audio = new Audio(shotSound);
 				audio.play();
 			}
+			yield delay(500);
+			yield put(setShot({shotInCell: target, player: player2}));
 
 			yield delay(200);
 			number = yield select(selectSecondPlayerNumberOfShots);
