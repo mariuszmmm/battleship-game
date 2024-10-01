@@ -65,6 +65,10 @@ const shipGameSlice = createSlice({
 			},
 			setActivePlayer: (state, {payload: activePlayer}) => {
 				state.activePlayer = activePlayer;
+				state.firstPlayer.target = null;
+				state.firstPlayer.shotInCell = null;
+				state.secondPlayer.target = null;
+				state.secondPlayer.shotInCell = null;
 			},
 			setBoardForFirstPlayer: (state, {payload: board}) => {
 				state.firstPlayer.board = board;

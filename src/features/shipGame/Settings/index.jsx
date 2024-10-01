@@ -8,7 +8,7 @@ import {ButtonsContainer, StyledLink} from "../../../components/Buttons/index.js
 import {Section} from "../../../components/Section/index.jsx";
 import {
 	selectGameMode, selectActivePlayer,
-	setState, setActivePlayer, setShips
+	setState, setActivePlayer, setShips, setNumberOfShots
 } from "../shipGameSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Difficulty} from "./Difficulty"
@@ -28,6 +28,7 @@ export const Settings = () => {
 		if (gameMode === "compVsComp") {
 			dispatch(setState("playGame"));
 			dispatch(setActivePlayer("firstPlayer"));
+			dispatch(setNumberOfShots());
 		}
 	};
 

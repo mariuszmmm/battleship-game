@@ -8,7 +8,7 @@ import {
 	setChangeShipPlace, setActivePlayer,
 	selectSelectedShip, selectWrongSettingOfShips,
 	selectLockedMoves, selectFirstPlayerBoard,
-	selectApprovedSetting, selectState
+	selectApprovedSetting, selectState, setNumberOfShots
 } from "../shipGameSlice";
 import {
 	ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon,
@@ -47,6 +47,7 @@ export const SetShips = () => {
 		if (selectedShip.length > 0 || !approvedSetting) return;
 		dispatch(setState("playGame"));
 		dispatch(setActivePlayer("firstPlayer"));
+		dispatch(setNumberOfShots());
 	};
 
 	useEffect(() => {

@@ -8,7 +8,7 @@ import {
 	selectFirstPlayerNumberOfShots, selectSecondPlayerNumberOfShots,
 	selectFirstPlayerShotInCell, selectSecondPlayerShotInCell,
 	selectSelectedShip, selectChangeShipPlace,
-	selectWinner, selectSecondPlayerNumberOfShips,
+	selectWinner, selectSound, selectState, selectBonus,
 	setActivePlayer,
 	setBoardForFirstPlayer, setBoardForPlayerShots,
 	setBoardForSecondPlayer,
@@ -18,8 +18,7 @@ import {
 	setLockedMoves, setWrongSettingOfShips, setApprovedSetting,
 	setTarget, setShot, subtractShot, setNumberOfShots,
 	clearAfterShot, setShips,
-	setWinner, selectFirstPlayerNumberOfShips, selectShotsEqualShips,
-	selectSound, selectState, selectBonus,
+	setWinner,
 } from "./shipGameSlice.jsx";
 import {addRandomShips} from "./SetShips/addRandomShips.jsx"
 import {changeSelectedShip} from "./SetShips/changeSelectedShip.jsx";
@@ -127,16 +126,12 @@ function* setShotHandler() {
 	const {boardToShotsAfterShot, boardAfterShot, newFleet, shipsNumber, isSunkShip, hitShip} =
 		yield call(getShot, {boardToShots, board, shotInCell, fleet, mayTouch});
 	const sound = yield select(selectSound);
-	if (sound && (isSunkShip || hitShip)) {
-		const sunkSound = new Audio(sunk);
-		const hitSound = new Audio(hit);
-		hitShip && hitSound.play();
-		isSunkShip && sunkSound.play();
+	if (sound) {
+		const audio = new Audio(shotSound);
+		audio.play();
 	}
-	const bonus = yield select(selectBonus);
-	if (!bonus || (bonus && hitShip === undefined)) {
-		yield put(subtractShot());
-	}
+
+	yield delay(800);
 	yield put(setBoardForPlayerShots(boardToShotsAfterShot));
 	yield put(setNumberOfShips(shipsNumber));
 
@@ -150,12 +145,24 @@ function* setShotHandler() {
 		yield put(setBoardForFirstPlayer(boardAfterShot));
 	}
 
+	const bonus = yield select(selectBonus);
+	if (!bonus || (bonus && hitShip === undefined)) {
+		yield put(subtractShot());
+	}
+	yield delay(100);
+	if (sound && (isSunkShip || hitShip)) {
+		const sunkSound = new Audio(sunk);
+		const hitSound = new Audio(hit);
+		hitShip && hitSound.play();
+		isSunkShip && sunkSound.play();
+	}
+
 	const winner = yield call(isWinner, {fleet: newFleet, activePlayer});
 	if (winner) {
+		yield delay(3000);
 		yield put(setWinner(winner))
 		return;
 	}
-	yield put(clearAfterShot());
 
 	const numberOfShots = yield select(forActivePlayer[activePlayer].selectNumberOfShots)
 	if (numberOfShots <= 0) {
@@ -168,78 +175,38 @@ function* setShotHandler() {
 		const state = yield select(selectState);
 		if (state !== "playGame") return;
 		yield put(setActivePlayer(forActivePlayer[activePlayer].changeActivePlayer));
+		yield put(setNumberOfShots());
+	} else {
+		yield put(clearAfterShot());
 	}
 }
 
 function* setActivePlayerHandler() {
+	console.log("test")
 	const activePlayer = yield select(selectActivePlayer);
 	if (activePlayer === null) return;
-	yield put(setNumberOfShots());
 	const gameMode = yield select(selectGameMode);
 	const mayTouch = yield select(selectMayTouch);
 	const difficultyLevel = yield select(selectDifficultyLevel);
 	const winner = yield select(selectWinner);
-	const shotsEqualShips = yield select(selectShotsEqualShips);
-	const sound = yield select(selectSound);
 	const player1 = "firstPlayer";
 	const player2 = "secondPlayer";
+	yield delay(300);
 
 	if (activePlayer === player1 && gameMode === "compVsComp") {
-		const firstPlayerShips = yield select(selectFirstPlayerNumberOfShips);
-		const firstPlayerNumberOfShots = yield select(selectFirstPlayerNumberOfShots);
-		const shots = (shotsEqualShips ? firstPlayerShips : firstPlayerNumberOfShots);
-
-		yield delay(1000);
-		let number = shots;
-		do {
-			const boardToShots = yield select(selectFirstPlayerBoardToShots);
-			const target = yield call(computerChooses, {difficultyLevel, boardToShots, mayTouch});
-			if (target === undefined || winner) return;
-
-			yield put(setTarget({target, player: player1}));
-			yield delay(700);
-
-			const state = yield select(selectState);
-			if (state !== "playGame") return;
-			if (sound) {
-				const audio = new Audio(shotSound);
-				audio.play();
-			}
-			yield delay(500);
-			yield put(setShot({shotInCell: target, player: player1}));
-
-			yield delay(200);
-			number = yield select(selectFirstPlayerNumberOfShots);
-		} while (number > 0);
+		const boardToShots = yield select(selectFirstPlayerBoardToShots);
+		const target = yield call(computerChooses, {difficultyLevel, boardToShots, mayTouch});
+		if (target === undefined || winner) return;
+		yield put(setTarget({target, player: player1}));
+		yield put(setShot({shotInCell: target, player: player1}));
 	}
 
 	if (activePlayer === player2 && (gameMode === "compVsPlayer" || gameMode === "compVsComp")) {
-		const secondPlayerShips = yield select(selectSecondPlayerNumberOfShips);
-		const secondPlayerNumberOfShots = yield select(selectSecondPlayerNumberOfShots);
-		const shots = (shotsEqualShips ? secondPlayerShips : secondPlayerNumberOfShots);
-
-		yield delay(1000);
-		let number = shots;
-		do {
-			const boardToShots = yield select(selectSecondPlayerBoardToShots);
-			const target = yield call(computerChooses, {difficultyLevel, boardToShots, mayTouch});
-			if (target === undefined || winner) return;
-
-			yield put(setTarget({target, player: player2}));
-			yield delay(700);
-
-			const state = yield select(selectState);
-			if (state !== "playGame") return;
-			if (sound) {
-				const audio = new Audio(shotSound);
-				audio.play();
-			}
-			yield delay(500);
-			yield put(setShot({shotInCell: target, player: player2}));
-
-			yield delay(200);
-			number = yield select(selectSecondPlayerNumberOfShots);
-		} while (number > 0);
+		const boardToShots = yield select(selectSecondPlayerBoardToShots);
+		const target = yield call(computerChooses, {difficultyLevel, boardToShots, mayTouch});
+		if (target === undefined || winner) return;
+		yield put(setTarget({target, player: player2}));
+		yield put(setShot({shotInCell: target, player: player2}));
 	}
 }
 
@@ -250,4 +217,5 @@ export function* shipGameSaga() {
 	yield takeLatest(setTarget.type, setTargetHandler);
 	yield takeLatest(setShot.type, setShotHandler);
 	yield takeLatest(setActivePlayer.type, setActivePlayerHandler);
+	yield takeLatest(clearAfterShot.type, setActivePlayerHandler)
 }
