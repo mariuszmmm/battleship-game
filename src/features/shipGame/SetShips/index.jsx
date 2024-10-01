@@ -19,6 +19,9 @@ import {Wrapper} from "../../../components/Wrapper/index.jsx";
 import {Header} from "../../../components/Header/index.jsx";
 import {BoardsWrapper} from "../PlayGame/styled.jsx";
 import {ConfirmationDialog} from "../../../components/ConfirmationDialog/index.jsx";
+import {useEffect} from "react";
+import {useHandleBeforeUnload} from "../../../utils/useHandleBeforeUnload.jsx";
+import {useNavigate} from "react-router-dom";
 
 export const SetShips = () => {
 	const board = useSelector(selectFirstPlayerBoard);
@@ -28,6 +31,7 @@ export const SetShips = () => {
 	const approvedSetting = useSelector(selectApprovedSetting);
 	const state = useSelector(selectState);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const onRandomHandler = () => {
 		dispatch(setShipSelectedNumber({approvedSetting: true}));
@@ -41,7 +45,14 @@ export const SetShips = () => {
 		if (selectedShip.length > 0 || !approvedSetting) return;
 		dispatch(setState("playGame"));
 		dispatch(setActivePlayer("firstPlayer"));
-	}
+	};
+
+	useEffect(() => {
+		const storage = sessionStorage.getItem("playGame");
+		if (!storage) navigate("/", {replace: true});
+	}, []);
+
+	useHandleBeforeUnload();
 
 	return (
 		<>

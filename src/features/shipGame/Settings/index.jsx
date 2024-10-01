@@ -22,6 +22,7 @@ export const Settings = () => {
 	const activePlayer = useSelector(selectActivePlayer);
 
 	const onClickHandler = () => {
+		sessionStorage.setItem("playGame", "true");
 		dispatch(setShips());
 
 		if (gameMode === "compVsComp") {

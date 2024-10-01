@@ -22,6 +22,8 @@ import {Wrapper} from "../../../components/Wrapper/index.jsx";
 import {GameResult} from "../../../components/GameResult/index.jsx";
 import shotSound from "../../../assets/Audio/shot.mp3"
 import seaWaves from "../../../assets/Audio/seaWaves.mp3"
+import {useNavigate} from "react-router-dom";
+import {useHandleBeforeUnload} from "../../../utils/useHandleBeforeUnload.jsx";
 
 export const PlayGame = () => {
 	const firstPlayerBoard = useSelector(selectFirstPlayerBoard);
@@ -37,6 +39,7 @@ export const PlayGame = () => {
 	const playersName = ["firstPlayer", "secondPlayer"];
 	const audioRef = useRef(null);
 	const [targetInfo, setTargetInfo] = useState(target);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		audioRef.current = new Audio(seaWaves);
@@ -45,6 +48,9 @@ export const PlayGame = () => {
 			audioRef.current.loop = true;
 			audioRef.current.volume = 0.3;
 		}
+
+		const storage = sessionStorage.getItem("playGame");
+		if (!storage) navigate("/", {replace: true});
 
 		return () => sound && audioRef.current.pause();
 	}, []);
@@ -55,14 +61,14 @@ export const PlayGame = () => {
 
 	const onShot = () => {
 		if (!shotInCell) setTargetInfo(target);
-		dispatch(setShot({
-			shotInCell: target, player: activePlayer
-		}));
+		dispatch(setShot({shotInCell: target, player: activePlayer}));
 		if (sound) {
 			const audio = new Audio(shotSound)
 			audio.play();
 		}
 	};
+
+	useHandleBeforeUnload();
 
 	return (<>
 		{winner && <GameResult/>}
