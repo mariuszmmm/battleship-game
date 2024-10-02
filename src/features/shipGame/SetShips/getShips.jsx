@@ -26,5 +26,7 @@ export const getShips = (numberOfShips) => {
 		}
 	}
 
+	ships = ships.sort((a, b) => b.length - a.length);
+
 	return ships;
 };

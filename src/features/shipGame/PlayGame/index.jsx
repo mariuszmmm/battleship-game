@@ -49,11 +49,9 @@ export const PlayGame = () => {
 			navigate("/", {replace: true});
 		} else {
 			if (sound) {
-				audioRef.current.play().catch(error => {
-					console.error('Error trying to play audio:', error);
-				});
 				audioRef.current.loop = true;
-				audioRef.current.volume = 0.3;
+				audioRef.current.volume = 0.1;
+				audioRef.current.play()
 			}
 		}
 
@@ -68,6 +66,7 @@ export const PlayGame = () => {
 		if (!shotInCell) setTargetInfo(target);
 		if (sound) {
 			const audio = new Audio(shotSound);
+			audio.volume = 0.1;
 			audio.play();
 		}
 		dispatch(setShot({shotInCell: target, player: activePlayer}));

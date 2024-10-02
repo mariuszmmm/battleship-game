@@ -1,4 +1,4 @@
-import {takeLatest, select, call, put, delay} from "redux-saga/effects";
+import {takeEvery, select, call, put, delay} from "redux-saga/effects";
 import {
 	selectActivePlayer, selectGameMode,
 	selectParameters, selectMayTouch, selectDifficultyLevel,
@@ -37,7 +37,6 @@ import hit from "../../assets/Audio/hit.mp3";
 function* setShipsHandler() {
 	const {mayTouch, numberOfShips} = yield select(selectParameters);
 	const board = yield call(boardSchemat);
-
 	const firstPlayersShips = yield call(getShips, numberOfShips);
 	const {fleet: firstPlayersFleet, newBoard: firstPlayersNewBoard} =
 		yield call(addRandomShips, {board, mayTouch, ships: firstPlayersShips});
@@ -91,12 +90,15 @@ function* setTargetHandler({payload: {target, player}}) {
 
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots);
 	const newBoard = yield call(getTarget, {target, boardToShots});
-	yield put(setBoardForPlayerShots(newBoard));
+	if (activePlayer) {
+		yield put(setBoardForPlayerShots(newBoard));
+	}
 }
 
 function* setShotHandler() {
 	const gameOver = yield select(selectWinner);
-	if (gameOver) return;
+	const activePlayer = yield select(selectActivePlayer);
+	if (gameOver || !activePlayer) return;
 
 	const forActivePlayer = {
 		firstPlayer: {
@@ -117,7 +119,6 @@ function* setShotHandler() {
 		},
 	};
 
-	const activePlayer = yield select(selectActivePlayer);
 	const shotInCell = yield select(forActivePlayer[activePlayer].selectShotInCell);
 	const board = yield select(forActivePlayer[activePlayer].selectBoard);
 	const boardToShots = yield select(forActivePlayer[activePlayer].selectBoardToShots);
@@ -128,10 +129,11 @@ function* setShotHandler() {
 	const sound = yield select(selectSound);
 	if (sound) {
 		const audio = new Audio(shotSound);
+		audio.volume = 0.1;
 		audio.play();
 	}
 
-	yield delay(800);
+	yield delay(300);
 	yield put(setBoardForPlayerShots(boardToShotsAfterShot));
 	yield put(setNumberOfShips(shipsNumber));
 
@@ -153,6 +155,8 @@ function* setShotHandler() {
 	if (sound && (isSunkShip || hitShip)) {
 		const sunkSound = new Audio(sunk);
 		const hitSound = new Audio(hit);
+		hitSound.volume = 0.1;
+		sunkSound.volume = 0.1;
 		hitShip && hitSound.play();
 		isSunkShip && sunkSound.play();
 	}
@@ -169,6 +173,7 @@ function* setShotHandler() {
 		yield delay(1500);
 		if (sound) {
 			const audio = new Audio(siren);
+			audio.volume = 0.1;
 			audio.play();
 		}
 
@@ -182,7 +187,6 @@ function* setShotHandler() {
 }
 
 function* setActivePlayerHandler() {
-	console.log("test")
 	const activePlayer = yield select(selectActivePlayer);
 	if (activePlayer === null) return;
 	const gameMode = yield select(selectGameMode);
@@ -211,11 +215,11 @@ function* setActivePlayerHandler() {
 }
 
 export function* shipGameSaga() {
-	yield takeLatest(setShips.type, setShipsHandler);
-	yield takeLatest(setShipSelectedNumber.type, setShipSelectedNumberHandler);
-	yield takeLatest(setChangeShipPlace.type, setChangeShipPlaceHandler);
-	yield takeLatest(setTarget.type, setTargetHandler);
-	yield takeLatest(setShot.type, setShotHandler);
-	yield takeLatest(setActivePlayer.type, setActivePlayerHandler);
-	yield takeLatest(clearAfterShot.type, setActivePlayerHandler)
+	yield takeEvery(setShips.type, setShipsHandler);
+	yield takeEvery(setShipSelectedNumber.type, setShipSelectedNumberHandler);
+	yield takeEvery(setChangeShipPlace.type, setChangeShipPlaceHandler);
+	yield takeEvery(setTarget.type, setTargetHandler);
+	yield takeEvery(setShot.type, setShotHandler);
+	yield takeEvery(setActivePlayer.type, setActivePlayerHandler);
+	yield takeEvery(clearAfterShot.type, setActivePlayerHandler)
 }

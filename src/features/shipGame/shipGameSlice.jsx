@@ -77,6 +77,7 @@ const shipGameSlice = createSlice({
 				state.secondPlayer.board = board;
 			},
 			setBoardForPlayerShots: (state, {payload: board}) => {
+				if (!state.activePlayer) return;
 				state[state.activePlayer].boardToShots = board;
 			},
 			setFleetForFirstPlayer: (state, {payload: fleet}) => {
@@ -90,18 +91,20 @@ const shipGameSlice = createSlice({
 				if (state.activePlayer === "secondPlayer") state["firstPlayer"].numberOfShips = number;
 			},
 			setTarget: (state, {payload: {target, player}}) => {
-				if (player !== state.activePlayer) return;
+				if (player !== state.activePlayer || !state.activePlayer) return;
 				state[state.activePlayer].target = target
 			},
 			setShot: (state, {payload: {shotInCell, player}}) => {
-				if (player !== state.activePlayer) return;
+				if (player !== state.activePlayer || !state.activePlayer) return;
 				state[state.activePlayer].shotInCell = shotInCell
 			},
 			subtractShot: (state) => {
+				if (!state.activePlayer) return;
 				const player = state[state.activePlayer];
 				if (player.numberOfShots > 0) player.numberOfShots--;
 			},
 			setNumberOfShots: (state) => {
+				if (!state.activePlayer) return;
 				if (state.parameters.shotsEqualShips) {
 					state[state.activePlayer].numberOfShots = state[state.activePlayer].numberOfShips;
 				} else {
