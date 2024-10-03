@@ -11,33 +11,33 @@ export const Bonus = () => {
 	const dispatch = useDispatch();
 
 	return (
-		<AdditionalItem disabled={numberOfShots !== "1"}
+		<AdditionalItem disabled={numberOfShots !== 1}
 		>
 			Strzelasz, aż nie trafisz:
 			<InputsRadioContainer>
-				<InputRadioWrapper disabled={numberOfShots !== "1"}>
+				<InputRadioWrapper disabled={numberOfShots !== 1}>
 					<InputRadio type="radio"
 					            name="bonus"
 					            id="yesBonus"
 					            value="yes"
 					            checked={bonus}
 					            onChange={() => dispatch(setParameters({bonus: !bonus}))}
-					            disabled={numberOfShots !== "1"}
+					            disabled={numberOfShots !== 1}
 					/>
-					<LabelInput htmlFor="yesBonus" disabled={numberOfShots !== "1"}>
+					<LabelInput htmlFor="yesBonus" disabled={numberOfShots !== 1}>
 						Tak
 					</LabelInput>
 				</InputRadioWrapper>
-				<InputRadioWrapper disabled={numberOfShots !== "1"}>
+				<InputRadioWrapper disabled={numberOfShots !== 1}>
 					<InputRadio type="radio"
 					            name="bonus"
 					            id="noBonus"
 					            value="no"
 					            checked={!bonus}
 					            onChange={() => dispatch(setParameters({bonus: !bonus}))}
-					            disabled={numberOfShots !== "1"}
+					            disabled={numberOfShots !== 1}
 					/>
-					<LabelInput htmlFor="noBonus" disabled={numberOfShots !== "1"}>
+					<LabelInput htmlFor="noBonus" disabled={numberOfShots !== 1}>
 						Nie
 					</LabelInput>
 				</InputRadioWrapper>
