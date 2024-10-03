@@ -1,7 +1,7 @@
 {
   "name": "ships",
   "private": true,
-  "homepage": "https://mariuszmmm.github.io/Battleship_Game",
+  "homepage": "https://mariuszmmm.github.io/battleship-game",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

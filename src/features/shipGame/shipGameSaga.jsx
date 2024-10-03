@@ -195,7 +195,7 @@ function* setActivePlayerHandler() {
 	const winner = yield select(selectWinner);
 	const player1 = "firstPlayer";
 	const player2 = "secondPlayer";
-	yield delay(300);
+	yield delay(700);
 
 	if (activePlayer === player1 && gameMode === "compVsComp") {
 		const boardToShots = yield select(selectFirstPlayerBoardToShots);
