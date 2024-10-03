@@ -1,4 +1,6 @@
-# Battleship Game
+# [Battleship Game](https://mariuszmmm.github.io/battleship-game/) 
+
+* [Try it Now](https://mariuszmmm.github.io/battleship-game/)
 
 ![Battleship Game](presentation/presentation.gif) <!-- Update the path to your game screenshot -->
 
@@ -6,7 +8,7 @@
 
 Battleship is a classic strategic game where players take turns trying to locate and sink their opponent's ships. The
 goal of the game is to find and destroy all enemy ships in the shortest possible time. In this version of the game, you
-can play against the computer or have the computer play against another computer. In the future, we plan to introduce
+can play against the computer or have the computer play against another computer. In the future, I plan to introduce
 the option for two players to play against each other over the network.
 
 ## Features
