@@ -58,7 +58,7 @@ export const PlayGame = () => {
 		}
 
 		return () => sound && audioElement.pause();
-	}, []);
+	}, [navigate, sound]);
 
 	useEffect(() => {
 		if (activePlayer !== "firstPlayer") setTargetInfo("")
