@@ -45,17 +45,19 @@ export const PlayGame = () => {
 
 	useEffect(() => {
 		const storage = sessionStorage.getItem("playGame");
+		const audioElement = audioRef.current;
+
 		if (!storage) {
 			navigate("/", {replace: true});
 		} else {
 			if (sound) {
-				audioRef.current.loop = true;
-				audioRef.current.volume = .05;
-				audioRef.current.play()
+				audioElement.loop = true;
+				audioElement.volume = .05;
+				audioElement.play()
 			}
 		}
 
-		return () => sound && audioRef.current.pause();
+		return () => sound && audioElement.pause();
 	}, []);
 
 	useEffect(() => {
