@@ -129,7 +129,7 @@ function* setShotHandler() {
 	const sound = yield select(selectSound);
 	if (sound) {
 		const audio = new Audio(shotSound);
-		audio.volume = 0.1;
+		audio.volume = 0.2;
 		audio.play();
 	}
 
@@ -155,9 +155,9 @@ function* setShotHandler() {
 	if (sound && (isSunkShip || hitShip)) {
 		const sunkSound = new Audio(sunk);
 		const hitSound = new Audio(hit);
-		hitSound.volume = 0.1;
-		sunkSound.volume = 0.1;
-		hitShip && hitSound.play();
+		hitSound.volume = 0.2;
+		sunkSound.volume = 0.4;
+		hitSound.play();
 		isSunkShip && sunkSound.play();
 	}
 

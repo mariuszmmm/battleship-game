@@ -50,7 +50,7 @@ export const PlayGame = () => {
 		} else {
 			if (sound) {
 				audioRef.current.loop = true;
-				audioRef.current.volume = 0.1;
+				audioRef.current.volume = .05;
 				audioRef.current.play()
 			}
 		}
@@ -107,7 +107,7 @@ export const PlayGame = () => {
 									onClick={onShot}
 									disabled={activePlayer !== playersName[0] || !target || (target && shotInCell) || gameMode === "compVsComp"}
 									$shot
-									$animation={target}
+									$animation={target && !winner}
 								>
 									STRZAŁ
 								</Button>

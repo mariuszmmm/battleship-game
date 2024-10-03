@@ -2,15 +2,14 @@ import {useEffect, useState} from "react";
 
 export const useHandleRotateScreen = () => {
 	const [turn, setTurn] = useState(
-		window.screen.orientation.type === "landscape-primary" &&
+		window.screen.width > window.screen.height &&
 		window.screen.height < 600
 	);
 
 	const onOrientationChange = () => {
-		const newOrientation = window.screen.orientation.type;
+		const horizontalOrientation = window.screen.width > window.screen.height;
 		const screenHeight = window.screen.height;
-		if (newOrientation === "landscape-primary" &&
-			screenHeight < 600) {
+		if (horizontalOrientation && screenHeight < 600) {
 			setTurn(true);
 		} else {
 			setTurn(false);
