@@ -6,7 +6,7 @@ export const Header = styled.header`
     border: 2px solid ${({theme}) => theme.colors.primaryColor};
     color: ${({theme}) => theme.colors.textColor};
     font-weight: ${({theme}) => theme.fontWeight.medium};
-    width: ${({theme}) => theme.breakpoints.medium};
+    width: ${({theme}) => theme.breakpoints.midSmall};
     font-size: 1.3rem;
     letter-spacing: 2px;
     padding: 10px;

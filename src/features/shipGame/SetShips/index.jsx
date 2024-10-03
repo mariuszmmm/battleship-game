@@ -8,7 +8,7 @@ import {
 	setChangeShipPlace, setActivePlayer,
 	selectSelectedShip, selectWrongSettingOfShips,
 	selectLockedMoves, selectFirstPlayerBoard,
-	selectApprovedSetting, selectState, setNumberOfShots
+	selectApprovedSetting, selectState, setNumberOfShots, setShips
 } from "../shipGameSlice";
 import {
 	ArrowDownIcon, ArrowLeftIcon, ArrowRightIcon,
@@ -37,6 +37,7 @@ export const SetShips = () => {
 
 	const onRandomHandler = () => {
 		dispatch(setShipSelectedNumber({approvedSetting: true}));
+		dispatch(setShips());
 	};
 
 	const onSettingsHandler = () => {

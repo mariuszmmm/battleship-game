@@ -7,8 +7,7 @@ import {ArrowBackIcon, ArrowForwardIcon} from "../../../components/Icons/index.j
 import {ButtonsContainer, StyledLink} from "../../../components/Buttons/index.jsx";
 import {Section} from "../../../components/Section/index.jsx";
 import {
-	selectGameMode, selectActivePlayer,
-	setState, setActivePlayer, setShips, setNumberOfShots
+	selectGameMode, selectActivePlayer, setState, setActivePlayer, setShips, setNumberOfShots
 } from "../shipGameSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {Difficulty} from "./Difficulty"
@@ -32,34 +31,30 @@ export const Settings = () => {
 		}
 	};
 
-	return (
-		<>
+	return (<>
 			{activePlayer && <ConfirmationDialog/>}
-			{!activePlayer &&
-				<Wrapper>
-					<Section>
-						<Header>
-							Ustawienia gry
-						</Header>
-						<SettingsItem>
-							<GameMode/>
-							<Difficulty/>
-							<Ships/>
-							<Shots/>
-							<Additional/>
-						</SettingsItem>
-						<ButtonsContainer>
-							<StyledLink to="/home" onClick={() => dispatch(setState("home"))}><ArrowBackIcon/>Wstecz</StyledLink>
-							<StyledLink
-								to={gameMode === "compVsComp" ? "/playGame" : "/setShips"}
-								onClick={onClickHandler}
-								$animation
-							>
-								Dalej<ArrowForwardIcon/></StyledLink>
-						</ButtonsContainer>
-					</Section>
-				</Wrapper>
-			}
-		</>
-	);
+			{!activePlayer && <Wrapper>
+				<Section>
+					<Header>
+						Ustawienia gry
+					</Header>
+					<SettingsItem>
+						<GameMode/>
+						<Difficulty/>
+						<Ships/>
+						<Shots/>
+						<Additional/>
+					</SettingsItem>
+					<ButtonsContainer>
+						<StyledLink to="/home" onClick={() => dispatch(setState("home"))}><ArrowBackIcon/>Wstecz</StyledLink>
+						<StyledLink
+							to={gameMode === "compVsComp" ? "/playGame" : "/setShips"}
+							onClick={onClickHandler}
+							$animation
+						>
+							Dalej<ArrowForwardIcon/></StyledLink>
+					</ButtonsContainer>
+				</Section>
+			</Wrapper>}
+		</>);
 };

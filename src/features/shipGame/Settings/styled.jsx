@@ -6,7 +6,7 @@ export const SettingsItem = styled.div`
     color: ${({theme}) => theme.colors.textColor};
     border: 2px solid ${({theme}) => theme.colors.primaryColor};
     box-shadow: ${({theme}) => theme.boxShadow.container};
-    width: ${({theme}) => theme.breakpoints.medium};
+    width: ${({theme}) => theme.breakpoints.midSmall};
     display: flex;
     flex-direction: column;
     justify-content: center;
