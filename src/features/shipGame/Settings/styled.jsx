@@ -1,4 +1,5 @@
 import styled, {css} from 'styled-components';
+import {rgba} from "polished";
 
 export const SettingsItem = styled.div`
     background-color: ${({theme}) => theme.colors.secondaryColor};
@@ -42,7 +43,7 @@ export const AdditionalItem = styled.div`
     width: 100%;
     max-width: 400px;
     ${({disabled}) => disabled && css`
-        color: ${({theme}) => theme.colors.button.disabled};
+        color: ${({theme}) => rgba(theme.colors.button.textColor, 0.4)};
     `}
 `;
 

@@ -1,6 +1,7 @@
 import styled, {css} from "styled-components";
 import {keyframes} from "styled-components";
 import {Link} from 'react-router-dom';
+import {rgba} from "polished";
 
 const shine = keyframes`
     0% {
@@ -36,10 +37,11 @@ export const ButtonsContainer = styled.div`
 `;
 
 const disabledStyles = css`
-    background-color: ${({theme}) => theme.colors.button.disabledBackgroundColor};
+    background-color: ${({theme}) => rgba(theme.colors.button.backgroundColor, 0.3)};
     box-shadow: ${({theme}) => theme.boxShadow.disabledButton};
-    border-color: ${({theme}) => theme.colors.button.disabled};
-    cursor: auto;
+    border-color: ${({theme}) => rgba(theme.colors.button.borderColor, 0.3)};
+    color: ${({theme}) => rgba(theme.colors.button.textColor, 0.4)};
+    cursor: not-allowed;
 `;
 
 const buttonStyles = css`
@@ -95,7 +97,6 @@ const buttonStyles = css`
     &:disabled {
         ${disabledStyles};
         transform: translate(0px, 0px);
-        color: ${({theme}) => theme.colors.button.disabled};
     }
 
     @media (max-width: ${({theme}) => theme.breakpoints.medium}) {
@@ -147,7 +148,7 @@ export const Button = styled.button`
 `;
 
 export const StyledLink = styled(Link)`
-        // ${buttonStyles};
+    ${buttonStyles};
     text-decoration: none;
     padding: 10px;
     width: 130px;

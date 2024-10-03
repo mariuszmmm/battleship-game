@@ -1,10 +1,9 @@
 const colorNames = {
 	white: "rgba(255, 255, 255, 1)",
 	emperor: "rgba( 80, 80, 80, 1)",
-	semiTransparent: "rgba(0, 0, 0, 0.2)",
+	semiTransparent: "rgba(0, 0, 0, 0.5)",
 	black: "rgba(0, 0, 0, 1)",
 	coconut: "rgba(156, 100, 72, 1)",
-	sandal: "rgba(168, 128, 108, 1)",
 	negroni: "rgba(255, 228, 196, 1)",
 	malachite: "rgba(34, 240, 34, 1)",
 	green: "rgba(0, 255, 0, 1)",
@@ -43,7 +42,6 @@ export const theme = {
 		button: {
 			textColor: colorNames.white,
 			backgroundColor: colorNames.coconut,
-			disabledBackgroundColor: colorNames.sandal,
 			hoveredBackgroundColor: colorNames.spicy,
 			activeBackgroundColor: colorNames.malachite,
 			activeSpecialBackgroundColor: colorNames.green,

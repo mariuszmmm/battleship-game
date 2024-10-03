@@ -10,91 +10,80 @@ import {ReactComponent as Fire} from "../../assets/Images/fire.svg";
 import {ReactComponent as User} from "../../assets/Images/user.svg";
 import {ReactComponent as Desktop} from "../../assets/Images/desktop.svg";
 
-const iconStyles = css`
-    fill: ${({theme}) => theme.colors.textColor};
-
-    ${({$disabled}) => $disabled && css`
-        fill: ${({theme}) => theme.colors.button.disabled}
-    `}
-`;
-
 export const ArrowLeftIcon = styled(ArrowLeft)`
-    ${iconStyles};
+    fill: currentColor;
     width: 50px;
     height: 50px;
 `;
 
 export const ArrowTopIcon = styled(ArrowLeftIcon)`
-    ${iconStyles};
+    fill: currentColor;
     rotate: 90deg;
 `;
 
 export const ArrowRightIcon = styled(ArrowLeftIcon)`
-    ${iconStyles};
+    fill: currentColor;
     rotate: 180deg;
 `;
 
 export const ArrowDownIcon = styled(ArrowLeftIcon)`
-    ${iconStyles};
+    fill: currentColor;
     rotate: 270deg;
 `;
 
 export const RotateRightIcon = styled(RotateRight)`
-    ${iconStyles};
+    fill: currentColor;
     width: 50px;
     height: 50px;
 `;
 
 export const CheckIcon = styled(Check)`
-    ${iconStyles};
+    fill: currentColor;
     width: 50px;
     height: 50px;
 `;
 
 export const RandomIcon = styled(Random)`
-    ${iconStyles};
+    fill: currentColor;
     width: 30px;
     height: 30px;
 `;
 
 export const ArrowBackIcon = styled(ArrowLeftIcon)`
-    ${iconStyles};
+    fill: currentColor;
     width: 30px;
     height: 30px;
 `;
 
 export const ArrowForwardIcon = styled(ArrowLeftIcon)`
-    ${iconStyles};
+    fill: currentColor;
     rotate: 180deg;
     width: 30px;
     height: 30px;
 `;
 
 export const XMarkIcon = styled(XMark)`
-    ${iconStyles};
+    fill: ${({theme}) => theme.colors.backgroundColor};
     width: 100%;
     height: 100%;
-    fill: ${({theme}) => theme.colors.backgroundColor};
 `;
 
 export const CircleIcon = styled(Circle)`
-    ${iconStyles};
+    fill: ${({theme}) => theme.colors.backgroundColor};
     width: 30%;
     height: 30%;
-    fill: ${({theme}) => theme.colors.backgroundColor};
 `;
 
 export const CrossHairsIcon = styled(CrossHairs)`
-    ${iconStyles};
+    fill: ${({theme}) => theme.colors.specialColor_2};
     width: 100%;
     height: 100%;
     position: absolute;
-    fill: ${({theme}) => theme.colors.specialColor_2};
     z-index: 2;
 `;
 
 export const FireIcon = styled(Fire)`
-    ${iconStyles};
+    fill: currentColor;
     width: 110%;
     height: 110%;
     z-index: 1;
@@ -103,7 +92,7 @@ export const FireIcon = styled(Fire)`
 `;
 
 export const UserIcon = styled(User)`
-    ${iconStyles};
+    fill: currentColor;
     width: 30px;
     height: 30px;
 
@@ -118,7 +107,7 @@ export const UserIcon = styled(User)`
 `;
 
 export const DesktopIcon = styled(Desktop)`
-    ${iconStyles};
+    fill: currentColor;
     width: 30px;
     height: 30px;
 
