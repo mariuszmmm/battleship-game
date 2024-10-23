@@ -1876,7 +1876,7 @@ var require_react_development = __commonJS({
   }
 });
 
-// node_modules/react/index.jsx
+// node_modules/react/index.ts
 var require_react = __commonJS({
   "node_modules/react/index.js"(exports, module) {
     if (false) {

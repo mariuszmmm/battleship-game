@@ -8,7 +8,7 @@ import {
   __toCommonJS
 } from "./chunk-EWTE5DHJ.js";
 
-// node_modules/styled-normalize/dist/index.jsx
+// node_modules/styled-normalize/dist/index.ts
 var require_dist = __commonJS({
   "node_modules/styled-normalize/dist/index.js"(exports) {
     Object.defineProperty(exports, "__esModule", {

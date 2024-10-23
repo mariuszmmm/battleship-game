@@ -1,4 +1,4 @@
-# [Battleship Game](https://mariuszmmm.github.io/battleship-game/) 
+# [Battleship Game](https://mariuszmmm.github.io/battleship-game/)
 
 * [Try it Now](https://mariuszmmm.github.io/battleship-game/)
 
