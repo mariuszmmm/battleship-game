@@ -1,4 +1,4 @@
-import {randomMinMax} from "../../../utils/randomMinMax.js";
+import {randomMinMax} from "../../../utils/randomMinMax";
 import {coordinatesAround, directNeighbors} from "../../../utils/coordinates";
 import {Board, Parameters, Cell} from "../../../types/types";
 

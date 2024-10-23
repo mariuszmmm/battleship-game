@@ -1,5 +1,5 @@
 import {
-	AdditionalItem, InputRadio, InputRadioWrapper,
+	AdditionalItemWrapper, InputRadio, InputRadioWrapper,
 	InputsRadioContainer, LabelInput
 } from "../../styled";
 import {selectMayTouch, setParameters} from "../../../shipGameSlice";
@@ -10,7 +10,7 @@ export const MayTouch = () => {
 	const dispatch = useAppDispatch();
 
 	return (
-		<AdditionalItem>
+		<AdditionalItemWrapper>
 			Statki mogą się stykać :
 			<InputsRadioContainer>
 				<InputRadioWrapper>
@@ -34,6 +34,6 @@ export const MayTouch = () => {
 					<LabelInput htmlFor="noContact">Nie</LabelInput>
 				</InputRadioWrapper>
 			</InputsRadioContainer>
-		</AdditionalItem>
+		</AdditionalItemWrapper>
 	);
 };

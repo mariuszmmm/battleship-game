@@ -36,7 +36,7 @@ export const AdditionalItemsContainer = styled.div`
 	gap: 5px;
 `;
 
-export const AdditionalItem = styled.div<{ disabled?: boolean }>`
+export const AdditionalItemWrapper = styled.div<{ disabled?: boolean }>`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

@@ -40,6 +40,7 @@ const parameters: Parameters = {
 	mayTouch: false,
 	bonus: false,
 	sound: true,
+	notStandardShips: false,
 };
 
 const getInitialParameters = (): Parameters => {
@@ -222,6 +223,7 @@ export const selectMayTouch = (state: RootState) => selectParameters(state).mayT
 export const selectBonus = (state: RootState) => selectParameters(state).bonus;
 export const selectShotsEqualShips = (state: RootState) => selectParameters(state).shotsEqualShips;
 export const selectSound = (state: RootState) => selectParameters(state).sound;
+export const selectNotStandardShips = (state: RootState) => selectParameters(state).notStandardShips;
 
 export const selectActivePlayer = (state: RootState) => selectPlayState(state).activePlayer;
 

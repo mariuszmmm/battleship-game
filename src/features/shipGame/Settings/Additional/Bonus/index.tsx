@@ -1,6 +1,6 @@
 import {selectBonus, selectNumberOfShots, setParameters} from "../../../shipGameSlice";
 import {
-	AdditionalItem, InputRadio, InputRadioWrapper,
+	AdditionalItemWrapper, InputRadio, InputRadioWrapper,
 	InputsRadioContainer, LabelInput
 } from "../../styled";
 import {useAppDispatch, useAppSelector} from "../../../../../config/hooks";
@@ -11,7 +11,7 @@ export const Bonus = () => {
 	const dispatch = useAppDispatch();
 
 	return (
-		<AdditionalItem disabled={numberOfShots !== 1}
+		<AdditionalItemWrapper disabled={numberOfShots !== 1}
 		>
 			Strzelasz, aż nie trafisz:
 			<InputsRadioContainer>
@@ -42,6 +42,6 @@ export const Bonus = () => {
 					</LabelInput>
 				</InputRadioWrapper>
 			</InputsRadioContainer>
-		</AdditionalItem>
+		</AdditionalItemWrapper>
 	);
 };

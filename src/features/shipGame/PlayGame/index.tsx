@@ -2,20 +2,13 @@ import {Section} from "../../../components/Section";
 import {Content, Info, BoardsWrapper, InfoWrapper, InfoMain} from "./styled";
 import {ShipsBoard} from "../../../components/ShipsBoard";
 import {
-	selectActivePlayer,
-	selectFirstPlayerBoard,
-	selectFirstPlayerBoardToShots,
-	selectFirstPlayerNumberOfShots,
-	selectFirstPlayerTarget,
-	setShot,
-	selectFirstPlayerShotInCell,
-	selectGameMode,
-	selectWinner,
-	selectSound,
-	selectSecondPlayerNumberOfShots,
-	selectSecondPlayerTarget,
-	selectSecondPlayerFleet,
-	selectFirstPlayerFleet,
+	selectActivePlayer, selectFirstPlayerBoard,
+	selectFirstPlayerBoardToShots, selectFirstPlayerNumberOfShots,
+	selectFirstPlayerTarget, selectFirstPlayerShotInCell,
+	selectGameMode, selectWinner, selectSound,
+	selectSecondPlayerNumberOfShots, selectSecondPlayerTarget,
+	selectSecondPlayerFleet, selectFirstPlayerFleet,
+	setShot, setParameters,
 } from "../shipGameSlice"
 import {Button} from "../../../components/Buttons";
 import {FleetInfo} from "../../../components/FleetInfo"
@@ -31,6 +24,7 @@ import {useHandleRotateScreen} from "../../../utils/useHandleRotateScreen";
 import {RotateScreenInfo} from "../../../components/RotateScreenInfo";
 import {useAppDispatch, useAppSelector} from "../../../config/hooks";
 import {CellId, Fleet} from "../../../types/types";
+import {SoundIcon, SoundOffIcon} from "../../../components/Icons";
 
 export const PlayGame = () => {
 	const firstPlayerBoard = useAppSelector(selectFirstPlayerBoard);
@@ -97,49 +91,56 @@ export const PlayGame = () => {
 	useHandleBeforeUnload();
 	const turn = useHandleRotateScreen();
 
-	return <>
-		{winner && <GameResult/>}
-		{activePlayer &&
-			<Wrapper>
-				{turn ? <RotateScreenInfo/> :
-					<Section>
-						<Header>
-							{activePlayer === "firstPlayer" ? "Ruch pierwszego gracza" : "Ruch drugiego gracza"}
-						</Header>
-						<Content>
-							<BoardsWrapper>
-								<ShipsBoard board={firstPlayerBoardToShots}
-								            player={playersName[0]}
-								            toLeft={activePlayer === "secondPlayer"}
-								/>
-								<ShipsBoard board={firstPlayerBoard}
-								            toLeft={activePlayer === "secondPlayer"}
-								/>
-							</BoardsWrapper>
-							<InfoWrapper>
-								<Info>
-									<InfoMain>
-										<span>Strzały: {activePlayer === "firstPlayer" ? firstPlayerNumberOfShots : secondPlayerNumberOfShots}</span>
-										<span>Cel: {targetInfo}</span>
-									</InfoMain>
-									<p>
-										{activePlayer === "firstPlayer" ? "Statki drugiego gracza" : "Statki pierwszego gracza"}
-									</p>
-									<FleetInfo fleet={activePlayer === "firstPlayer" ? secondPlayerFleet : firstPlayerFleet}/>
-								</Info>
-								<Button
-									onClick={onShot}
-									disabled={activePlayer !== playersName[0] || !firstPlayerTarget || !!shotInCell || gameMode === "compVsComp"}
-									$shot
-									$animation={!!firstPlayerTarget && !winner && !shotInCell}
-								>
-									STRZAŁ
-								</Button>
-							</InfoWrapper>
-						</Content>
-					</Section>
-				}
-			</Wrapper>
-		}
-	</>;
+	return (
+		<>
+			{winner && <GameResult/>}
+			{activePlayer &&
+				<Wrapper>
+					{turn ? <RotateScreenInfo/> :
+						<Section>
+							<Header>
+								{activePlayer === "firstPlayer" ? "Ruch pierwszego gracza" : "Ruch drugiego gracza"}
+								{sound ?
+									<SoundIcon onClick={() => dispatch(setParameters({sound: false}))}/>
+									:
+									<SoundOffIcon onClick={() => dispatch(setParameters({sound: true}))}/>
+								}
+							</Header>
+							<Content>
+								<BoardsWrapper>
+									<ShipsBoard board={firstPlayerBoardToShots}
+									            player={playersName[0]}
+									            toLeft={activePlayer === "secondPlayer"}
+									/>
+									<ShipsBoard board={firstPlayerBoard}
+									            toLeft={activePlayer === "secondPlayer"}
+									/>
+								</BoardsWrapper>
+								<InfoWrapper>
+									<Info>
+										<InfoMain>
+											<span>Strzały: {activePlayer === "firstPlayer" ? firstPlayerNumberOfShots : secondPlayerNumberOfShots}</span>
+											<span>Cel: {targetInfo}</span>
+										</InfoMain>
+										<p>
+											{activePlayer === "firstPlayer" ? "Statki drugiego gracza" : "Statki pierwszego gracza"}
+										</p>
+										<FleetInfo fleet={activePlayer === "firstPlayer" ? secondPlayerFleet : firstPlayerFleet}/>
+									</Info>
+									<Button
+										onClick={onShot}
+										disabled={activePlayer !== playersName[0] || !firstPlayerTarget || !!shotInCell || gameMode === "compVsComp"}
+										$shot
+										$animation={!!firstPlayerTarget && !winner && !shotInCell}
+									>
+										STRZAŁ
+									</Button>
+								</InfoWrapper>
+							</Content>
+						</Section>
+					}
+				</Wrapper>
+			}
+		</>
+	);
 };

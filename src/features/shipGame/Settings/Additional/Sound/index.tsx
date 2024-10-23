@@ -1,5 +1,5 @@
 import {
-	AdditionalItem, InputRadio, InputRadioWrapper,
+	AdditionalItemWrapper, InputRadio, InputRadioWrapper,
 	InputsRadioContainer, LabelInput
 } from "../../styled";
 import {selectSound, setParameters} from "../../../shipGameSlice";
@@ -10,7 +10,7 @@ export const Sound = () => {
 	const dispatch = useAppDispatch();
 
 	return (
-		<AdditionalItem>
+		<AdditionalItemWrapper>
 			Dźwięk :
 			<InputsRadioContainer>
 				<InputRadioWrapper>
@@ -34,6 +34,6 @@ export const Sound = () => {
 					<LabelInput htmlFor="noSound">Nie</LabelInput>
 				</InputRadioWrapper>
 			</InputsRadioContainer>
-		</AdditionalItem>
+		</AdditionalItemWrapper>
 	);
 };

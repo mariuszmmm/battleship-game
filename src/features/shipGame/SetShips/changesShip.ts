@@ -1,5 +1,5 @@
-import {itemHasNeighbor} from "./itemHasNeighbor.js";
-import {rotateShip} from "./rotateShip.js";
+import {itemHasNeighbor} from "./itemHasNeighbor";
+import {rotateShip} from "./rotateShip";
 import {ShipItem, ChangeShipPlace} from "../../../types/types";
 
 const toTop = (selectedShip: ShipItem[]): ShipItem[] => (

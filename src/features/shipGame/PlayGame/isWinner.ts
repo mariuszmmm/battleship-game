@@ -1,4 +1,4 @@
-import {Fleet} from "../../../types/types.js";
+import {Fleet} from "../../../types/types";
 
 interface IsWinner {
 	fleet: Fleet;

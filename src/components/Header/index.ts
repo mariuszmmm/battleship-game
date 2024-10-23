@@ -14,6 +14,7 @@ export const Header = styled.header`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
 	
 	@media (max-width: ${({theme}) => theme.breakpoints.big}) {
 		font-size: 1.2rem;

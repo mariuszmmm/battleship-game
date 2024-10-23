@@ -32,6 +32,7 @@ export type Parameters = {
 	mayTouch: boolean;
 	bonus: boolean;
 	sound: boolean;
+	notStandardShips: boolean;
 }
 
 export type StateOfPlayers = {

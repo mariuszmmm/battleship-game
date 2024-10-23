@@ -22,7 +22,7 @@ import {
 } from "./shipGameSlice";
 import {addRandomShips} from "./SetShips/addRandomShips"
 import {changeSelectedShip} from "./SetShips/changeSelectedShip";
-import {getShips} from "./SetShips/getShips.js";
+import {getShips} from "./SetShips/getShips";
 import {boardSchemat} from "./SetShips/boardSchemat";
 import {moveShip} from "./SetShips/moveShip";
 import {getTarget} from "./PlayGame/getTarget";
@@ -46,14 +46,14 @@ import {
 } from "../../types/types";
 
 function* setShipsHandler() {
-	const {mayTouch, numberOfShips}: Parameters = yield select(selectParameters);
+	const {mayTouch, numberOfShips, notStandardShips}: Parameters = yield select(selectParameters);
 	const board: Board = yield call(boardSchemat);
-	const firstPlayersShips: Coordinate[][] = yield call(getShips, numberOfShips);
+	const firstPlayersShips: Coordinate[][] = yield call(getShips, {numberOfShips, notStandardShips});
 	const {fleet: firstPlayersFleet, newBoard: firstPlayersNewBoard}: { fleet: Fleet, newBoard: Board } =
 		yield call(addRandomShips, {board, mayTouch, ships: firstPlayersShips});
 	yield put(setBoardForFirstPlayer(firstPlayersNewBoard));
 	yield put(setFleetForFirstPlayer(firstPlayersFleet));
-	const secondPlayersShips: Coordinate[][] = yield call(getShips, numberOfShips);
+	const secondPlayersShips: Coordinate[][] = yield call(getShips, {numberOfShips, notStandardShips});
 	const {fleet: secondPlayersFleet, newBoard: secondPlayersNewBoard}: { fleet: Fleet, newBoard: Board } =
 		yield call(addRandomShips, {board, mayTouch, ships: secondPlayersShips});
 	yield put(setBoardForSecondPlayer(secondPlayersNewBoard));

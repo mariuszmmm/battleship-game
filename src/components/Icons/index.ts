@@ -9,6 +9,8 @@ import {ReactComponent as CrossHairs} from "../../assets/Images/crosshairs.svg";
 import {ReactComponent as Fire} from "../../assets/Images/fire.svg";
 import {ReactComponent as User} from "../../assets/Images/user.svg";
 import {ReactComponent as Desktop} from "../../assets/Images/desktop.svg";
+import {ReactComponent as Sound} from "../../assets/Images/sound.svg";
+import {ReactComponent as SoundOff} from "../../assets/Images/sound-off.svg";
 
 interface IconProps {
 	$active?: boolean;
@@ -114,6 +116,35 @@ export const DesktopIcon = styled(Desktop)<IconProps>`
 	@media (max-width: ${({theme}) => theme.breakpoints.medium}) {
 		width: 26px;
 		height: 26px;
+	}
+`;
+
+export const SoundIcon = styled(Sound)<IconProps>`
+	${iconStyle};
+	position: absolute;
+	right: 18px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	fill: ${({theme}) => theme.colors.specialColor};
+	
+	&:hover {
+		filter: brightness(1.1);
+	}
+`;
+
+export const SoundOffIcon = styled(SoundOff)<IconProps>`
+	${iconStyle};
+	position: absolute;
+	right: 12px;
+	width: 26px;
+	height: 28px;
+	cursor: pointer;
+	fill: ${({theme}) => theme.colors.specialColor_2};
+	filter: brightness(0.95);
+	
+	&:hover {
+		filter: brightness(1);
 	}
 `;
 

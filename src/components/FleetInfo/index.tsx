@@ -1,8 +1,6 @@
 import React from "react";
 import {Item, List} from "./styled";
-import {selectSecondPlayerFleet} from "../../features/shipGame/shipGameSlice";
 import {ShipSize} from "../../types/types";
-import {useAppSelector} from "../../config/hooks";
 import {Fleet} from "../../types/types"
 
 interface FleetInfoProps {
