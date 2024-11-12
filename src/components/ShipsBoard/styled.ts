@@ -28,6 +28,7 @@ export const ShipsBoardWrapper = styled.div<{ $toLeft: boolean }>`
 	grid-template-rows: repeat(10, 10%);
 	grid-template-columns: repeat(10, 10%);
 	grid-auto-flow: column;
+	justify-content: end;
 	width: clamp(280px, 72vw, 450px);
 	aspect-ratio: 1/1;
 	border: 3px solid ${({theme}) => theme.colors.primaryColor};
